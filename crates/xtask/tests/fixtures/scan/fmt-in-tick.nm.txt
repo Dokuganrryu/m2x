@@ -1,0 +1,21 @@
+20010b1a r .Lanon.9936f51ac4df645a3cb964dcc6d51ca7.193
+20000000 T CTIMER0
+20000010 T Reset
+20000048 T USB1
+20020bf0 b image::WIDE
+2000005a t image::idle
+20020be8 b image::LEVEL
+20020bf8 b image::TABLE
+20020be4 d image::HANDLER
+20000060 t image::fill_ring
+20000070 t image::mix_block
+20000120 T <core::fmt::Formatter>::pad_integral
+200003ba T core::fmt::write
+200004c6 T core::str::count::do_count_chars
+200009c0 t <core::fmt::Formatter>::pad_integral::write_prefix
+200000b8 t <image::Sink as core::fmt::Write>::write_str
+20000a04 T <u32 as core::fmt::Display>::fmt
+20000a04 T <usize as core::fmt::Display>::fmt
+200000c8 t <image::Sink as core::fmt::Write>::write_char
+200000f4 t <image::Sink as core::fmt::Write>::write_fmt
+2000010c T factory_serial

@@ -1,0 +1,20 @@
+20010aa4 r .Lanon.9936f51ac4df645a3cb964dcc6d51ca7.193
+20000000 T CTIMER0
+20000010 T Reset
+20000048 T USB1
+2000005a t __rustc::rust_begin_unwind
+20020b78 b image::WIDE
+20000060 t image::idle
+20020b70 b image::LEVEL
+20020b80 b image::TABLE
+20020b6c d image::HANDLER
+20000068 t image::fill_ring
+20000078 t image::mix_block
+200000bc T <core::fmt::Formatter>::pad_integral
+20000358 T core::panicking::panic_bounds_check
+20000380 T core::panicking::panic_fmt
+2000039c T core::str::count::do_count_chars
+20000896 t <core::fmt::Formatter>::pad_integral::write_prefix
+200008da T <u32 as core::fmt::Display>::fmt
+200008da T <usize as core::fmt::Display>::fmt
+200000a8 T factory_serial

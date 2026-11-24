@@ -1,0 +1,13 @@
+[alias]
+xtask = "run --quiet --package xtask --"
+firmware = "build --release --package board --target thumbv8m.main-none-eabi"
+firmware-sound2 = "build --profile sound2 --package board --target thumbv8m.main-none-eabi --features sound2"
+firmware-sound2-ui = "build --profile sound2 --package board --target thumbv8m.main-none-eabi --features sound2-ui"
+firmware-sound3 = "build --profile sound2 --package board --target thumbv8m.main-none-eabi --features sound3"
+firmware-clippy = "clippy --package board --target thumbv8m.main-none-eabi -- -D warnings"
+
+# WHY: the image runs Non-secure, where a VFP instruction is a NOCP UsageFault. Soft-float with
+# `-fpregs` is the rustc platform table's Cortex-M33 with DSP and no FPU. `crates/xtask/src/firmware.rs`
+# holds the same target and flags for the budget bench, and `scan-image` rejects any VFP instruction.
+[target.thumbv8m.main-none-eabi]
+rustflags = ["-C", "target-cpu=cortex-m33", "-C", "target-feature=-fpregs"]

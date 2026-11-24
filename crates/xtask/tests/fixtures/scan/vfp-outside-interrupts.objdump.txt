@@ -1,0 +1,97 @@
+
+vfp-outside-interrupts.elf:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+20000000 <CTIMER0>:
+20000000: b580         	push	{r7, lr}
+20000002: 466f         	mov	r7, sp
+20000004: 2003         	movs	r0, #0x3
+20000006: e8bd 4080    	pop.w	{r7, lr}
+2000000a: f000 b83f    	b.w	0x2000008c <image::mix_block> @ imm = #0x7e
+2000000e: d4d4         	bmi	0x1fffffba              @ imm = #-0x58
+
+20000010 <Reset>:
+20000010: b580         	push	{r7, lr}
+20000012: 466f         	mov	r7, sp
+20000014: b082         	sub	sp, #0x8
+20000016: 4668         	mov	r0, sp
+20000018: f000 f856    	bl	0x200000c8 <factory_serial> @ imm = #0xac
+2000001c: f240 04f8    	movw	r4, #0xf8
+20000020: f2c2 0402    	movt	r4, #0x2002
+20000024: e9dd 1000    	ldrd	r1, r0, [sp]
+20000028: 4625         	mov	r5, r4
+2000002a: f845 1b10    	str	r1, [r5], #16
+2000002e: f000 f839    	bl	0x200000a4 <image::console::band_gain> @ imm = #0x72
+20000032: 4621         	mov	r1, r4
+20000034: f841 0b08    	str	r0, [r1], #8
+20000038: 2000         	movs	r0, #0x0
+2000003a: e9c1 0000    	strd	r0, r0, [r1]
+2000003e: f240 00f0    	movw	r0, #0xf0
+20000042: f240 0171    	movw	r1, #0x71
+20000046: f2c2 0002    	movt	r0, #0x2002
+2000004a: f2c2 0100    	movt	r1, #0x2000
+2000004e: 6001         	str	r1, [r0]
+20000050: e9d4 0106    	ldrd	r0, r1, [r4, #24]
+20000054: e9d5 0100    	ldrd	r0, r1, [r5]
+20000058: e7fe         	b	0x20000058 <Reset+0x48> @ imm = #-0x4
+2000005a: d4d4         	bmi	0x20000006 <CTIMER0+0x6> @ imm = #-0x58
+
+2000005c <USB1>:
+2000005c: b580         	push	{r7, lr}
+2000005e: 466f         	mov	r7, sp
+20000060: f000 f80a    	bl	0x20000078 <image::fill_ring> @ imm = #0x14
+20000064: 2002         	movs	r0, #0x2
+20000066: e8bd 4080    	pop.w	{r7, lr}
+2000006a: f000 b80f    	b.w	0x2000008c <image::mix_block> @ imm = #0x1e
+2000006e: d4d4         	bmi	0x2000001a <Reset+0xa>  @ imm = #-0x58
+
+20000070 <image::idle>:
+20000070: b580         	push	{r7, lr}
+20000072: 466f         	mov	r7, sp
+20000074: bd80         	pop	{r7, pc}
+20000076: d4d4         	bmi	0x20000022 <Reset+0x12> @ imm = #-0x58
+
+20000078 <image::fill_ring>:
+20000078: b580         	push	{r7, lr}
+2000007a: 466f         	mov	r7, sp
+2000007c: f240 00f8    	movw	r0, #0xf8
+20000080: f2c2 0002    	movt	r0, #0x2002
+20000084: 210c         	movs	r1, #0xc
+20000086: 6001         	str	r1, [r0]
+20000088: bd80         	pop	{r7, pc}
+2000008a: d4d4         	bmi	0x20000036 <Reset+0x26> @ imm = #-0x58
+
+2000008c <image::mix_block>:
+2000008c: b580         	push	{r7, lr}
+2000008e: 466f         	mov	r7, sp
+20000090: f240 01f8    	movw	r1, #0xf8
+20000094: f2c2 0102    	movt	r1, #0x2002
+20000098: 680a         	ldr	r2, [r1]
+2000009a: fb02 f000    	mul	r0, r2, r0
+2000009e: 08c0         	lsrs	r0, r0, #0x3
+200000a0: 6008         	str	r0, [r1]
+200000a2: bd80         	pop	{r7, pc}
+
+200000a4 <image::console::band_gain>:
+200000a4: b580         	push	{r7, lr}
+200000a6: 466f         	mov	r7, sp
+200000a8: ee00 0a10    	vmov	s0, r0
+200000ac: ed9f 1a05    	vldr	s2, [pc, #20]           @ 0x200000c4 <image::console::band_gain+0x20>
+200000b0: eeb8 0a40    	vcvt.f32.u32	s0, s0
+200000b4: ee20 0a01    	vmul.f32	s0, s0, s2
+200000b8: eebc 0ac0    	vcvt.u32.f32	s0, s0
+200000bc: ee10 0a10    	vmov	r0, s0
+200000c0: bd80         	pop	{r7, pc}
+200000c2: bf00         	nop
+200000c4: cd cc cc 3d  	.word	0x3dcccccd
+
+200000c8 <factory_serial>:
+200000c8: b580         	push	{r7, lr}
+200000ca: 466f         	mov	r7, sp
+200000cc: f248 2100    	movw	r1, #0x8200
+200000d0: f2c0 0103    	movt	r1, #0x3
+200000d4: 680a         	ldr	r2, [r1]
+200000d6: 6849         	ldr	r1, [r1, #0x4]
+200000d8: e9c0 2100    	strd	r2, r1, [r0]
+200000dc: bd80         	pop	{r7, pc}

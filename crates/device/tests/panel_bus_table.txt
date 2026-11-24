@@ -1,0 +1,63 @@
+waiting [] shown=- | want vol0=4 => waiting [vol0=4] shown=- | 
+waiting [] shown=- | want leds=52 => waiting [leds=52] shown=- | 
+waiting [] shown=- | want buttons => waiting [buttons] shown=- | 
+waiting [] shown=- | free => waiting [] shown=- | 
+waiting [] shown=- | acked => waiting [] shown=- | 
+waiting [] shown=- | nacked => waiting [] shown=- | 
+waiting [] shown=- | read7B => waiting [] shown=- | 
+waiting [] shown=- | preempted => waiting [] shown=- | 
+waiting [] shown=- | expander-ready => waiting [] shown=- | 
+waiting [leds=52,buttons] shown=- | want vol0=4 => waiting [vol0=4,leds=52,buttons] shown=- | 
+waiting [leds=52,buttons] shown=- | want leds=52 => waiting [leds=52,buttons] shown=- | 
+waiting [leds=52,buttons] shown=- | want buttons => waiting [leds=52,buttons] shown=- | 
+waiting [leds=52,buttons] shown=- | free => flying leds=52 [buttons] shown=- | begin leds=52
+waiting [leds=52,buttons] shown=- | acked => waiting [leds=52,buttons] shown=- | 
+waiting [leds=52,buttons] shown=- | nacked => waiting [leds=52,buttons] shown=- | 
+waiting [leds=52,buttons] shown=- | read7B => waiting [leds=52,buttons] shown=- | 
+waiting [leds=52,buttons] shown=- | preempted => waiting [leds=52,buttons] shown=- | 
+waiting [leds=52,buttons] shown=- | expander-ready => waiting [leds=52,buttons] shown=- | 
+waiting [] shown=52 | want vol0=4 => waiting [vol0=4] shown=52 | 
+waiting [] shown=52 | want leds=52 => waiting [] shown=52 | 
+waiting [] shown=52 | want buttons => waiting [buttons] shown=52 | 
+waiting [] shown=52 | free => waiting [] shown=52 | 
+waiting [] shown=52 | acked => waiting [] shown=52 | 
+waiting [] shown=52 | nacked => waiting [] shown=52 | 
+waiting [] shown=52 | read7B => waiting [] shown=52 | 
+waiting [] shown=52 | preempted => waiting [] shown=52 | 
+waiting [] shown=52 | expander-ready => waiting [] shown=52 | 
+flying vol0=9 [] shown=- | want vol0=4 => flying vol0=9 [vol0=4] shown=- | 
+flying vol0=9 [] shown=- | want leds=52 => flying vol0=9 [leds=52] shown=- | 
+flying vol0=9 [] shown=- | want buttons => flying vol0=9 [buttons] shown=- | 
+flying vol0=9 [] shown=- | free => flying vol0=9 [] shown=- | 
+flying vol0=9 [] shown=- | acked => waiting [] shown=- | 
+flying vol0=9 [] shown=- | nacked => waiting [] shown=- | fault3
+flying vol0=9 [] shown=- | read7B => waiting [] shown=- | 
+flying vol0=9 [] shown=- | preempted => waiting [vol0=9] shown=- | 
+flying vol0=9 [] shown=- | expander-ready => flying vol0=9 [] shown=- | 
+flying vol0=9 [buttons] shown=- | want vol0=4 => flying vol0=9 [vol0=4,buttons] shown=- | 
+flying vol0=9 [buttons] shown=- | want leds=52 => flying vol0=9 [leds=52,buttons] shown=- | 
+flying vol0=9 [buttons] shown=- | want buttons => flying vol0=9 [buttons] shown=- | 
+flying vol0=9 [buttons] shown=- | free => flying vol0=9 [buttons] shown=- | 
+flying vol0=9 [buttons] shown=- | acked => waiting [buttons] shown=- | 
+flying vol0=9 [buttons] shown=- | nacked => waiting [buttons] shown=- | fault3
+flying vol0=9 [buttons] shown=- | read7B => waiting [buttons] shown=- | 
+flying vol0=9 [buttons] shown=- | preempted => waiting [vol0=9,buttons] shown=- | 
+flying vol0=9 [buttons] shown=- | expander-ready => flying vol0=9 [buttons] shown=- | 
+flying leds=52 [] shown=- | want vol0=4 => flying leds=52 [vol0=4] shown=- | 
+flying leds=52 [] shown=- | want leds=52 => flying leds=52 [leds=52] shown=- | 
+flying leds=52 [] shown=- | want buttons => flying leds=52 [buttons] shown=- | 
+flying leds=52 [] shown=- | free => flying leds=52 [] shown=- | 
+flying leds=52 [] shown=- | acked => waiting [] shown=52 | 
+flying leds=52 [] shown=- | nacked => waiting [] shown=- | 
+flying leds=52 [] shown=- | read7B => waiting [] shown=52 | 
+flying leds=52 [] shown=- | preempted => waiting [leds=52] shown=- | 
+flying leds=52 [] shown=- | expander-ready => flying leds=52 [] shown=- | 
+flying buttons [] shown=- | want vol0=4 => flying buttons [vol0=4] shown=- | 
+flying buttons [] shown=- | want leds=52 => flying buttons [leds=52] shown=- | 
+flying buttons [] shown=- | want buttons => flying buttons [buttons] shown=- | 
+flying buttons [] shown=- | free => flying buttons [] shown=- | 
+flying buttons [] shown=- | acked => waiting [] shown=- | 
+flying buttons [] shown=- | nacked => waiting [] shown=- | 
+flying buttons [] shown=- | read7B => waiting [] shown=- | buttons7B
+flying buttons [] shown=- | preempted => waiting [buttons] shown=- | 
+flying buttons [] shown=- | expander-ready => flying buttons [] shown=- | 

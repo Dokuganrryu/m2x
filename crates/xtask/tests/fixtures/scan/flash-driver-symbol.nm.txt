@@ -1,0 +1,13 @@
+200200e0 b .L_MergedGlobals
+20000000 T CTIMER0
+20000010 T Reset
+20000058 T USB1
+200200e8 b image::WIDE
+2000006c t image::idle
+200200e0 b image::LEVEL
+200200f0 b image::TABLE
+200200d8 d image::HANDLER
+20000074 t image::fill_ring
+20000088 t image::mix_block
+200000a0 t image::lpc55_hal::drivers::flash::erase_page
+200000b0 T factory_serial

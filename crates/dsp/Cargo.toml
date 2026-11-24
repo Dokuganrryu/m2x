@@ -1,0 +1,15 @@
+[package]
+name = "dsp"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[features]
+bands14 = []
+meter-limiting = []
+band-governor = []
+intake-meter = []
+
+[dependencies]

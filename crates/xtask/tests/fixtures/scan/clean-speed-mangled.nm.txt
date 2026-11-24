@@ -1,0 +1,12 @@
+200200c8 b .L_MergedGlobals
+20000000 T CTIMER0
+20000010 T Reset
+20000050 T USB1
+200200d0 b _RNvCslPyKh29qrQ6_5image4WIDE
+20000064 t _RNvCslPyKh29qrQ6_5image4idle
+200200c8 b _RNvCslPyKh29qrQ6_5image5LEVEL
+200200d8 b _RNvCslPyKh29qrQ6_5image5TABLE
+200200c0 d _RNvCslPyKh29qrQ6_5image7HANDLER
+2000006c t _RNvCslPyKh29qrQ6_5image9fill_ring
+20000080 t _RNvCslPyKh29qrQ6_5image9mix_block
+20000098 T factory_serial

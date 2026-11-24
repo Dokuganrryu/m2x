@@ -1,0 +1,184 @@
+init step0 | done => init step1 | p1_6-high
+init step0 | elapsed100 => init step0 | 
+init step0 | elapsed150 => init step0 | 
+init step0 | dirty{} => init step0 | 
+init step0 | dirty{phantom} => init step0 | 
+init step0 | te => init step0 | 
+init step0 | transfer-done => init step0 | 
+init step0 | fault4 => fault4 finishing step0 | 
+init step3 hold150 | done => init step3 hold150 | 
+init step3 hold150 | elapsed100 => init step3 hold50 | 
+init step3 hold150 | elapsed150 => init step4 | cmd11
+init step3 hold150 | dirty{} => init step3 hold150 | 
+init step3 hold150 | dirty{phantom} => init step3 hold150 | 
+init step3 hold150 | te => init step3 hold150 | 
+init step3 hold150 | transfer-done => init step3 hold150 | 
+init step3 hold150 | fault4 => fault4 finishing step3 hold150 | 
+init step3 hold50 | done => init step3 hold50 | 
+init step3 hold50 | elapsed100 => init step4 | cmd11
+init step3 hold50 | elapsed150 => init step4 | cmd11
+init step3 hold50 | dirty{} => init step3 hold50 | 
+init step3 hold50 | dirty{phantom} => init step3 hold50 | 
+init step3 hold50 | te => init step3 hold50 | 
+init step3 hold50 | transfer-done => init step3 hold50 | 
+init step3 hold50 | fault4 => fault4 finishing step3 hold50 | 
+init step24 | done => init step25 | clear-background
+init step24 | elapsed100 => init step24 | 
+init step24 | elapsed150 => init step24 | 
+init step24 | dirty{} => init step24 | 
+init step24 | dirty{phantom} => init step24 | 
+init step24 | te => init step24 | 
+init step24 | transfer-done => init step24 | 
+init step24 | fault4 => fault4 finishing step24 | 
+init step25 | done => init step25 | 
+init step25 | elapsed100 => init step25 | 
+init step25 | elapsed150 => init step25 | 
+init step25 | dirty{} => init step25 | 
+init step25 | dirty{phantom} => init step25 | 
+init step25 | te => init step25 | 
+init step25 | transfer-done => init step26 | cmd29
+init step25 | fault4 => fault4 finishing step25 | 
+init step26 | done => init step27 | backlight-on
+init step26 | elapsed100 => init step26 | 
+init step26 | elapsed150 => init step26 | 
+init step26 | dirty{} => init step26 | 
+init step26 | dirty{phantom} => init step26 | 
+init step26 | te => init step26 | 
+init step26 | transfer-done => init step26 | 
+init step26 | fault4 => fault4 finishing step26 | 
+init step27 | done => await {rate,stream,phantom,meters,legend,dsp} next=rate | 
+init step27 | elapsed100 => init step27 | 
+init step27 | elapsed150 => init step27 | 
+init step27 | dirty{} => init step27 | 
+init step27 | dirty{phantom} => init step27 | 
+init step27 | te => init step27 | 
+init step27 | transfer-done => init step27 | 
+init step27 | fault4 => fault4 finishing step27 | 
+idle next=rate | done => idle next=rate | 
+idle next=rate | elapsed100 => idle next=rate | 
+idle next=rate | elapsed150 => idle next=rate | 
+idle next=rate | dirty{} => idle next=rate | 
+idle next=rate | dirty{phantom} => await {phantom} next=rate | 
+idle next=rate | te => idle next=rate | 
+idle next=rate | transfer-done => idle next=rate | 
+idle next=rate | fault4 => fault4 te-to-clear | 
+idle next=dsp | done => idle next=dsp | 
+idle next=dsp | elapsed100 => idle next=dsp | 
+idle next=dsp | elapsed150 => idle next=dsp | 
+idle next=dsp | dirty{} => idle next=dsp | 
+idle next=dsp | dirty{phantom} => await {phantom} next=dsp | 
+idle next=dsp | te => idle next=dsp | 
+idle next=dsp | transfer-done => idle next=dsp | 
+idle next=dsp | fault4 => fault4 te-to-clear | 
+await {meters} next=rate | done => await {meters} next=rate | 
+await {meters} next=rate | elapsed100 => await {meters} next=rate | 
+await {meters} next=rate | elapsed150 => await {meters} next=rate | 
+await {meters} next=rate | dirty{} => await {meters} next=rate | 
+await {meters} next=rate | dirty{phantom} => await {phantom,meters} next=rate | 
+await {meters} next=rate | te => send meters {} | draw-meters
+await {meters} next=rate | transfer-done => await {meters} next=rate | 
+await {meters} next=rate | fault4 => fault4 te-to-clear | 
+await {rate,dsp} next=stream | done => await {rate,dsp} next=stream | 
+await {rate,dsp} next=stream | elapsed100 => await {rate,dsp} next=stream | 
+await {rate,dsp} next=stream | elapsed150 => await {rate,dsp} next=stream | 
+await {rate,dsp} next=stream | dirty{} => await {rate,dsp} next=stream | 
+await {rate,dsp} next=stream | dirty{phantom} => await {rate,phantom,dsp} next=stream | 
+await {rate,dsp} next=stream | te => send dsp {rate} | draw-dsp
+await {rate,dsp} next=stream | transfer-done => await {rate,dsp} next=stream | 
+await {rate,dsp} next=stream | fault4 => fault4 te-to-clear | 
+send meters {} | done => send meters {} | 
+send meters {} | elapsed100 => send meters {} | 
+send meters {} | elapsed150 => send meters {} | 
+send meters {} | dirty{} => send meters {} | 
+send meters {} | dirty{phantom} => send meters {phantom} | 
+send meters {} | te => send meters {} | 
+send meters {} | transfer-done => idle next=legend | 
+send meters {} | fault4 => fault4 awaiting-transfer | 
+send dsp {rate} | done => send dsp {rate} | 
+send dsp {rate} | elapsed100 => send dsp {rate} | 
+send dsp {rate} | elapsed150 => send dsp {rate} | 
+send dsp {rate} | dirty{} => send dsp {rate} | 
+send dsp {rate} | dirty{phantom} => send dsp {rate,phantom} | 
+send dsp {rate} | te => send dsp {rate} | 
+send dsp {rate} | transfer-done => await {rate} next=rate | 
+send dsp {rate} | fault4 => fault4 awaiting-transfer | 
+fault6 finishing step3 hold150 | done => fault6 finishing step3 hold150 | 
+fault6 finishing step3 hold150 | elapsed100 => fault6 finishing step3 hold50 | 
+fault6 finishing step3 hold150 | elapsed150 => fault6 finishing step4 | cmd11
+fault6 finishing step3 hold150 | dirty{} => fault6 finishing step3 hold150 | 
+fault6 finishing step3 hold150 | dirty{phantom} => fault6 finishing step3 hold150 | 
+fault6 finishing step3 hold150 | te => fault6 finishing step3 hold150 | 
+fault6 finishing step3 hold150 | transfer-done => fault6 finishing step3 hold150 | 
+fault6 finishing step3 hold150 | fault4 => fault6 finishing step3 hold150 | 
+fault6 finishing step25 | done => fault6 finishing step25 | 
+fault6 finishing step25 | elapsed100 => fault6 finishing step25 | 
+fault6 finishing step25 | elapsed150 => fault6 finishing step25 | 
+fault6 finishing step25 | dirty{} => fault6 finishing step25 | 
+fault6 finishing step25 | dirty{phantom} => fault6 finishing step25 | 
+fault6 finishing step25 | te => fault6 finishing step25 | 
+fault6 finishing step25 | transfer-done => fault6 finishing step26 | cmd29
+fault6 finishing step25 | fault4 => fault6 finishing step25 | 
+fault6 finishing step26 | done => fault6 finishing step27 | backlight-on
+fault6 finishing step26 | elapsed100 => fault6 finishing step26 | 
+fault6 finishing step26 | elapsed150 => fault6 finishing step26 | 
+fault6 finishing step26 | dirty{} => fault6 finishing step26 | 
+fault6 finishing step26 | dirty{phantom} => fault6 finishing step26 | 
+fault6 finishing step26 | te => fault6 finishing step26 | 
+fault6 finishing step26 | transfer-done => fault6 finishing step26 | 
+fault6 finishing step26 | fault4 => fault6 finishing step26 | 
+fault6 finishing step27 | done => fault6 te-to-clear | 
+fault6 finishing step27 | elapsed100 => fault6 finishing step27 | 
+fault6 finishing step27 | elapsed150 => fault6 finishing step27 | 
+fault6 finishing step27 | dirty{} => fault6 finishing step27 | 
+fault6 finishing step27 | dirty{phantom} => fault6 finishing step27 | 
+fault6 finishing step27 | te => fault6 finishing step27 | 
+fault6 finishing step27 | transfer-done => fault6 finishing step27 | 
+fault6 finishing step27 | fault4 => fault6 finishing step27 | 
+fault6 awaiting-transfer | done => fault6 awaiting-transfer | 
+fault6 awaiting-transfer | elapsed100 => fault6 awaiting-transfer | 
+fault6 awaiting-transfer | elapsed150 => fault6 awaiting-transfer | 
+fault6 awaiting-transfer | dirty{} => fault6 awaiting-transfer | 
+fault6 awaiting-transfer | dirty{phantom} => fault6 awaiting-transfer | 
+fault6 awaiting-transfer | te => fault6 awaiting-transfer | 
+fault6 awaiting-transfer | transfer-done => fault6 te-to-clear | 
+fault6 awaiting-transfer | fault4 => fault6 awaiting-transfer | 
+fault6 te-to-clear | done => fault6 te-to-clear | 
+fault6 te-to-clear | elapsed100 => fault6 te-to-clear | 
+fault6 te-to-clear | elapsed150 => fault6 te-to-clear | 
+fault6 te-to-clear | dirty{} => fault6 te-to-clear | 
+fault6 te-to-clear | dirty{phantom} => fault6 te-to-clear | 
+fault6 te-to-clear | te => fault6 clearing | clear-fault
+fault6 te-to-clear | transfer-done => fault6 te-to-clear | 
+fault6 te-to-clear | fault4 => fault6 te-to-clear | 
+fault6 clearing | done => fault6 clearing | 
+fault6 clearing | elapsed100 => fault6 clearing | 
+fault6 clearing | elapsed150 => fault6 clearing | 
+fault6 clearing | dirty{} => fault6 clearing | 
+fault6 clearing | dirty{phantom} => fault6 clearing | 
+fault6 clearing | te => fault6 clearing | 
+fault6 clearing | transfer-done => fault6 te-to-write | 
+fault6 clearing | fault4 => fault6 clearing | 
+fault6 te-to-write | done => fault6 te-to-write | 
+fault6 te-to-write | elapsed100 => fault6 te-to-write | 
+fault6 te-to-write | elapsed150 => fault6 te-to-write | 
+fault6 te-to-write | dirty{} => fault6 te-to-write | 
+fault6 te-to-write | dirty{phantom} => fault6 te-to-write | 
+fault6 te-to-write | te => fault6 writing | draw-fault6
+fault6 te-to-write | transfer-done => fault6 te-to-write | 
+fault6 te-to-write | fault4 => fault6 te-to-write | 
+fault6 writing | done => fault6 writing | 
+fault6 writing | elapsed100 => fault6 writing | 
+fault6 writing | elapsed150 => fault6 writing | 
+fault6 writing | dirty{} => fault6 writing | 
+fault6 writing | dirty{phantom} => fault6 writing | 
+fault6 writing | te => fault6 writing | 
+fault6 writing | transfer-done => fault6 shown | 
+fault6 writing | fault4 => fault6 writing | 
+fault6 shown | done => fault6 shown | 
+fault6 shown | elapsed100 => fault6 shown | 
+fault6 shown | elapsed150 => fault6 shown | 
+fault6 shown | dirty{} => fault6 shown | 
+fault6 shown | dirty{phantom} => fault6 shown | 
+fault6 shown | te => fault6 shown | 
+fault6 shown | transfer-done => fault6 shown | 
+fault6 shown | fault4 => fault6 shown | 

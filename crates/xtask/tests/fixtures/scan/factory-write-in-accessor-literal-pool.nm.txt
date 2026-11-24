@@ -1,0 +1,11 @@
+20000000 T CTIMER0
+20000010 T Reset
+20000048 T USB1
+200200b8 b image::WIDE
+2000005a t image::idle
+200200b0 b image::LEVEL
+200200c0 b image::TABLE
+200200ac d image::HANDLER
+20000060 t image::fill_ring
+20000070 t image::mix_block
+20000084 T factory_serial

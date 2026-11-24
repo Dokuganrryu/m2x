@@ -1,0 +1,5 @@
+interrupt-root CTIMER0
+interrupt-root USB1
+factory-accessor factory_serial
+rom-flash-api-entry 0xFEED0001
+dac-register-zero-writer RegisterZeroWrite::transaction

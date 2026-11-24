@@ -1,0 +1,24 @@
+[package]
+name = "device"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+dsp = { path = "../dsp" }
+stream = { path = "../stream" }
+
+[features]
+register-zero-protocol = []
+milestone2 = []
+milestone7 = ["milestone2"]
+sound1 = ["milestone7"]
+sound2 = ["sound1", "dsp/bands14"]
+screen2 = ["sound2", "dsp/meter-limiting"]
+sound3 = ["screen2", "dsp/band-governor", "dsp/intake-meter"]
+
+[[example]]
+name = "preset_impulse"
+required-features = ["sound2"]

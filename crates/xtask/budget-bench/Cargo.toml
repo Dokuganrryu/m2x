@@ -1,0 +1,21 @@
+[package]
+name = "budget-bench"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+crate-type = ["staticlib"]
+path = "src/lib.rs"
+
+[dependencies]
+dsp = { path = "../../dsp" }
+stream = { path = "../../stream" }
+device = { path = "../../device" }
+
+[workspace]
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+panic = "abort"

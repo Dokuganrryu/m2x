@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M2X Studio</title>
+<style>
+  :root {
+    --bg: #0c0d0f;
+    --panel: #141619;
+    --panel-2: #1a1d21;
+    --line: #25292f;
+    --line-2: #31363d;
+    --ink: #ecedee;
+    --ink-2: #a2a7ae;
+    --ink-3: #6b7078;
+    --eq1: #00d2ff;
+    --eq2: #ffc640;
+    --raw: #e0e0e0;
+    --ok: #3ddc84;
+    --warn: #ffb020;
+    --bad: #ff4d4d;
+    --accent: #f2f2f2;
+    --radius: 10px;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body { font: 13px/1.45 ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  .num { font-variant-numeric: tabular-nums; }
+  .mono { font-family: var(--mono); }
+
+  /* ---------- top bar ---------- */
+  .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; align-items: center; gap: 14px;
+         padding: 10px 20px; background: rgba(12,13,15,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: baseline; gap: 8px; font-weight: 700; letter-spacing: -0.01em; font-size: 15px; white-space: nowrap; }
+  .brand small { font-weight: 500; color: var(--ink-3); font-size: 11.5px; letter-spacing: 0.02em; }
+  .spacer { flex: 1; }
+  .conn { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+  .led { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); box-shadow: 0 0 0 2px rgba(255,255,255,0.04); flex: none; }
+  .led.demo { background: var(--warn); } .led.on { background: var(--ok); } .led.err { background: var(--bad); }
+  .chk { display: flex; align-items: center; gap: 6px; color: var(--ink-3); font-size: 12px; white-space: nowrap; }
+
+  .btn { appearance: none; border: 1px solid var(--line-2); background: var(--panel-2); border-radius: 8px; padding: 7px 12px; cursor: pointer;
+         font-weight: 560; font-size: 12.5px; transition: transform 120ms var(--ease-out), background-color 160ms ease, border-color 160ms ease; white-space: nowrap; }
+  .btn:active { transform: scale(0.97); }
+  .btn.primary { background: var(--accent); color: #0c0d0f; border-color: var(--accent); }
+  .btn.ghost { background: transparent; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover:not(:disabled) { border-color: #4a5058; }
+    .btn.primary:hover:not(:disabled) { background: #ffffff; }
+  }
+  .btn:focus-visible, .seg button:focus-visible, .key:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--eq1); outline-offset: 2px; }
+
+  /* ---------- layout ---------- */
+  .wrap { max-width: 1480px; margin: 0 auto; padding: 16px 20px 28px; display: grid; gap: 16px;
+          grid-template-columns: minmax(0, 1fr) 340px; }
+  .col { display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 16px;
+           box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); min-width: 0; }
+  .ph { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .ph h2 { margin: 0; font-size: 12px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-2); font-weight: 650; }
+  .ph .sub { color: var(--ink-3); font-size: 12px; }
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  /* ---------- EQ ---------- */
+  .eqhead { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin-bottom: 10px; }
+  .stat { display: flex; flex-direction: column; gap: 1px; }
+  .stat .k { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .stat .v { font-size: 17px; font-weight: 650; letter-spacing: -0.01em; }
+  .graph { position: relative; height: 380px; border-radius: 8px; overflow: hidden; background: #0f1113; border: 1px solid var(--line); touch-action: none; }
+  .graph canvas { display: block; width: 100%; height: 100%; }
+  .hint { color: var(--ink-3); font-size: 11.5px; margin-top: 6px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; color: var(--ink-2); font-size: 11.5px; }
+  .legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: 3px; }
+  .legend i.dash { height: 0; border-top: 2px dashed; border-radius: 0; }
+
+  .bands { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+  .band { border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: var(--panel-2); display: grid; gap: 5px; cursor: default;
+          transition: border-color 160ms ease; }
+  .band.sel { border-color: var(--bc); box-shadow: inset 0 0 0 1px var(--bc); }
+  .band.off { opacity: 0.5; }
+  .band .bt { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+  .band .no { display: inline-flex; align-items: center; gap: 6px; font-weight: 650; font-size: 12px; }
+  .band .no i { width: 9px; height: 9px; border-radius: 3px; background: var(--bc); display: inline-block; }
+  .band select, .band input { width: 100%; background: #101215; border: 1px solid var(--line); border-radius: 6px; padding: 3px 5px; font-size: 12px; min-width: 0; }
+  .band label { display: grid; grid-template-columns: 18px 1fr; align-items: center; gap: 4px; font-size: 10.5px; color: var(--ink-3); }
+  .band .tog, .tog { appearance: none; width: 26px; padding: 0; border: 0; height: 15px; border-radius: 999px; background: #2a2e34; position: relative; cursor: pointer; flex: none; transition: background-color 160ms ease; }
+  .tog::after { content: ""; position: absolute; top: 2px; left: 2px; width: 11px; height: 11px; border-radius: 50%; background: #c9ccd1; transition: transform 160ms var(--ease-out); }
+  .tog:checked { background: var(--ok); } .tog:checked::after { transform: translateX(11px); background: #fff; }
+
+  .trimrow { display: grid; grid-template-columns: auto 1fr auto auto; gap: 12px; align-items: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  .push { display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .bar { height: 6px; background: #22262b; border-radius: 999px; overflow: hidden; flex: 1; min-width: 120px; }
+  .bar > i { display: block; height: 100%; width: 0%; background: var(--ok); border-radius: inherit; transition: width 120ms linear; }
+  .msg { font-size: 12px; color: var(--ink-2); min-height: 18px; }
+  .msg.bad { color: var(--bad); } .msg.good { color: var(--ok); }
+
+  /* ---------- presets ---------- */
+  .keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .key { appearance: none; position: relative; border: 1px solid var(--line-2); border-radius: 10px; padding: 14px 10px 10px; text-align: left; cursor: pointer;
+         background: linear-gradient(180deg, #23272c, #1a1d21); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 0 #0a0b0c;
+         transition: transform 120ms var(--ease-out), box-shadow 120ms var(--ease-out), border-color 160ms ease; }
+  .key:active { transform: translateY(1px) scale(0.98); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 0 #0a0b0c; }
+  .key b { display: block; font-size: 18px; letter-spacing: 0.02em; font-weight: 750; }
+  .key span { display: block; font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+  .key .dot { position: absolute; top: 8px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: #2c3036; transition: background-color 160ms ease, box-shadow 160ms ease; }
+  .key.on .dot { background: var(--kc); box-shadow: 0 0 8px var(--kc); }
+  .key.on { border-color: var(--kc); }
+  .vault { margin-top: 12px; display: grid; gap: 6px; max-height: 210px; overflow: auto; }
+  .vrow { display: grid; grid-template-columns: 1fr auto auto auto; gap: 6px; align-items: center; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2); }
+  .vrow .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vrow .btn { padding: 4px 8px; font-size: 11.5px; }
+  .empty { color: var(--ink-3); font-size: 12px; padding: 8px 2px; }
+  .inline { display: grid; grid-template-columns: 1fr auto; gap: 6px; margin-top: 10px; }
+  .inline input { background: #101215; border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; min-width: 0; }
+
+  /* ---------- importer ---------- */
+  .drop { border: 1.5px dashed var(--line-2); border-radius: 10px; padding: 16px; text-align: center; color: var(--ink-2); cursor: pointer; transition: border-color 160ms ease, background-color 160ms ease; }
+  .drop.over { border-color: var(--eq1); background: rgba(0,210,255,0.05); }
+  .drop b { color: var(--ink); }
+  .fitres { margin-top: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .kv { border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; background: var(--panel-2); }
+  .kv .k { font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; }
+  .kv .v { font-size: 14px; font-weight: 640; }
+  textarea.paste { width: 100%; height: 64px; margin-top: 8px; background: #101215; border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; resize: vertical; font-family: var(--mono); font-size: 11px; }
+
+  /* ---------- device controls ---------- */
+  .seg { display: inline-grid; grid-auto-flow: column; background: #101215; border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; }
+  .seg button { appearance: none; border: 0; background: transparent; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: var(--ink-2); font-size: 12px; font-weight: 560;
+                transition: background-color 160ms ease, color 160ms ease; white-space: nowrap; }
+  .seg button.on { background: #2a2f35; color: var(--ink); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+  .ctl { display: grid; gap: 6px; margin-bottom: 14px; }
+  .ctl > .k { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .lim { display: grid; grid-template-columns: 1fr 64px; gap: 8px; align-items: center; }
+
+  /* ---------- telemetry ---------- */
+  .tele { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+  .tile { border: 1px solid var(--line); border-radius: 9px; padding: 10px 11px; background: var(--panel-2); min-width: 0; }
+  .tile .k { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .tile .v { font-size: 19px; font-weight: 680; letter-spacing: -0.01em; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .s { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile.w2 { grid-column: span 2; } .tile.w3 { grid-column: span 3; }
+  .meterbar { position: relative; height: 8px; border-radius: 999px; background: #23272c; margin-top: 8px; overflow: hidden; }
+  .meterbar > i { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--ok); border-radius: inherit; transition: width 300ms var(--ease-out); }
+  .meterbar > b { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; left: 0%; transition: left 300ms var(--ease-out); }
+  .dials { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 6px; }
+  .dial { display: grid; justify-items: center; gap: 2px; font-size: 10.5px; color: var(--ink-3); }
+  .dial svg { width: 52px; height: 52px; }
+  .dial .dv { color: var(--ink); font-size: 11.5px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .badge { font-size: 11px; font-weight: 640; padding: 3px 7px; border-radius: 6px; border: 1px solid var(--line-2); color: var(--ink-3); white-space: nowrap; }
+  .badge.red { background: #ff2a2a; border-color: #ff2a2a; color: #fff; }
+  .badge.white { background: #f2f2f2; border-color: #f2f2f2; color: #0c0d0f; }
+  .badge.okk { border-color: rgba(61,220,132,0.5); color: var(--ok); }
+  .badge.warn { border-color: rgba(255,176,32,0.6); color: var(--warn); }
+
+  /* ---------- console ---------- */
+  details.console { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); }
+  details.console summary { list-style: none; cursor: pointer; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+  details.console summary::-webkit-details-marker { display: none; }
+  details.console summary h2 { margin: 0; font-size: 12px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-2); font-weight: 650; }
+  .chev { transition: transform 160ms var(--ease-out); color: var(--ink-3); }
+  details[open] .chev { transform: rotate(90deg); }
+  .log { margin: 0 16px; height: 220px; overflow: auto; background: #0b0c0e; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-family: var(--mono); font-size: 11.5px; line-height: 1.55; }
+  .log .tx { color: var(--eq1); } .log .rx { color: var(--ink-2); } .log .er { color: var(--bad); } .log .sys { color: var(--ink-3); }
+  .cin { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px 16px 14px; }
+  .cin input { background: #101215; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-family: var(--mono); font-size: 12px; min-width: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px; }
+  .chips button { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--ink-2); font-family: var(--mono); font-size: 11px; padding: 3px 8px; border-radius: 6px; cursor: pointer; }
+  .chips button:active { transform: scale(0.97); }
+
+  .banner { display: none; margin: 12px 20px 0; padding: 10px 14px; border: 1px solid rgba(255,176,32,0.4); background: rgba(255,176,32,0.07); color: #ffd28a; border-radius: 9px; font-size: 12.5px; }
+  .banner.show { display: block; }
+  .banner code { font-family: var(--mono); color: #fff; }
+
+  @media (max-width: 1180px) {
+    .wrap { grid-template-columns: 1fr; }
+    .col { display: contents; }
+    #pEq { order: 1; } #pPresets { order: 2; } #pApo { order: 3; } #pScreen { order: 4; } #pHw { order: 5; } #consoleDrawer { order: 6; }
+    .tele { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    .wrap { padding: 12px 12px 24px; }
+    .tile.w2 { grid-column: span 2; }
+    .top { padding: 10px 12px; flex-wrap: wrap; }
+    .bands { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tele { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile.w3 { grid-column: span 2; }
+    .graph { height: 300px; }
+    .trimrow { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand">M2X Studio <small>for the m2x firmware</small></div>
+  <div class="spacer"></div>
+  <div class="conn"><span class="led demo" id="led"></span><span id="connText">Demo, not connected</span></div>
+  <label class="chk"><input type="checkbox" id="allPorts"> Show all serial ports</label>
+  <button class="btn primary" id="connectBtn">Connect M2</button>
+</div>
+<div class="banner" id="serialBanner">Web Serial isn't available on this page. Open M2X Studio with <code>launch-m2x-studio.bat</code> (it serves <code>http://127.0.0.1:8765</code>) in Chrome or Edge. Demo mode still works here.</div>
+
+<div class="wrap">
+  <div class="col">
+    <!-- EQ -->
+    <section class="panel" id="pEq" aria-label="Parametric EQ">
+      <div class="ph"><h2>14-band EQ</h2><span class="sub" id="eqSource">EQ1 · built-in, 96 kHz table</span><div class="spacer"></div>
+        <div class="seg" role="group" aria-label="Design rate"><button data-rate="48000">48 kHz</button><button data-rate="96000" class="on">96 kHz</button></div>
+      </div>
+      <div class="eqhead">
+        <div class="stat"><span class="k">Peak boost</span><span class="v num" id="peakBoost">+0.00 dB</span></div>
+        <div class="stat"><span class="k">At</span><span class="v num" id="peakAt">— Hz</span></div>
+        <div class="stat"><span class="k">Zero-clip trim</span><span class="v num" id="needTrim">0.0 dB</span></div>
+        <div class="stat"><span class="k">After trim</span><span class="v num" id="afterTrim">0.00 dBFS</span></div>
+        <div class="stat" id="fitStat" hidden><span class="k">Fit vs APO</span><span class="v num" id="fitErr">—</span></div>
+      </div>
+      <div class="graph" id="graph"><canvas id="eq"></canvas></div>
+      <div class="legend"><span><i style="background:#f2f2f2"></i>EQ curve</span><span><i class="dash" style="border-color:#3ddc84"></i>after trim, against the 0 dBFS line</span><span><i class="dash" style="border-color:rgba(255,255,255,0.6)"></i>APO original</span><span><i style="background:rgba(255,77,77,0.6)"></i>over 0 dBFS</span></div>
+      <div class="hint">Drag a node to set frequency and gain. Scroll over it to change Q. Right-click cycles Peak, Low shelf, High shelf. Double-click resets gain to 0 dB.</div>
+      <div class="bands" id="bands"></div>
+      <div class="trimrow">
+        <label class="chk" style="color:var(--ink-2)"><input type="checkbox" id="autoTrim" checked> Auto zero-clip trim</label>
+        <input type="range" id="trim" min="-18" max="0" step="0.1" value="-2.6" aria-label="Trim">
+        <span class="num mono" id="trimVal" style="min-width:64px;text-align:right">-2.6 dB</span>
+        <button class="btn" id="resetBands">Flatten</button>
+      </div>
+      <div class="push">
+        <button class="btn primary" id="applyBtn">Apply to M2</button>
+        <div class="bar"><i id="pushBar"></i></div>
+        <span class="msg" id="pushMsg">Sends peq begin, 14 bands, trim, peq commit. One click-free swap.</span>
+      </div>
+    </section>
+
+    <!-- telemetry -->
+    <section class="panel" id="pHw" aria-label="Hardware telemetry">
+      <div class="ph"><h2>Hardware</h2><span class="sub" id="teleSub">demo values</span><div class="spacer"></div>
+        <label class="chk"><input type="checkbox" id="poll" checked> Live (1 s)</label></div>
+      <div class="tele">
+        <div class="tile"><div class="k">Core</div><div class="v num" id="tCore">—</div><div class="s" id="tCoreS">—</div></div>
+        <div class="tile"><div class="k">Rate</div><div class="v num" id="tRate">—</div><div class="s" id="tRateS">—</div></div>
+        <div class="tile"><div class="k">EQ</div><div class="v num" id="tBands">—</div><div class="s" id="tBandsS">—</div></div>
+        <div class="tile w3"><div class="k">Audio tick load</div><div class="v num" id="tCpu">—</div><div class="meterbar"><i id="tCpuBar"></i><b id="tCpuMax"></b></div><div class="s" id="tCpuS">cap 70 %</div></div>
+        <div class="tile w2"><div class="k">Buffer</div><div class="v num" id="tBuf">—</div><div class="s" id="tBufS">—</div></div>
+        <div class="tile"><div class="k">I2C</div><div class="v num" id="tI2c">—</div><div class="s" id="tI2cS">—</div></div>
+        <div class="tile w3"><div class="k">Knobs</div><div class="dials" id="dials"></div></div>
+        <div class="tile w2"><div class="k">Panel and safety</div><div class="badges" id="badges"></div></div>
+        <div class="tile w2"><div class="k">Core voltage</div><div class="v num" id="tPow">—</div><div class="s" id="tPowS">—</div></div>
+        <div class="tile w2"><div class="k">Identity</div><div class="v num mono" id="tSer" style="font-size:15px">—</div><div class="s" id="tSerS">—</div></div>
+      </div>
+    </section>
+
+    <details class="console" id="consoleDrawer">
+      <summary><span class="chev">▶</span><h2>Console</h2><span class="sub" style="color:var(--ink-3);font-size:12px">raw COM traffic</span></summary>
+      <div class="log" id="log" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <form class="cin" id="cform"><input id="cline" maxlength="64" placeholder="type a command, e.g. clocks" autocomplete="off" spellcheck="false"><button class="btn" type="submit">Send</button></form>
+    </details>
+  </div>
+
+  <div class="col">
+    <section class="panel" id="pPresets" aria-label="Presets">
+      <div class="ph"><h2>Presets</h2><span class="sub">built into the M2</span></div>
+      <div class="keys">
+        <button class="key" data-preset="clarity" style="--kc:var(--eq1)"><span class="dot"></span><b>EQ1</b><span>clarity</span></button>
+        <button class="key" data-preset="warm" style="--kc:var(--eq2)"><span class="dot"></span><b>EQ2</b><span>warm</span></button>
+        <button class="key" data-preset="flat" style="--kc:var(--raw)"><span class="dot"></span><b>RAW</b><span>bit-perfect</span></button>
+      </div>
+      <div class="ph" style="margin:16px 0 0"><h2>My presets</h2><div class="spacer"></div>
+        <button class="btn ghost" id="exportBtn">Export</button><button class="btn ghost" id="importBtn">Import</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden></div>
+      <div class="inline"><input id="saveName" placeholder="Name, e.g. Late night" maxlength="40"><button class="btn" id="saveBtn">Save current</button></div>
+      <div class="vault" id="vault"></div>
+    </section>
+
+    <section class="panel" id="pApo" aria-label="Import Equalizer APO">
+      <div class="ph"><h2>Import APO</h2><span class="sub">.txt, drop or paste</span></div>
+      <div class="drop" id="drop" tabindex="0" role="button"><b>Drop an Equalizer APO .txt</b><br><span style="font-size:12px">or click to choose a file</span></div>
+      <input type="file" id="apoFile" accept=".txt,text/plain" hidden>
+      <textarea class="paste" id="apoPaste" placeholder="…or paste the file's text here"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn" id="apoParse">Import text</button><button class="btn ghost" id="apoSample">Sample APO .txt (16 bands)</button></div>
+      <div class="msg" id="apoMsg" style="margin-top:8px"></div>
+      <div class="fitres" id="fitRes" hidden>
+        <div class="kv"><div class="k">Bands</div><div class="v num" id="fBands">—</div></div>
+        <div class="kv"><div class="k">Preamp in file</div><div class="v num" id="fPre">—</div></div>
+        <div class="kv"><div class="k">Max error</div><div class="v num" id="fMax">—</div></div>
+        <div class="kv"><div class="k">RMS error</div><div class="v num" id="fRms">—</div></div>
+      </div>
+    </section>
+
+    <section class="panel" id="pScreen" aria-label="Screen and limiter">
+      <div class="ph"><h2>Screen and limiter</h2></div>
+      <div class="ctl"><span class="k">Meter scale</span>
+        <div class="seg" id="meterSeg"><button data-meter="obs" class="on">OBS −20 / −9</button><button data-meter="studio">Studio −12 / −3</button></div>
+        <span class="hint" style="margin:0" id="meterHint">Taps the USB stream, the same samples OBS meters.</span></div>
+      <div class="ctl"><span class="k">LCD motion</span>
+        <div class="seg" id="motionSeg"><button data-motion="on" class="on">Smooth</button><button data-motion="off">Instant</button></div></div>
+      <div class="ctl"><span class="k">Limiter ceiling</span>
+        <div class="lim"><input type="range" id="limCeil" min="-20" max="0" step="0.1" value="-1"><span class="num mono" id="limCeilV">-1.0 dB</span></div>
+        <span class="k" style="margin-top:6px">Release</span>
+        <div class="lim"><input type="range" id="limRel" min="5" max="1000" step="5" value="50"><span class="num mono" id="limRelV">50 ms</span></div>
+        <div class="row" style="margin-top:4px"><button class="btn" id="limApply">Set limiter</button><span class="msg" id="limMsg"></span></div></div>
+    </section>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+/* =====================================================================
+   1. Firmware facts (m2x-fw, read-only): bounds, built-in presets
+   ===================================================================== */
+const FW = { minHz: 20, maxHz: 20000, maxDb: 12, minQ: 0.3, maxQ: 10, minTrim: -18, maxTrim: 0, bands: 14, lineMax: 64 };
+// crates/device/src/preset/tables.rs: the sound3 build plays all 14 bands at every rate, with the same trims
+const B = (t, f, g, q) => ({ type: t, f, g, q, on: true });
+const BUILTIN = {
+  clarity: { name: "EQ1", trim: -2.6, 48000: [B("lowshelf",80,-1,0.7),B("peak",250,-1.5,1),B("peak",3000,1.5,1.2),B("highshelf",10000,1.5,0.7),B("peak",2000,1,1),B("peak",400,-1,1.2),B("peak",6000,-1,3),B("peak",4500,1,1.5),B("peak",120,-0.5,1),B("peak",700,-0.5,1.5),B("peak",1200,0.5,1.2),B("peak",8000,0.5,1),B("peak",14000,0.5,1),B("peak",40,-0.5,0.8)], 96000: [B("lowshelf",80,-1,0.7),B("peak",250,-1.5,1),B("peak",3000,1.5,1.2),B("highshelf",10000,1.5,0.7),B("peak",2000,1,1),B("peak",400,-1,1.2),B("peak",6000,-1,3),B("peak",4500,1,1.5),B("peak",120,-0.5,1),B("peak",700,-0.5,1.5),B("peak",1200,0.5,1.2),B("peak",8000,0.5,1),B("peak",14000,0.5,1),B("peak",40,-0.5,0.8)] },
+  warm: { name: "EQ2", trim: -4.2, 48000: [B("lowshelf",105,3,0.7),B("highshelf",9000,-2,0.7),B("peak",5000,-1.5,1.2),B("peak",180,1,0.9),B("peak",2500,-1,1),B("peak",3500,-1,1.5),B("peak",60,1,1),B("peak",7000,-1,2),B("peak",320,0.5,1),B("peak",600,-0.5,1),B("peak",1000,-0.5,1.2),B("peak",12000,-0.5,1),B("peak",30,0.5,0.8),B("peak",1600,0.3,1)], 96000: [B("lowshelf",105,3,0.7),B("highshelf",9000,-2,0.7),B("peak",5000,-1.5,1.2),B("peak",180,1,0.9),B("peak",2500,-1,1),B("peak",3500,-1,1.5),B("peak",60,1,1),B("peak",7000,-1,2),B("peak",320,0.5,1),B("peak",600,-0.5,1),B("peak",1000,-0.5,1.2),B("peak",12000,-0.5,1),B("peak",30,0.5,0.8),B("peak",1600,0.3,1)] },
+  flat: { name: "RAW", trim: 0, 48000: null, 96000: null }
+};
+const SAMPLE_APO = `Preamp: -4 dB
+Filter 1: ON LSC Fc 60 Hz Gain 3.0 dB Q 0.71
+Filter 2: ON PK Fc 90 Hz Gain 1.5 dB Q 1.20
+Filter 3: ON PK Fc 160 Hz Gain -1.0 dB Q 1.00
+Filter 4: ON PK Fc 250 Hz Gain -2.0 dB Q 0.90
+Filter 5: ON PK Fc 400 Hz Gain -1.0 dB Q 1.40
+Filter 6: ON PK Fc 650 Hz Gain 0.5 dB Q 2.00
+Filter 7: ON PK Fc 1000 Hz Gain -1.5 dB Q 1.50
+Filter 8: ON PK Fc 1500 Hz Gain 1.0 dB Q 2.00
+Filter 9: ON PK Fc 2200 Hz Gain 2.0 dB Q 1.30
+Filter 10: ON PK Fc 3000 Hz Gain -1.0 dB Q 2.50
+Filter 11: ON PK Fc 4000 Hz Gain 1.5 dB Q 1.80
+Filter 12: ON PK Fc 5500 Hz Gain -2.0 dB Q 3.00
+Filter 13: ON PK Fc 7000 Hz Gain 1.0 dB Q 2.00
+Filter 14: ON PK Fc 9000 Hz Gain -1.0 dB Q 1.50
+Filter 15: ON HSC Fc 11000 Hz Gain 1.5 dB Q 0.71
+Filter 16: ON PK Fc 15000 Hz Gain -1.5 dB Q 1.00`;
+
+/* =====================================================================
+   2. EQ math: the firmware's own RBJ cookbook (crates/dsp/src/peq/cookbook.rs)
+   ===================================================================== */
+function coeffs(b, fs) {
+  const w0 = 2 * Math.PI * b.f / fs, c = Math.cos(w0), s = Math.sin(w0), al = s / (2 * b.q), A = Math.pow(10, b.g / 40), sh = 2 * Math.sqrt(A) * al;
+  let n, d;
+  if (b.type === "peak") { n = [1 + al * A, -2 * c, 1 - al * A]; d = [1 + al / A, -2 * c, 1 - al / A]; }
+  else if (b.type === "lowshelf") { n = [A * ((A + 1) - (A - 1) * c + sh), 2 * A * ((A - 1) - (A + 1) * c), A * ((A + 1) - (A - 1) * c - sh)]; d = [(A + 1) + (A - 1) * c + sh, -2 * ((A - 1) + (A + 1) * c), (A + 1) + (A - 1) * c - sh]; }
+  else { n = [A * ((A + 1) + (A - 1) * c + sh), -2 * A * ((A - 1) + (A + 1) * c), A * ((A + 1) + (A - 1) * c - sh)]; d = [(A + 1) - (A - 1) * c + sh, 2 * ((A - 1) - (A + 1) * c), (A + 1) - (A - 1) * c - sh]; }
+  return [n[0] / d[0], n[1] / d[0], n[2] / d[0], d[1] / d[0], d[2] / d[0]];
+}
+// magnitude in dB of one biquad at precomputed cos/sin tables
+function bandDb(b, fs, grid, out) {
+  if (!b.on) { out.fill(0); return out; }
+  const [b0, b1, b2, a1, a2] = coeffs(b, fs);
+  for (let i = 0; i < grid.f.length; i++) {
+    const c1 = grid.c1[i], s1 = grid.s1[i], c2 = grid.c2[i], s2 = grid.s2[i];
+    const nr = b0 + b1 * c1 + b2 * c2, ni = -(b1 * s1 + b2 * s2), dr = 1 + a1 * c1 + a2 * c2, di = -(a1 * s1 + a2 * s2);
+    out[i] = 10 * Math.log10((nr * nr + ni * ni) / (dr * dr + di * di));
+  }
+  return out;
+}
+function makeGrid(n, fs) {
+  const f = new Float64Array(n), c1 = new Float64Array(n), s1 = new Float64Array(n), c2 = new Float64Array(n), s2 = new Float64Array(n);
+  for (let i = 0; i < n; i++) { f[i] = 20 * Math.pow(1000, i / (n - 1)); const w = 2 * Math.PI * f[i] / fs; c1[i] = Math.cos(w); s1[i] = Math.sin(w); c2[i] = Math.cos(2 * w); s2[i] = Math.sin(2 * w); }
+  return { f, c1, s1, c2, s2, fs };
+}
+const gridCache = {};
+const grid = (n, fs) => gridCache[n + ":" + fs] || (gridCache[n + ":" + fs] = makeGrid(n, fs));
+function curve(bands, fs, n) {
+  const g = grid(n, fs), sum = new Float64Array(n), tmp = new Float64Array(n);
+  for (const b of bands) { bandDb(b, fs, g, tmp); for (let i = 0; i < n; i++) sum[i] += tmp[i]; }
+  return sum;
+}
+function peakOf(bands, fs) {
+  const g = grid(512, fs), c = curve(bands, fs, 512);
+  let k = 0; for (let i = 1; i < 512; i++) if (c[i] > c[k]) k = i;
+  return { db: c[k], hz: g.f[k] };
+}
+const zeroClipTrim = peakDb => Math.max(FW.minTrim, Math.min(0, -Math.ceil(Math.max(0, peakDb) * 10 - 1e-9) / 10));
+const clampBand = b => ({ ...b, f: Math.min(FW.maxHz, Math.max(FW.minHz, b.f)), g: Math.min(FW.maxDb, Math.max(-FW.maxDb, b.g)), q: Math.min(FW.maxQ, Math.max(FW.minQ, b.q)) });
+
+/* =====================================================================
+   3. APO parser + band-reduction fit (Levenberg–Marquardt, bounded)
+   ===================================================================== */
+function parseApo(text) {
+  const out = { preamp: null, bands: [], skipped: 0 };
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    const pre = line.match(/^Preamp:\s*([-+]?\d+(?:\.\d+)?)\s*dB/i);
+    if (pre) { out.preamp = parseFloat(pre[1]); continue; }
+    const m = line.match(/^Filter\s*\d*\s*:\s*(ON|OFF)\s+([A-Z]+)(?:\s+\d+(?:\.\d+)?\s*dB)?\s+Fc\s+([\d.]+)\s*Hz(?:\s+Gain\s+([-+]?[\d.]+)\s*dB)?(?:\s+Q\s+([\d.]+))?/i);
+    if (!m) continue;
+    if (m[1].toUpperCase() !== "ON") { out.skipped++; continue; }
+    const t = m[2].toUpperCase(), type = t === "PK" || t === "PEQ" ? "peak" : (t === "LSC" || t === "LS" || t === "LSQ") ? "lowshelf" : (t === "HSC" || t === "HS" || t === "HSQ") ? "highshelf" : null;
+    if (!type || m[4] === undefined) { out.skipped++; continue; }
+    out.bands.push({ type, f: parseFloat(m[3]), g: parseFloat(m[4]), q: m[5] ? parseFloat(m[5]) : 0.707, on: true });
+  }
+  return out;
+}
+const inBounds = b => b.f >= FW.minHz && b.f <= FW.maxHz && Math.abs(b.g) <= FW.maxDb && b.q >= FW.minQ && b.q <= FW.maxQ;
+function solve(A, y) { // Gaussian elimination with partial pivoting, in place
+  const n = y.length;
+  for (let i = 0; i < n; i++) {
+    let p = i; for (let r = i + 1; r < n; r++) if (Math.abs(A[r][i]) > Math.abs(A[p][i])) p = r;
+    [A[i], A[p]] = [A[p], A[i]]; [y[i], y[p]] = [y[p], y[i]];
+    const d = A[i][i] || 1e-12;
+    for (let r = i + 1; r < n; r++) { const k = A[r][i] / d; if (!k) continue; for (let c = i; c < n; c++) A[r][c] -= k * A[i][c]; y[r] -= k * y[i]; }
+  }
+  const x = new Array(n).fill(0);
+  for (let i = n - 1; i >= 0; i--) { let s = y[i]; for (let c = i + 1; c < n; c++) s -= A[i][c] * x[c]; x[i] = s / (A[i][i] || 1e-12); }
+  return x;
+}
+async function fitBands(target, fs, onProgress) {
+  const N = FW.bands, K = 240, g = grid(K, fs), tgt = curve(target, fs, K), tmp = new Float64Array(K);
+  const weight = b => { bandDb(clampBand(b), fs, g, tmp); let s = 0; for (let i = 0; i < K; i++) s += Math.abs(tmp[i]); return s; };
+  const init = target.map(b => ({ b, w: weight(b) })).sort((x, y) => y.w - x.w).slice(0, N).map(x => clampBand(x.b));
+  while (init.length < N) init.push({ type: "peak", f: 1000, g: 0, q: 1, on: true });
+  const types = init.map(b => b.type);
+  let p = []; init.forEach(b => p.push(Math.log(b.f), b.g, Math.log(b.q)));
+  const lo = [], hi = []; for (let i = 0; i < N; i++) { lo.push(Math.log(FW.minHz), -FW.maxDb, Math.log(FW.minQ)); hi.push(Math.log(FW.maxHz), FW.maxDb, Math.log(FW.maxQ)); }
+  const toBand = (p, i) => ({ type: types[i], f: Math.exp(p[3 * i]), g: p[3 * i + 1], q: Math.exp(p[3 * i + 2]), on: true });
+  const bandCurves = p => Array.from({ length: N }, (_, i) => bandDb(toBand(p, i), fs, g, new Float64Array(K)));
+  const resid = cs => { const r = new Float64Array(K); for (let k = 0; k < K; k++) { let s = 0; for (let i = 0; i < N; i++) s += cs[i][k]; r[k] = s - tgt[k]; } return r; };
+  const cost = r => r.reduce((a, v) => a + v * v, 0);
+  let cs = bandCurves(p), r = resid(cs), c = cost(r), lambda = 1e-2;
+  const ITER = 140;
+  for (let it = 0; it < ITER; it++) {
+    const J = []; // K x 3N, column j depends on its own band only
+    for (let i = 0; i < N; i++) for (let j = 0; j < 3; j++) {
+      const idx = 3 * i + j, h = j === 1 ? 1e-3 : 1e-4, q = p.slice(); q[idx] += h;
+      const ci = bandDb(toBand(q, i), fs, g, new Float64Array(K)), col = new Float64Array(K);
+      for (let k = 0; k < K; k++) col[k] = (ci[k] - cs[i][k]) / h;
+      J.push(col);
+    }
+    const n = 3 * N, JtJ = Array.from({ length: n }, () => new Float64Array(n)), Jtr = new Float64Array(n);
+    for (let a = 0; a < n; a++) { for (let b2 = a; b2 < n; b2++) { let s = 0; const A = J[a], Bc = J[b2]; for (let k = 0; k < K; k++) s += A[k] * Bc[k]; JtJ[a][b2] = s; JtJ[b2][a] = s; } let s = 0; for (let k = 0; k < K; k++) s += J[a][k] * r[k]; Jtr[a] = s; }
+    let improved = false;
+    for (let tries = 0; tries < 6 && !improved; tries++) {
+      const A = JtJ.map((row, a) => { const rr = Array.from(row); rr[a] += lambda * (row[a] + 1e-6); return rr; });
+      const d = solve(A, Array.from(Jtr, v => -v));
+      const q = p.map((v, k) => Math.min(hi[k], Math.max(lo[k], v + d[k])));
+      const cq = bandCurves(q), rq = resid(cq), cc = cost(rq);
+      if (cc < c) { p = q; cs = cq; r = rq; c = cc; lambda = Math.max(1e-7, lambda / 3); improved = true; }
+      else lambda *= 4;
+    }
+    if (it % 10 === 9) { onProgress && onProgress((it + 1) / ITER); await new Promise(res => setTimeout(res, 0)); }
+    if (!improved && lambda > 1e6) break;
+  }
+  const bands = Array.from({ length: N }, (_, i) => { const b = toBand(p, i); return { ...b, f: +b.f.toFixed(1), g: +b.g.toFixed(2), q: +b.q.toFixed(3) }; });
+  const err = curve(bands, fs, 1200), tg = curve(target, fs, 1200);
+  let mx = 0, ss = 0; for (let k = 0; k < 1200; k++) { const e = err[k] - tg[k]; mx = Math.max(mx, Math.abs(e)); ss += e * e; }
+  return { bands, max: mx, rms: Math.sqrt(ss / 1200) };
+}
+
+/* =====================================================================
+   4. Line protocol: one transport interface, two adapters (Web Serial, Demo m2x-fw)
+   ===================================================================== */
+const fmt1 = v => (Math.round(v * 10) / 10).toFixed(1);
+class DemoDevice { // speaks m2x-fw's console verbatim (board/src/firmware/console.rs, device/src/console/*.rs)
+  constructor() {
+    this.s = { rate: 96000, preset: "clarity", custom: false, trim: -2.6, staging: false, meter: "obs", motion: true, ceiling: -10, release: 50, p48: [true, false], mon: [false, true],
+               knobs: [118, 64, 178, 152, 128], under: 0, over: 0, answered: 70195, last: 9025, max: 9561 };
+    this.t0 = performance.now();
+  }
+  bandsLine() {
+    const s = this.s, name = s.custom ? "custom" : s.preset, path = (s.preset === "flat" && !s.custom) ? " path=bit-perfect" : " path=eq";
+    const bands = (s.preset === "flat" && !s.custom) ? 0 : 14;
+    return `preset ${name} trim=${fmt1(s.trim)} bands=${bands}${path}${s.staging ? " staging" : ""}`;
+  }
+  reply(line) {
+    const s = this.s, w = line.trim().split(/ +/), t = (performance.now() - this.t0) / 1000;
+    if (line.length > FW.lineMax) return ["refused: line too long"];
+    if (!/^[ -~]*$/.test(line)) return ["refused: not printable ascii"];
+    if (!w[0]) return [];
+    const one = x => [x];
+    switch (w[0]) {
+      case "version": return one("version m2x-fw 0.1.0");
+      case "status": return one(`status rate=${s.rate} dsp=${s.preset === "flat" && !s.custom ? "bypass" : "on"} stage=running`);
+      case "counters": return one(`counters underruns=0 overruns=0 fill_min=71 fill_max=73`);
+      case "dma": return one(`dma ticks=${Math.floor(t * 8000) % 65536} usb_interrupts=${Math.floor(t * 8000) % 65536}`);
+      case "knob": { const k = s.knobs.map((v, i) => Math.max(0, Math.min(255, Math.round(v + (i === 2 ? 6 * Math.sin(t / 3) : 0))))); return one(`knob pre1=${k[0]} pre2=${k[1]} main=${k[2]} hp=${k[3]} mix=${k[4]}`); }
+      case "serial": return one("serial usb=M2X0000001 factory=M2-DEMO-0001");
+      case "fault": return one("fault at=14.0 code=0 latest=14 prev=none");
+      case "panel": return one(`panel buttons=0 leds=${s.p48[0] ? 1 : 0} p48_1=${s.p48[0] ? "on" : "off"} p48_2=${s.p48[1] ? "on" : "off"} mon_1=${s.mon[0] ? "on" : "off"} mon_2=${s.mon[1] ? "on" : "off"} p1_4=low p0_28=high`);
+      case "clocks": return one("clocks main=pll1 pll1=locked pll0=locked core=150MHz reason=raised tick_cycles=18750");
+      case "i2c": s.answered += 3; return one(`i2c answered=${s.answered} unanswered=0 last_unanswered=none absent_probes=1`);
+      case "power":
+        if (w[1] === "nmpa") return one("power nmpa dcdc_high0=0x0216bcfb dcdc_high1=0x01b044c8 ringo0=0x024cba81 ringo1=0x024f2e61 trim_valid=1 ringo0_valid=1 ringo1_valid=1 corner=nnn source=nmpa plan_mv=1150 core=150MHz reason=raised");
+        if (w[1]) return one("refused: bad arguments");
+        return one("power dcdc0=0x010b5e7d vout_mv=1150 dcdc1=0x01b044c8 ldopmu=0x010ffbde");
+      case "cycles": {
+        const last = Math.round(s.last + 220 * Math.sin(t * 1.7)), lines = [];
+        for (const who of ["tick", "usb"]) for (const fam of ["44k1", "48k"]) for (const mode of ["bypass", "dsp"]) {
+          const base = who === "tick" ? (fam === "48k" ? (mode === "dsp" ? last : 2349) : 0) : (fam === "48k" ? 1380 : 0);
+          const mx = who === "tick" ? (fam === "48k" ? (mode === "dsp" ? s.max : 2610) : 0) : (fam === "48k" ? 1712 : 0);
+          lines.push(`cycles ${who} ${fam} ${mode} last=${base} max=${mx}`);
+        }
+        return lines;
+      }
+      case "dsp":
+        if (w[1] === "on") { s.preset = s.preset === "flat" ? "clarity" : s.preset; s.custom = false; return one("ok"); }
+        if (w[1] === "bypass") { s.preset = "flat"; s.custom = false; return one("ok"); }
+        return one("refused: not a command");
+      case "meter":
+        if (w[1] === "reset") return one("meters in1=-31.2 clips=0 in2=-52.0 clips=0 outl=-14.8 clips=0 outr=-15.3 clips=0");
+        if (w[1] === "obs" || w[1] === "studio") s.meter = w[1]; else if (w[1]) return one("refused: bad arguments");
+        return one(s.meter === "obs" ? "meter obs tap=usb-intake scale=linear-60 zones=-20,-9 release=11.76db/s" : "meter studio tap=dac scale=two-slope zones=-12,-3 release=13.33db/s");
+      case "lcd":
+        if (w[1] !== "motion") return one("refused: not a command");
+        if (w[2] === "on") s.motion = true; else if (w[2] === "off") s.motion = false; else if (w[2]) return one("refused: bad arguments");
+        return one(`lcd motion ${s.motion ? "on" : "off"}`);
+      case "preset": {
+        const map = { clarity: "clarity", eq1: "clarity", warm: "warm", eq2: "warm", flat: "flat", raw: "flat", bypass: "flat" };
+        if (w[1] && !map[w[1]]) return one("refused: bad arguments");
+        if (w[1]) { s.preset = map[w[1]]; s.custom = false; s.staging = false; s.trim = BUILTIN[s.preset].trim; }
+        return one(this.bandsLine());
+      }
+      case "trim": { const v = parseFloat(w[1]); if (!/^[-+]?\d+(\.\d+)?$/.test(w[1] || "")) return one("refused: bad arguments"); if (v < -18 || v > 0) return one("refused: out of range"); s.trim = v; return one(this.bandsLine()); }
+      case "peq":
+        if (w[1] === "begin") { s.staging = true; return one("ok"); }
+        if (w[1] === "commit") { if (!s.staging) return one("refused: bad arguments"); s.staging = false; s.custom = true; return one(this.bandsLine()); }
+        if (w[1] === "off") { const n = +w[2]; return one(n >= 1 && n <= 14 && w.length === 3 ? "ok" : "refused: out of range"); }
+        { const n = +w[1]; if (!(n >= 1 && n <= 14)) return one("refused: out of range");
+          if (!["peak", "lowshelf", "highshelf", "highpass", "lowpass"].includes(w[2]) || w.length !== 6) return one("refused: bad arguments");
+          const hz = +w[3], db = +w[4], q = +w[5];
+          if (!(hz >= 20 && hz <= 20000) || !(Math.abs(db) <= 12) || !(q >= 0.3 && q <= 10)) return one("refused: out of range");
+          return one("ok"); }
+      case "lim": {
+        if (w.length !== 3 || !/^[-+]?\d+(\.\d)?$/.test(w[1]) || !/^\d+$/.test(w[2])) return one("refused: bad arguments");
+        const c = Math.round(parseFloat(w[1]) * 10), r = +w[2];
+        if (c < -200 || c > 0 || r < 5 || r > 1000) return one("refused: out of range");
+        s.ceiling = c; s.release = r; return one(`limiter ceiling=${fmt1(c / 10)} release=${r}`);
+      }
+      default: return one("refused: not a command");
+    }
+  }
+}
+
+const Link = {
+  kind: "demo", port: null, reader: null, writer: null, demo: new DemoDevice(), onLine: () => {}, onLog: () => {}, queue: Promise.resolve(), pending: null,
+  async connect(allPorts) {
+    const filters = allPorts ? [] : [{ usbVendorId: 0x1209, usbProductId: 0x0001 }];
+    const port = await navigator.serial.requestPort({ filters });
+    await port.open({ baudRate: 115200, dataBits: 8, stopBits: 1, parity: "none", flowControl: "none" });
+    await port.setSignals({ dataTerminalReady: true, requestToSend: true });
+    this.port = port; this.kind = "serial";
+    this.writer = port.writable.getWriter();
+    this.readLoop();
+    return port.getInfo ? port.getInfo() : {};
+  },
+  async readLoop() {
+    const dec = new TextDecoder(); let buf = "";
+    try {
+      this.reader = this.port.readable.getReader();
+      for (;;) {
+        const { value, done } = await this.reader.read();
+        if (done) break;
+        buf += dec.decode(value, { stream: true });
+        let i; while ((i = buf.search(/[\r\n]/)) >= 0) { const line = buf.slice(0, i); buf = buf.slice(i + 1); if (line.length) this.deliver(line); }
+      }
+    } catch (e) { this.onLog("er", "read stopped: " + e.message); }
+    finally { try { this.reader && this.reader.releaseLock(); } catch (_) {} this.disconnected(); }
+  },
+  disconnected() { if (this.kind === "serial") { this.kind = "demo"; this.port = null; App.onDisconnected(); } },
+  async disconnect() {
+    const port = this.port; this.kind = "demo";
+    try { this.reader && await this.reader.cancel(); } catch (_) {}
+    try { this.writer && this.writer.releaseLock(); } catch (_) {}
+    try { port && await port.close(); } catch (_) {}
+    this.port = null; this.writer = null; this.reader = null;
+  },
+  deliver(line) { this.onLog("rx", line); if (this.pending) this.pending.take(line); else this.onLine(line); },
+  // send one command and collect its reply lines (cycles = 8 lines, everything else = 1)
+  send(cmd) {
+    const run = async () => {
+      const want = /^cycles\b/.test(cmd) ? 8 : 1, lines = [];
+      if (cmd.length > FW.lineMax) throw new Error("line over 64 characters");
+      const done = new Promise((resolve, reject) => {
+        const timer = setTimeout(() => { this.pending = null; reject(new Error("no reply to '" + cmd + "'")); }, 1500);
+        this.pending = { take: l => { lines.push(l); if (lines.length >= want || /^(refused|ok$)/.test(l)) { clearTimeout(timer); this.pending = null; resolve(lines); } } };
+      });
+      this.onLog("tx", cmd);
+      if (this.kind === "serial") await this.writer.write(new TextEncoder().encode(cmd + "\n"));
+      else { const out = this.demo.reply(cmd); setTimeout(() => out.forEach(l => this.deliver(l)), 6 + Math.random() * 10); }
+      return done;
+    };
+    const p = this.queue.then(run, run); this.queue = p.catch(() => {}); return p;
+  }
+};
+const fields = line => { const o = { _: [] }; for (const tok of line.split(/ +/)) { const i = tok.indexOf("="); if (i > 0) o[tok.slice(0, i)] = tok.slice(i + 1); else o._.push(tok); } return o; };
+
+/* =====================================================================
+   5. App state + UI
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const COLORS = ["#00d2ff", "#ffb020", "#3ddc84", "#ff5c5c", "#ffd84a", "#4aa8ff", "#7ef0c8", "#ff8a3d", "#c8f04a", "#5cd6ff", "#ff6fae", "#f2f2f2", "#36e0a0", "#ffa86b"];
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (_) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} } };
+const VAULT_KEY = "m2x-studio.vault.v1";
+
+const App = {
+  rate: 96000, bands: BUILTIN.clarity[96000].map(b => ({ ...b })), trim: -2.6, autoTrim: true, sel: 0, source: { kind: "builtin", key: "clarity" },
+  apo: null, devicePreset: "clarity", meter: "obs", motion: true, vault: store.get(VAULT_KEY, []),
+  total: { under: 0, over: 0 }, tickBudget: 18750, busy: false,
+
+  init() {
+    if (!("serial" in navigator)) $("serialBanner").classList.add("show");
+    Link.onLog = (k, t) => this.log(k, t);
+    Link.onLine = l => this.unsolicited(l);
+    this.buildBands(); this.buildDials(); this.buildChips(); this.renderVault(); this.bindUi();
+    Graph.init($("eq"), $("graph"));
+    this.markKeys(); this.refresh();
+    // demo: answer the boot reads synchronously so the first paint is already complete
+    for (const c of this.READS) Link.demo.reply(c).forEach(l => this.parse(l));
+    this.log("sys", "demo mode: an emulated m2x-fw answers in the firmware's own words");
+    this.pollLoop();
+  },
+  log(kind, text) {
+    const el = $("log"), row = document.createElement("div");
+    row.className = kind; row.textContent = (kind === "tx" ? "› " : kind === "rx" ? "‹ " : "· ") + text;
+    el.appendChild(row); while (el.childNodes.length > 400) el.removeChild(el.firstChild);
+    if (el.scrollHeight - el.scrollTop - el.clientHeight < 60) el.scrollTop = el.scrollHeight;
+  },
+  unsolicited(l) { this.parse(l); },
+
+  /* ---------- EQ editing ---------- */
+  buildBands() {
+    const host = $("bands"); host.innerHTML = "";
+    this.bands.forEach((b, i) => {
+      const el = document.createElement("div"); el.className = "band"; el.style.setProperty("--bc", COLORS[i]); el.dataset.i = i;
+      el.innerHTML = `<div class="bt"><span class="no"><i></i>${i + 1}</span><input type="checkbox" class="tog" aria-label="Band ${i + 1} on"></div>
+        <select aria-label="Band ${i + 1} type"><option value="peak">Peak</option><option value="lowshelf">Low shelf</option><option value="highshelf">High shelf</option></select>
+        <label>Hz<input type="number" min="20" max="20000" step="1" data-k="f"></label>
+        <label>dB<input type="number" min="-12" max="12" step="0.05" data-k="g"></label>
+        <label>Q<input type="number" min="0.3" max="10" step="0.01" data-k="q"></label>`;
+      el.addEventListener("pointerdown", () => { this.sel = i; this.markSel(); Graph.dirty(); });
+      el.querySelector(".tog").addEventListener("change", e => { this.bands[i].on = e.target.checked; this.edited(); });
+      el.querySelector("select").addEventListener("change", e => { this.bands[i].type = e.target.value; this.edited(); });
+      el.querySelectorAll("input[data-k]").forEach(inp => inp.addEventListener("change", e => {
+        const v = parseFloat(e.target.value); if (!isFinite(v)) return; this.bands[i] = clampBand({ ...this.bands[i], [inp.dataset.k]: v }); this.edited();
+      }));
+      host.appendChild(el);
+    });
+    this.syncBands();
+  },
+  syncBands() {
+    [...$("bands").children].forEach((el, i) => {
+      const b = this.bands[i]; el.classList.toggle("off", !b.on);
+      el.querySelector(".tog").checked = b.on; el.querySelector("select").value = b.type;
+      const set = (k, v) => { const inp = el.querySelector(`input[data-k=${k}]`); if (document.activeElement !== inp) inp.value = v; };
+      set("f", b.f < 1000 ? b.f.toFixed(1) : Math.round(b.f)); set("g", b.g.toFixed(2)); set("q", b.q.toFixed(3));
+    });
+    this.markSel();
+  },
+  markSel() { [...$("bands").children].forEach((el, i) => el.classList.toggle("sel", i === this.sel)); },
+  edited(keepSource) {
+    if (!keepSource && this.source.kind === "builtin") this.source = { kind: "custom", name: "Edited " + BUILTIN[this.source.key].name };
+    this.refresh();
+  },
+  refresh() {
+    const pk = peakOf(this.bands, this.rate), need = zeroClipTrim(pk.db);
+    if (this.autoTrim) this.trim = need;
+    $("peakBoost").textContent = (pk.db >= 0 ? "+" : "") + pk.db.toFixed(2) + " dB";
+    $("peakAt").textContent = (pk.hz >= 1000 ? (pk.hz / 1000).toFixed(2) + " kHz" : Math.round(pk.hz) + " Hz");
+    $("needTrim").textContent = need.toFixed(1) + " dB";
+    const after = pk.db + this.trim; $("afterTrim").textContent = (after >= 0 ? "+" : "") + after.toFixed(2) + " dBFS";
+    $("afterTrim").style.color = after > 0.0001 ? "var(--bad)" : "var(--ok)";
+    $("trim").value = this.trim; $("trimVal").textContent = this.trim.toFixed(1) + " dB";
+    const src = this.source;
+    $("eqSource").textContent = src.kind === "builtin" ? `${BUILTIN[src.key].name} · built-in, ${this.rate / 1000} kHz table` : src.kind === "apo" ? `APO import · ${src.name}` : src.name;
+    this.syncBands(); Graph.dirty();
+  },
+  loadBuiltin(key) {
+    const p = BUILTIN[key];
+    this.bands = p[this.rate] ? p[this.rate].map(b => ({ ...b })) : Array.from({ length: 14 }, (_, i) => ({ type: "peak", f: Math.round(31.5 * Math.pow(2, i * 0.72)), g: 0, q: 1, on: true }));
+    this.trim = p.trim; this.source = { kind: "builtin", key }; this.apo = null; $("fitStat").hidden = true;
+    if (key !== "flat") this.autoTrim = true; $("autoTrim").checked = this.autoTrim;
+    this.refresh();
+  },
+
+  /* ---------- device actions ---------- */
+  async cmd(c) { try { const lines = await Link.send(c); lines.forEach(l => this.parse(l)); return lines; } catch (e) { this.log("er", e.message); throw e; } },
+  async choosePreset(key) {
+    this.loadBuiltin(key);
+    try { const [l] = await this.cmd("preset " + key); if (/^refused/.test(l)) throw new Error(l); } catch (e) { this.flash($("pushMsg"), e.message, "bad"); }
+  },
+  async apply() {
+    if (this.busy) return; this.busy = true; $("applyBtn").disabled = true;
+    const bar = $("pushBar"), msg = $("pushMsg"), steps = 17; let n = 0;
+    const tick = () => { n++; bar.style.width = (100 * n / steps) + "%"; };
+    const expectOk = async c => { const [l] = await this.cmd(c); if (l !== "ok") throw new Error(`${c} → ${l}`); tick(); };
+    try {
+      msg.className = "msg"; msg.textContent = "Staging…"; bar.style.width = "0%";
+      await expectOk("peq begin");
+      for (let i = 0; i < 14; i++) {
+        const b = clampBand(this.bands[i]);
+        await expectOk(b.on ? `peq ${i + 1} ${b.type} ${b.f.toFixed(1)} ${b.g.toFixed(2)} ${b.q.toFixed(3)}` : `peq off ${i + 1}`);
+      }
+      const [tl] = await this.cmd(`trim ${this.trim.toFixed(1)}`); if (!/^preset /.test(tl)) throw new Error("trim → " + tl); tick();
+      const [cl] = await this.cmd("peq commit"); if (!/^preset /.test(cl)) throw new Error("peq commit → " + cl); tick();
+      this.devicePreset = "custom"; this.markKeys();
+      this.flash(msg, `Applied. ${cl}${Link.kind === "demo" ? " (demo)" : ""}`, "good");
+    } catch (e) { this.flash(msg, "Stopped: " + e.message + ". Nothing was committed.", "bad"); }
+    finally { this.busy = false; $("applyBtn").disabled = false; }
+  },
+  flash(el, text, kind) { el.textContent = text; el.className = "msg " + (kind || ""); },
+
+  /* ---------- telemetry ---------- */
+  parse(line) {
+    const f = fields(line), head = f._[0];
+    const set = (id, v) => { $(id).textContent = v; };
+    switch (head) {
+      case "status": { const r = +f.rate; if (r) { set("tRate", (r % 1000 ? (r / 1000).toFixed(1) : r / 1000) + " kHz"); set("tRateS", `dsp ${f.dsp} · ${f.stage}`);
+        const fam = r <= 48000 ? 48000 : 96000; if (fam !== this.rate && r <= 96000) this.setRate(fam, true); } break; }
+      case "clocks": if (f.core) { set("tCore", f.core.replace("MHz", " MHz")); set("tCoreS", f.reason || ""); this.tickBudget = +f.tick_cycles || this.tickBudget; } else { set("tCore", f.main); set("tCoreS", `pll1 ${f.pll1}`); } break;
+      case "preset": { const name = f._[1], bands = +f.bands, path = f.path || "";
+        set("tBands", path.startsWith("bit-perfect") ? "RAW" : bands + " bands"); set("tBandsS", `${name} · trim ${f.trim} dB${f._.includes("staging") ? " · staging" : ""}`);
+        if (["clarity", "warm", "flat", "custom"].includes(name)) { this.devicePreset = name; this.markKeys(); } break; }
+      case "counters": { this.total.under += +f.underruns || 0; this.total.over += +f.overruns || 0;
+        const ms = v => (1000 * (+v) / (this.liveRate() || 96000)).toFixed(2);
+        set("tBuf", `${ms(f.fill_min)}–${ms(f.fill_max)} ms`); set("tBufS", `${f.fill_min}–${f.fill_max} frames · underruns ${this.total.under} · overruns ${this.total.over}`);
+        $("tBuf").style.color = this.total.under + this.total.over ? "var(--warn)" : ""; break; }
+      case "cycles": if (f._[1] === "tick" && f._[2] === "48k" && f._[3] === "dsp") {
+        const last = +f.last, mx = +f.max, bud = this.tickBudget, pct = 100 * last / bud, pmx = 100 * mx / bud;
+        set("tCpu", `${last.toLocaleString()} / ${bud.toLocaleString()}  ·  ${pct.toFixed(0)} %`);
+        $("tCpuBar").style.width = Math.min(100, pct) + "%"; $("tCpuBar").style.background = pmx > 70 ? "var(--bad)" : pmx > 60 ? "var(--warn)" : "var(--ok)";
+        $("tCpuMax").style.left = Math.min(99.5, pmx) + "%"; set("tCpuS", `max ${mx.toLocaleString()} (${pmx.toFixed(0)} %) · cap 70 % = ${Math.round(bud * 0.7).toLocaleString()}`); } break;
+      case "i2c": set("tI2c", (+f.answered).toLocaleString()); set("tI2cS", `unanswered ${f.unanswered} · absent probes ${f.absent_probes}`); $("tI2c").style.color = +f.unanswered ? "var(--warn)" : ""; break;
+      case "knob": if (f._[1] !== "unscanned") ["pre1", "pre2", "main", "hp", "mix"].forEach((k, i) => this.setDial(i, +f[k])); break;
+      case "panel": this.badges(f); break;
+      case "power": if (f._[1] === "nmpa") { this.nmpa = f; } else { this.power = f; }
+        { const p = this.power || {}, n = this.nmpa || {}; set("tPow", p.vout_mv ? p.vout_mv + " mV" : "—");
+          set("tPowS", [n.corner ? `corner ${n.corner}` : null, n.plan_mv ? `plan ${n.plan_mv} mV` : null, n.source ? n.source : null].filter(Boolean).join(" · ") || "power nmpa not read"); } break;
+      case "serial": set("tSer", f.factory || f._[1] || "—"); set("tSerS", (f.usb ? "usb " + f.usb : "") + (this.version ? " · " + this.version : "")); break;
+      case "version": this.version = f._.slice(1).join(" "); $("tSerS").textContent = this.version; break;
+      case "fault": if (+f.code) this.log("er", "fault code " + f.code + " at " + f.at); break;
+      case "meter": if (f._[1] === "obs" || f._[1] === "studio") { this.meter = f._[1]; this.markSeg("meterSeg", "meter", this.meter);
+        $("meterHint").textContent = this.meter === "obs" ? "Taps the USB stream, the same samples OBS meters." : "Taps the DAC words after trim, EQ and limiter."; } break;
+      case "lcd": if (f._[1] === "motion") { this.motion = f._[2] === "on"; this.markSeg("motionSeg", "motion", this.motion ? "on" : "off"); } break;
+      case "limiter": { const c = parseFloat(f.ceiling), r = +f.release; $("limCeil").value = c; $("limRel").value = r; this.limLabels(); this.flash($("limMsg"), "set", "good"); break; }
+    }
+  },
+  liveRate() { const t = $("tRate").textContent; const v = parseFloat(t); return isFinite(v) ? v * 1000 : 0; },
+  badges(f) {
+    const b = [["48V 1", f.p48_1 === "on", "red"], ["48V 2", f.p48_2 === "on", "red"], ["MON 1", f.mon_1 === "on", "white"], ["MON 2", f.mon_2 === "on", "white"]];
+    const html = b.map(([n, on, c]) => `<span class="badge ${on ? c : ""}">${n}</span>`).join("") +
+      `<span class="badge ${f.p1_4 === "low" ? "okk" : "warn"}">P1_4 ${f.p1_4}</span><span class="badge ${f.p0_28 === "high" ? "okk" : "warn"}">P0_28 ${f.p0_28}</span>`;
+    $("badges").innerHTML = html;
+  },
+  buildDials() {
+    const names = ["Pre 1", "Pre 2", "Main", "HP", "Mix"];
+    $("dials").innerHTML = names.map((n, i) => `<div class="dial"><svg viewBox="0 0 52 52" aria-hidden="true"><path d="${arc(26, 26, 20, -135, 135)}" stroke="#2a2e34" stroke-width="5" fill="none" stroke-linecap="round"/><path id="dialArc${i}" d="" stroke="${COLORS[[0, 1, 11, 3, 2][i]]}" stroke-width="5" fill="none" stroke-linecap="round"/><line id="dialTick${i}" x1="26" y1="26" x2="26" y2="10" stroke="#e8e8e8" stroke-width="2" stroke-linecap="round"/></svg><span class="dv num" id="dialV${i}">—</span><span>${n}</span></div>`).join("");
+  },
+  setDial(i, v) {
+    if (!isFinite(v)) return; const a = -135 + 270 * v / 255;
+    $("dialArc" + i).setAttribute("d", v > 0 ? arc(26, 26, 20, -135, a) : "");
+    const r = a * Math.PI / 180; $("dialTick" + i).setAttribute("x2", 26 + 15 * Math.sin(r)); $("dialTick" + i).setAttribute("y2", 26 - 15 * Math.cos(r));
+    $("dialV" + i).textContent = v;
+  },
+  READS: ["version", "serial", "status", "clocks", "power", "power nmpa", "preset", "meter", "lcd motion", "fault", "panel", "knob", "counters", "i2c", "cycles"],
+  async readOnce() { for (const c of this.READS) { try { await this.cmd(c); } catch (_) {} } },
+  pollLoop() {
+    let n = 0;
+    const loop = async () => {
+      if ($("poll").checked && !this.busy && !document.hidden) {
+        const set = ["status", "counters", "knob", "panel", "cycles"]; if (n % 3 === 0) set.push("preset", "i2c", "clocks");
+        for (const c of set) { if (this.busy) break; try { await this.cmd(c); } catch (_) { break; } }
+        n++;
+      }
+      setTimeout(loop, 1000);
+    };
+    setTimeout(loop, 1000);
+  },
+  onDisconnected() { $("led").className = "led demo"; $("connText").textContent = "Demo, disconnected"; $("connectBtn").textContent = "Connect M2"; $("teleSub").textContent = "demo values"; this.log("sys", "port closed, back to demo"); },
+
+  /* ---------- presets vault ---------- */
+  markKeys() { document.querySelectorAll(".key").forEach(k => k.classList.toggle("on", k.dataset.preset === this.devicePreset)); },
+  renderVault() {
+    const host = $("vault");
+    if (!this.vault.length) { host.innerHTML = `<div class="empty">No saved presets yet. Shape a curve, name it, and save.</div>`; return; }
+    host.innerHTML = "";
+    this.vault.forEach((p, i) => {
+      const row = document.createElement("div"); row.className = "vrow";
+      row.innerHTML = `<span class="nm" title="${esc(p.name)}">${esc(p.name)} <span style="color:var(--ink-3);font-size:11px">${p.trim.toFixed(1)} dB</span></span><button class="btn">Load</button><button class="btn ghost">Rename</button><button class="btn ghost">Delete</button>`;
+      const [load, ren, del] = row.querySelectorAll("button");
+      load.onclick = () => { this.bands = p.bands.map(b => clampBand(b)); this.trim = p.trim; this.autoTrim = false; $("autoTrim").checked = false; this.source = { kind: "custom", name: p.name }; this.apo = null; $("fitStat").hidden = true; this.refresh(); };
+      ren.onclick = () => { const span = row.querySelector(".nm"); const inp = document.createElement("input"); inp.value = p.name; inp.maxLength = 40; inp.style.cssText = "background:#101215;border:1px solid var(--line);border-radius:6px;padding:3px 6px;width:100%";
+        span.replaceWith(inp); inp.focus(); inp.select(); const done = () => { const v = inp.value.trim(); if (v) p.name = v; store.set(VAULT_KEY, this.vault); this.renderVault(); };
+        inp.addEventListener("keydown", e => { if (e.key === "Enter") done(); if (e.key === "Escape") this.renderVault(); }); inp.addEventListener("blur", done); };
+      del.onclick = () => { if (del.dataset.armed) { this.vault.splice(i, 1); store.set(VAULT_KEY, this.vault); this.renderVault(); } else { del.dataset.armed = "1"; del.textContent = "Sure?"; setTimeout(() => { del.dataset.armed = ""; del.textContent = "Delete"; }, 2500); } };
+      host.appendChild(row);
+    });
+  },
+
+  /* ---------- importer ---------- */
+  async importApo(text, name) {
+    const msg = $("apoMsg"), apo = parseApo(text);
+    if (!apo.bands.length) { this.flash(msg, "No active PK, LSC or HSC filters found.", "bad"); return; }
+    $("fitRes").hidden = false; $("fBands").textContent = `${apo.bands.length} → 14`; $("fPre").textContent = apo.preamp === null ? "none" : apo.preamp + " dB";
+    const direct = apo.bands.length <= 14 && apo.bands.every(inBounds);
+    let res;
+    if (direct) {
+      const bands = apo.bands.map(b => ({ ...b })); while (bands.length < 14) bands.push({ type: "peak", f: 1000, g: 0, q: 1, on: false });
+      res = { bands, max: 0, rms: 0 };
+      this.flash(msg, `Loaded ${apo.bands.length} bands directly${apo.skipped ? `, skipped ${apo.skipped} off or unsupported` : ""}.`, "good");
+    } else {
+      this.flash(msg, `Fitting ${apo.bands.length} bands into 14 inside the M2's limits…`);
+      res = await fitBands(apo.bands, this.rate, p => this.flash(msg, `Fitting… ${Math.round(p * 100)} %`));
+      this.flash(msg, `Fitted ${apo.bands.length} APO bands into 14 at ${this.rate / 1000} kHz.`, "good");
+    }
+    $("fMax").textContent = res.max.toFixed(3) + " dB"; $("fRms").textContent = res.rms.toFixed(3) + " dB";
+    this.bands = res.bands; this.apo = apo.bands; this.autoTrim = true; $("autoTrim").checked = true;
+    this.source = { kind: "apo", name: name || "pasted text" };
+    $("fitStat").hidden = direct; $("fitErr").textContent = `±${res.max.toFixed(2)} dB · rms ${res.rms.toFixed(3)}`;
+    this.refresh();
+  },
+
+  setRate(r, fromDevice) {
+    this.rate = r; this.markSeg(null, "rate", String(r));
+    if (this.source.kind === "builtin") this.loadBuiltin(this.source.key); else this.refresh();
+    if (fromDevice) this.log("sys", `graph follows the M2 at ${r / 1000} kHz`);
+  },
+  markSeg(id, key, val) { (id ? $(id).querySelectorAll("button") : document.querySelectorAll(`[data-${key}]`)).forEach(b => b.classList.toggle("on", b.dataset[key] === val)); },
+  limLabels() { $("limCeilV").textContent = (+$("limCeil").value).toFixed(1) + " dB"; $("limRelV").textContent = $("limRel").value + " ms"; },
+
+  buildChips() {
+    const cmds = ["version", "status", "clocks", "power", "power nmpa", "preset", "meter", "lcd motion", "cycles", "counters", "i2c", "panel", "knob", "dma", "serial", "fault"];
+    $("chips").innerHTML = cmds.map(c => `<button type="button">${c}</button>`).join("");
+    $("chips").querySelectorAll("button").forEach(b => b.onclick = () => this.cmd(b.textContent).catch(() => {}));
+  },
+
+  bindUi() {
+    $("connectBtn").onclick = async () => {
+      if (Link.kind === "serial") { await Link.disconnect(); this.onDisconnected(); return; }
+      if (!("serial" in navigator)) { $("serialBanner").classList.add("show"); return; }
+      try {
+        const info = await Link.connect($("allPorts").checked);
+        $("led").className = "led on"; $("connText").textContent = `M2 connected${info.usbVendorId ? ` · ${info.usbVendorId.toString(16)}:${(info.usbProductId || 0).toString(16)}` : ""}`;
+        $("connectBtn").textContent = "Disconnect"; $("teleSub").textContent = "live from the M2"; this.total = { under: 0, over: 0 };
+        this.log("sys", "port open at 115200 8N1, DTR and RTS on"); await this.readOnce();
+      } catch (e) { if (e.name !== "NotFoundError") { $("led").className = "led err"; $("connText").textContent = "Connect failed"; this.log("er", e.message); } }
+    };
+    document.querySelectorAll("[data-rate]").forEach(b => b.onclick = () => this.setRate(+b.dataset.rate));
+    document.querySelectorAll(".key").forEach(k => k.onclick = () => this.choosePreset(k.dataset.preset));
+    $("applyBtn").onclick = () => this.apply();
+    $("autoTrim").onchange = e => { this.autoTrim = e.target.checked; this.refresh(); };
+    $("trim").oninput = e => { this.autoTrim = false; $("autoTrim").checked = false; this.trim = +e.target.value; this.refresh(); };
+    $("resetBands").onclick = () => { this.bands.forEach(b => b.g = 0); this.edited(); };
+    $("saveBtn").onclick = () => { const name = $("saveName").value.trim() || `Preset ${this.vault.length + 1}`; this.vault.push({ name, trim: this.trim, bands: this.bands.map(b => ({ ...b })), rate: this.rate, saved: new Date().toISOString() }); store.set(VAULT_KEY, this.vault); $("saveName").value = ""; this.renderVault(); };
+    $("exportBtn").onclick = () => { const blob = new Blob([JSON.stringify({ app: "m2x-studio", version: 1, presets: this.vault }, null, 2)], { type: "application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "m2x-studio-presets.json"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); };
+    $("importBtn").onclick = () => $("importFile").click();
+    $("importFile").onchange = async e => { const file = e.target.files[0]; if (!file) return; try { const j = JSON.parse(await file.text()); const list = (j.presets || []).filter(p => p && p.name && Array.isArray(p.bands) && p.bands.length === 14);
+      this.vault.push(...list.map(p => ({ ...p, trim: Math.max(-18, Math.min(0, +p.trim || 0)), bands: p.bands.map(clampBand) }))); store.set(VAULT_KEY, this.vault); this.renderVault(); } catch (err) { this.log("er", "import failed: " + err.message); } e.target.value = ""; };
+    const drop = $("drop");
+    drop.onclick = () => $("apoFile").click(); drop.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("apoFile").click(); } };
+    ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+    ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+    drop.addEventListener("drop", async e => { const f = e.dataTransfer.files[0]; if (f) this.importApo(await f.text(), f.name); });
+    $("apoFile").onchange = async e => { const f = e.target.files[0]; if (f) this.importApo(await f.text(), f.name); e.target.value = ""; };
+    $("apoParse").onclick = () => { const t = $("apoPaste").value; if (t.trim()) this.importApo(t, "pasted text"); };
+    $("apoSample").onclick = () => { $("apoPaste").value = SAMPLE_APO; this.importApo(SAMPLE_APO, "sample-16-band.txt"); };
+    $("meterSeg").querySelectorAll("button").forEach(b => b.onclick = () => this.cmd("meter " + b.dataset.meter).catch(() => {}));
+    $("motionSeg").querySelectorAll("button").forEach(b => b.onclick = () => this.cmd("lcd motion " + b.dataset.motion).catch(() => {}));
+    $("limCeil").oninput = $("limRel").oninput = () => this.limLabels();
+    $("limApply").onclick = async () => { const [l] = await this.cmd(`lim ${(+$("limCeil").value).toFixed(1)} ${Math.round(+$("limRel").value)}`).catch(() => [""]); if (!/^limiter/.test(l)) this.flash($("limMsg"), l || "no reply", "bad"); };
+    $("cform").onsubmit = e => { e.preventDefault(); const c = $("cline").value.trim(); if (!c) return; this.cmd(c).catch(() => {}); $("cline").value = ""; };
+  }
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function arc(cx, cy, r, a0, a1) {
+  const p = a => [cx + r * Math.sin(a * Math.PI / 180), cy - r * Math.cos(a * Math.PI / 180)], [x0, y0] = p(a0), [x1, y1] = p(a1);
+  return `M${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+}
+
+/* =====================================================================
+   6. EQ graph: HiDPI canvas, redrawn only when dirty, 1:1 direct manipulation
+   ===================================================================== */
+const Graph = {
+  cv: null, ctx: null, w: 0, h: 0, dpr: 1, needs: true, drag: null, hover: -1,
+  pad: { l: 40, r: 12, t: 12, b: 24 }, dbMin: -18, dbMax: 18,
+  init(cv, host) {
+    this.cv = cv; this.ctx = cv.getContext("2d");
+    const resize = () => { const r = host.getBoundingClientRect(); this.dpr = window.devicePixelRatio || 1; this.w = r.width; this.h = r.height;
+      cv.width = Math.round(r.width * this.dpr); cv.height = Math.round(r.height * this.dpr); this.dirty(); };
+    new ResizeObserver(resize).observe(host); resize();
+    cv.addEventListener("pointerdown", e => this.down(e));
+    cv.addEventListener("pointermove", e => this.move(e));
+    cv.addEventListener("pointerup", e => this.up(e));
+    cv.addEventListener("pointercancel", e => this.up(e));
+    cv.addEventListener("wheel", e => this.wheel(e), { passive: false });
+    cv.addEventListener("contextmenu", e => { e.preventDefault(); const i = this.hit(e); if (i >= 0) { const order = ["peak", "lowshelf", "highshelf"], b = App.bands[i]; b.type = order[(order.indexOf(b.type) + 1) % 3]; App.sel = i; App.edited(); } });
+    cv.addEventListener("dblclick", e => { const i = this.hit(e); if (i >= 0) { App.bands[i].g = 0; App.sel = i; App.edited(); } });
+    const loop = () => { if (this.needs) { this.needs = false; this.draw(); } requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  },
+  dirty() { this.needs = true; },
+  x(f) { const { l, r } = this.pad; return l + (this.w - l - r) * Math.log10(f / 20) / 3; },
+  fx(x) { const { l, r } = this.pad; return 20 * Math.pow(1000, (x - l) / (this.w - l - r)); },
+  y(db) { const { t, b } = this.pad; return t + (this.h - t - b) * (this.dbMax - db) / (this.dbMax - this.dbMin); },
+  dy(y) { const { t, b } = this.pad; return this.dbMax - (y - t) / (this.h - t - b) * (this.dbMax - this.dbMin); },
+  pos(e) { const r = this.cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; },
+  hit(e) { const [mx, my] = this.pos(e); let best = -1, bd = 14 * 14;
+    App.bands.forEach((b, i) => { const dx = this.x(b.f) - mx, dy = this.y(b.g) - my, d = dx * dx + dy * dy; if (d < bd) { bd = d; best = i; } }); return best; },
+  down(e) { if (e.button !== 0) return; const i = this.hit(e); if (i < 0) return; App.sel = i; App.markSel(); this.drag = { i, id: e.pointerId }; this.cv.setPointerCapture(e.pointerId); this.dirty(); },
+  move(e) {
+    if (this.drag && e.pointerId === this.drag.id) {
+      const [mx, my] = this.pos(e), b = App.bands[this.drag.i];
+      App.bands[this.drag.i] = clampBand({ ...b, f: +this.fx(mx).toFixed(1), g: +this.dy(my).toFixed(2), on: true });
+      App.edited();
+    } else { const h = this.hit(e); if (h !== this.hover) { this.hover = h; this.cv.style.cursor = h >= 0 ? "grab" : "default"; this.dirty(); } }
+  },
+  up(e) { if (this.drag && e.pointerId === this.drag.id) { this.drag = null; this.cv.releasePointerCapture(e.pointerId); } },
+  wheel(e) { const i = this.hit(e) >= 0 ? this.hit(e) : (this.hover >= 0 ? this.hover : -1); if (i < 0) return; e.preventDefault();
+    const b = App.bands[i]; App.bands[i] = clampBand({ ...b, q: +(b.q * Math.exp(-e.deltaY * 0.0015)).toFixed(3) }); App.sel = i; App.edited(); },
+  draw() {
+    const c = this.ctx, W = this.w, H = this.h, d = this.dpr; c.setTransform(d, 0, 0, d, 0, 0); c.clearRect(0, 0, W, H);
+    c.fillStyle = "#0f1113"; c.fillRect(0, 0, W, H);
+    // grid
+    c.lineWidth = 1; c.font = "10.5px ui-sans-serif, system-ui, sans-serif"; c.textBaseline = "middle";
+    for (let dec = 10; dec <= 10000; dec *= 10) for (let k = 1; k <= 9; k++) { const f = dec * k; if (f < 20 || f > 20000) continue; const x = Math.round(this.x(f)) + 0.5;
+      c.strokeStyle = k === 1 ? "#24282e" : "#181b1f"; c.beginPath(); c.moveTo(x, this.pad.t); c.lineTo(x, H - this.pad.b); c.stroke(); }
+    c.fillStyle = "#5d636b"; c.textAlign = "center";
+    [[20, "20"], [50, "50"], [100, "100"], [200, "200"], [500, "500"], [1000, "1k"], [2000, "2k"], [5000, "5k"], [10000, "10k"], [20000, "20k"]].forEach(([f, t]) => c.fillText(t, Math.min(W - 14, Math.max(this.pad.l + 8, this.x(f))), H - 11));
+    c.textAlign = "right";
+    for (let db = -18; db <= 18; db += 6) { const y = Math.round(this.y(db)) + 0.5; c.strokeStyle = db === 0 ? "#3a3f46" : "#1b1e22"; c.beginPath(); c.moveTo(this.pad.l, y); c.lineTo(W - this.pad.r, y); c.stroke(); c.fillText((db > 0 ? "+" : "") + db, this.pad.l - 7, y); }
+    const n = Math.max(240, Math.round(W)), g = grid(n, App.rate), sum = curve(App.bands, App.rate, n);
+    // APO original (dashed)
+    if (App.apo) { const o = curve(App.apo, App.rate, n); c.setLineDash([5, 4]); c.strokeStyle = "rgba(255,255,255,0.55)"; c.lineWidth = 1.3; c.beginPath();
+      for (let i = 0; i < n; i++) { const x = this.x(g.f[i]), y = this.y(o[i]); i ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); c.setLineDash([]); }
+    // selected band
+    const sb = App.bands[App.sel];
+    if (sb && sb.on) { const one = bandDb(sb, App.rate, g, new Float64Array(n)); c.fillStyle = hexA(COLORS[App.sel], 0.09); c.strokeStyle = hexA(COLORS[App.sel], 0.8); c.lineWidth = 1.2; c.beginPath(); c.moveTo(this.x(20), this.y(0));
+      for (let i = 0; i < n; i++) c.lineTo(this.x(g.f[i]), this.y(one[i])); c.lineTo(this.x(20000), this.y(0)); c.closePath(); c.fill(); c.beginPath();
+      for (let i = 0; i < n; i++) { const x = this.x(g.f[i]), y = this.y(one[i]); i ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); }
+    // combined fill + line
+    const grad = c.createLinearGradient(0, this.y(this.dbMax), 0, this.y(this.dbMin)); grad.addColorStop(0, "rgba(242,242,242,0.22)"); grad.addColorStop(0.5, "rgba(242,242,242,0.05)"); grad.addColorStop(1, "rgba(242,242,242,0.22)");
+    c.fillStyle = grad; c.beginPath(); c.moveTo(this.x(20), this.y(0)); for (let i = 0; i < n; i++) c.lineTo(this.x(g.f[i]), this.y(sum[i])); c.lineTo(this.x(20000), this.y(0)); c.closePath(); c.fill();
+    c.strokeStyle = "#f2f2f2"; c.lineWidth = 2; c.beginPath(); for (let i = 0; i < n; i++) { const x = this.x(g.f[i]), y = this.y(sum[i]); i ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke();
+    // post-trim curve + headroom: anything above 0 dBFS is shaded red
+    c.strokeStyle = "rgba(61,220,132,0.75)"; c.lineWidth = 1.2; c.setLineDash([2, 3]); c.beginPath();
+    for (let i = 0; i < n; i++) { const x = this.x(g.f[i]), y = this.y(sum[i] + App.trim); i ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); c.setLineDash([]);
+    c.fillStyle = "rgba(255,77,77,0.35)"; for (let i = 0; i < n - 1; i++) { const v = sum[i] + App.trim; if (v > 0) { const x0 = this.x(g.f[i]), x1 = this.x(g.f[i + 1]); c.fillRect(x0, this.y(v), x1 - x0 + 0.5, this.y(0) - this.y(v)); } }
+    // nodes
+    App.bands.forEach((b, i) => {
+      const x = this.x(b.f), y = this.y(b.g), selected = i === App.sel, r = selected ? 7.5 : (i === this.hover ? 6.5 : 5.5);
+      c.globalAlpha = b.on ? 1 : 0.35; c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fillStyle = selected ? COLORS[i] : "#0f1113"; c.fill();
+      c.lineWidth = 2; c.strokeStyle = COLORS[i]; c.stroke();
+      c.fillStyle = selected ? "#0c0d0f" : COLORS[i]; c.font = "600 9.5px ui-sans-serif, system-ui, sans-serif"; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText(String(i + 1), x, y + 0.5);
+      c.globalAlpha = 1;
+    });
+    if (sb) { c.font = "11px ui-monospace, Consolas, monospace"; c.textAlign = "right"; c.textBaseline = "top"; c.fillStyle = COLORS[App.sel];
+      c.fillText(`${App.sel + 1} · ${({ peak: "PK", lowshelf: "LS", highshelf: "HS" })[sb.type]} · ${sb.f < 1000 ? sb.f.toFixed(1) + " Hz" : (sb.f / 1000).toFixed(2) + " kHz"} · ${(sb.g >= 0 ? "+" : "") + sb.g.toFixed(2)} dB · Q ${sb.q.toFixed(2)}`, W - this.pad.r - 4, this.pad.t + 4); }
+  }
+};
+function hexA(hex, a) { const v = parseInt(hex.slice(1), 16); return `rgba(${v >> 16},${(v >> 8) & 255},${v & 255},${a})`; }
+
+window.addEventListener("beforeunload", () => { if (Link.kind === "serial") Link.disconnect(); });
+App.init();
+})();
+</script>
+</body>
+</html>

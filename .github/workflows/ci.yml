@@ -1,0 +1,51 @@
+name: ci
+
+# WHY: manual only while the repository is private; once public, replace with `on: [push, pull_request]`
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # WHY: the emulator checks and their path handling have been verified on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rust toolchain
+        shell: bash
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt --component llvm-tools
+          rustup default stable
+          rustup target add thumbv8m.main-none-eabi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Emulator environment
+        shell: bash
+        run: |
+          python -m venv .venv
+          .venv/Scripts/pip install unicorn==2.1.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Format
+        run: cargo fmt --all --check
+
+      - name: Host tests
+        run: cargo test --workspace --locked
+
+      - name: Firmware image
+        run: cargo firmware-sound3
+
+      - name: Image scan
+        run: cargo xtask scan-image
+
+      - name: M2X Studio
+        run: node tools/m2x-studio/test.mjs

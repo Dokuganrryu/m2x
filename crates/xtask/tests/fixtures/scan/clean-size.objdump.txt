@@ -1,0 +1,77 @@
+
+clean-size.elf:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+20000000 <CTIMER0>:
+20000000: b580         	push	{r7, lr}
+20000002: 466f         	mov	r7, sp
+20000004: 2003         	movs	r0, #0x3
+20000006: e8bd 4080    	pop.w	{r7, lr}
+2000000a: f000 b831    	b.w	0x20000070 <image::mix_block> @ imm = #0x62
+2000000e: d4d4         	bmi	0x1fffffba              @ imm = #-0x58
+
+20000010 <Reset>:
+20000010: b5e0         	push	{r5, r6, r7, lr}
+20000012: af02         	add	r7, sp, #0x8
+20000014: 4668         	mov	r0, sp
+20000016: f000 f835    	bl	0x20000084 <factory_serial> @ imm = #0x6a
+2000001a: 4808         	ldr	r0, [pc, #0x20]         @ 0x2000003c <Reset+0x2c>
+2000001c: 9900         	ldr	r1, [sp]
+2000001e: 4602         	mov	r2, r0
+20000020: f842 1b08    	str	r1, [r2], #8
+20000024: 2100         	movs	r1, #0x0
+20000026: e9c2 1100    	strd	r1, r1, [r2]
+2000002a: 4905         	ldr	r1, [pc, #0x14]         @ 0x20000040 <Reset+0x30>
+2000002c: 4a05         	ldr	r2, [pc, #0x14]         @ 0x20000044 <Reset+0x34>
+2000002e: 600a         	str	r2, [r1]
+20000030: e9d0 1204    	ldrd	r1, r2, [r0, #16]
+20000034: e9d0 0106    	ldrd	r0, r1, [r0, #24]
+20000038: e7fe         	b	0x20000038 <Reset+0x28> @ imm = #-0x4
+2000003a: bf00         	nop
+2000003c: b0 00 02 20  	.word	0x200200b0
+20000040: a8 00 02 20  	.word	0x200200a8
+20000044: 5b 00 00 20  	.word	0x2000005b
+
+20000048 <USB1>:
+20000048: b580         	push	{r7, lr}
+2000004a: 466f         	mov	r7, sp
+2000004c: f000 f808    	bl	0x20000060 <image::fill_ring> @ imm = #0x10
+20000050: 2002         	movs	r0, #0x2
+20000052: e8bd 4080    	pop.w	{r7, lr}
+20000056: f000 b80b    	b.w	0x20000070 <image::mix_block> @ imm = #0x16
+
+2000005a <image::idle>:
+2000005a: b580         	push	{r7, lr}
+2000005c: 466f         	mov	r7, sp
+2000005e: bd80         	pop	{r7, pc}
+
+20000060 <image::fill_ring>:
+20000060: b580         	push	{r7, lr}
+20000062: 466f         	mov	r7, sp
+20000064: 4801         	ldr	r0, [pc, #0x4]          @ 0x2000006c <image::fill_ring+0xc>
+20000066: 210c         	movs	r1, #0xc
+20000068: 6001         	str	r1, [r0]
+2000006a: bd80         	pop	{r7, pc}
+2000006c: b0 00 02 20  	.word	0x200200b0
+
+20000070 <image::mix_block>:
+20000070: b580         	push	{r7, lr}
+20000072: 466f         	mov	r7, sp
+20000074: 4902         	ldr	r1, [pc, #0x8]          @ 0x20000080 <image::mix_block+0x10>
+20000076: 680a         	ldr	r2, [r1]
+20000078: 4350         	muls	r0, r2, r0
+2000007a: 08c0         	lsrs	r0, r0, #0x3
+2000007c: 6008         	str	r0, [r1]
+2000007e: bd80         	pop	{r7, pc}
+20000080: b0 00 02 20  	.word	0x200200b0
+
+20000084 <factory_serial>:
+20000084: b580         	push	{r7, lr}
+20000086: 466f         	mov	r7, sp
+20000088: 4902         	ldr	r1, [pc, #0x8]          @ 0x20000094 <factory_serial+0x10>
+2000008a: 680a         	ldr	r2, [r1]
+2000008c: 6849         	ldr	r1, [r1, #0x4]
+2000008e: e9c0 2100    	strd	r2, r1, [r0]
+20000092: bd80         	pop	{r7, pc}
+20000094: 00 82 03 00  	.word	0x00038200

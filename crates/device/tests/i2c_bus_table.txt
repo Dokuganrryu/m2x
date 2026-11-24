@@ -1,0 +1,152 @@
+idle | begin_probe | TX26 START | probe_address
+idle | in_progress | - | idle
+idle | idle | - | idle
+idle | receive_A5 | - | idle
+idle | transmit | - | idle
+idle | nack_address | - | idle
+idle | nack_data | - | idle
+idle | disrupted | - | idle
+write0_address | begin_probe | RESET TX26 START | probe_address
+write0_address | in_progress | - | write0_address
+write0_address | idle | RESET =NACK | idle
+write0_address | receive_A5 | RESET =NACK | idle
+write0_address | transmit | TX18 CONT | write0_register
+write0_address | nack_address | STOP | write0_stopping_nacked
+write0_address | nack_data | RESET =NACK | idle
+write0_address | disrupted | RESET =NACK | idle
+write0_register | begin_probe | RESET TX26 START | probe_address
+write0_register | in_progress | - | write0_register
+write0_register | idle | RESET =NACK | idle
+write0_register | receive_A5 | RESET =NACK | idle
+write0_register | transmit | TXBF CONT | write0_value
+write0_register | nack_address | RESET =NACK | idle
+write0_register | nack_data | STOP | write0_stopping_nacked
+write0_register | disrupted | RESET =NACK | idle
+write0_value | begin_probe | RESET TX26 START | probe_address
+write0_value | in_progress | - | write0_value
+write0_value | idle | RESET =NACK | idle
+write0_value | receive_A5 | RESET =NACK | idle
+write0_value | transmit | STOP | write0_stopping_acked
+write0_value | nack_address | RESET =NACK | idle
+write0_value | nack_data | STOP | write0_stopping_nacked
+write0_value | disrupted | RESET =NACK | idle
+write0_stopping_acked | begin_probe | RESET TX26 START | probe_address
+write0_stopping_acked | in_progress | - | write0_stopping_acked
+write0_stopping_acked | idle | TX92 START | write1_address
+write0_stopping_acked | receive_A5 | RESET =NACK | idle
+write0_stopping_acked | transmit | RESET =NACK | idle
+write0_stopping_acked | nack_address | RESET =NACK | idle
+write0_stopping_acked | nack_data | RESET =NACK | idle
+write0_stopping_acked | disrupted | RESET =NACK | idle
+write1_address | begin_probe | RESET TX26 START | probe_address
+write1_address | in_progress | - | write1_address
+write1_address | idle | RESET =NACK | idle
+write1_address | receive_A5 | RESET =NACK | idle
+write1_address | transmit | TX19 CONT | write1_register
+write1_address | nack_address | STOP | write1_stopping_nacked
+write1_address | nack_data | RESET =NACK | idle
+write1_address | disrupted | RESET =NACK | idle
+write0_stopping_nacked | begin_probe | RESET TX26 START | probe_address
+write0_stopping_nacked | in_progress | - | write0_stopping_nacked
+write0_stopping_nacked | idle | =NACK | idle
+write0_stopping_nacked | receive_A5 | RESET =NACK | idle
+write0_stopping_nacked | transmit | RESET =NACK | idle
+write0_stopping_nacked | nack_address | RESET =NACK | idle
+write0_stopping_nacked | nack_data | RESET =NACK | idle
+write0_stopping_nacked | disrupted | RESET =NACK | idle
+write0_address | begin_probe | RESET TX26 START | probe_address
+write0_address | in_progress | - | write0_address
+write0_address | idle | RESET =NACK | idle
+write0_address | receive_A5 | RESET =NACK | idle
+write0_address | transmit | TX12 CONT | write0_register
+write0_address | nack_address | STOP | write0_stopping_nacked
+write0_address | nack_data | RESET =NACK | idle
+write0_address | disrupted | RESET =NACK | idle
+write0_register | begin_probe | RESET TX26 START | probe_address
+write0_register | in_progress | - | write0_register
+write0_register | idle | RESET =NACK | idle
+write0_register | receive_A5 | RESET =NACK | idle
+write0_register | transmit | TXFF CONT | write0_value
+write0_register | nack_address | RESET =NACK | idle
+write0_register | nack_data | STOP | write0_stopping_nacked
+write0_register | disrupted | RESET =NACK | idle
+write0_value | begin_probe | RESET TX26 START | probe_address
+write0_value | in_progress | - | write0_value
+write0_value | idle | RESET =NACK | idle
+write0_value | receive_A5 | RESET =NACK | idle
+write0_value | transmit | STOP | write0_stopping_acked
+write0_value | nack_address | RESET =NACK | idle
+write0_value | nack_data | STOP | write0_stopping_nacked
+write0_value | disrupted | RESET =NACK | idle
+write0_stopping_acked | begin_probe | RESET TX26 START | probe_address
+write0_stopping_acked | in_progress | - | write0_stopping_acked
+write0_stopping_acked | idle | =ACK | idle
+write0_stopping_acked | receive_A5 | RESET =NACK | idle
+write0_stopping_acked | transmit | RESET =NACK | idle
+write0_stopping_acked | nack_address | RESET =NACK | idle
+write0_stopping_acked | nack_data | RESET =NACK | idle
+write0_stopping_acked | disrupted | RESET =NACK | idle
+read_address | begin_probe | RESET TX26 START | probe_address
+read_address | in_progress | - | read_address
+read_address | idle | RESET =NACK | idle
+read_address | receive_A5 | RESET =NACK | idle
+read_address | transmit | TX71 CONT | read_register
+read_address | nack_address | STOP | read_stopping_refused
+read_address | nack_data | RESET =NACK | idle
+read_address | disrupted | RESET =NACK | idle
+read_register | begin_probe | RESET TX26 START | probe_address
+read_register | in_progress | - | read_register
+read_register | idle | RESET =NACK | idle
+read_register | receive_A5 | RESET =NACK | idle
+read_register | transmit | TX93 START | read_turnaround
+read_register | nack_address | RESET =NACK | idle
+read_register | nack_data | STOP | read_stopping_refused
+read_register | disrupted | RESET =NACK | idle
+read_turnaround | begin_probe | RESET TX26 START | probe_address
+read_turnaround | in_progress | - | read_turnaround
+read_turnaround | idle | RESET =NACK | idle
+read_turnaround | receive_A5 | STOP | read_stopping_byte_A5
+read_turnaround | transmit | RESET =NACK | idle
+read_turnaround | nack_address | STOP | read_stopping_refused
+read_turnaround | nack_data | RESET =NACK | idle
+read_turnaround | disrupted | RESET =NACK | idle
+read_stopping_byte_3C | begin_probe | RESET TX26 START | probe_address
+read_stopping_byte_3C | in_progress | - | read_stopping_byte_3C
+read_stopping_byte_3C | idle | =READ3C | idle
+read_stopping_byte_3C | receive_A5 | RESET =NACK | idle
+read_stopping_byte_3C | transmit | RESET =NACK | idle
+read_stopping_byte_3C | nack_address | RESET =NACK | idle
+read_stopping_byte_3C | nack_data | RESET =NACK | idle
+read_stopping_byte_3C | disrupted | RESET =NACK | idle
+read_stopping_refused | begin_probe | RESET TX26 START | probe_address
+read_stopping_refused | in_progress | - | read_stopping_refused
+read_stopping_refused | idle | =NACK | idle
+read_stopping_refused | receive_A5 | RESET =NACK | idle
+read_stopping_refused | transmit | RESET =NACK | idle
+read_stopping_refused | nack_address | RESET =NACK | idle
+read_stopping_refused | nack_data | RESET =NACK | idle
+read_stopping_refused | disrupted | RESET =NACK | idle
+probe_address | begin_probe | RESET TX26 START | probe_address
+probe_address | in_progress | - | probe_address
+probe_address | idle | RESET =NACK | idle
+probe_address | receive_A5 | RESET =NACK | idle
+probe_address | transmit | STOP | probe_stopping_acked
+probe_address | nack_address | STOP | probe_stopping_nacked
+probe_address | nack_data | RESET =NACK | idle
+probe_address | disrupted | RESET =NACK | idle
+probe_stopping_acked | begin_probe | RESET TX26 START | probe_address
+probe_stopping_acked | in_progress | - | probe_stopping_acked
+probe_stopping_acked | idle | =ACK | idle
+probe_stopping_acked | receive_A5 | RESET =NACK | idle
+probe_stopping_acked | transmit | RESET =NACK | idle
+probe_stopping_acked | nack_address | RESET =NACK | idle
+probe_stopping_acked | nack_data | RESET =NACK | idle
+probe_stopping_acked | disrupted | RESET =NACK | idle
+probe_stopping_nacked | begin_probe | RESET TX26 START | probe_address
+probe_stopping_nacked | in_progress | - | probe_stopping_nacked
+probe_stopping_nacked | idle | =NACK | idle
+probe_stopping_nacked | receive_A5 | RESET =NACK | idle
+probe_stopping_nacked | transmit | RESET =NACK | idle
+probe_stopping_nacked | nack_address | RESET =NACK | idle
+probe_stopping_nacked | nack_data | RESET =NACK | idle
+probe_stopping_nacked | disrupted | RESET =NACK | idle

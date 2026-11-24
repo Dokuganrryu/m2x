@@ -1,0 +1,1011 @@
+
+fmt-in-tick.elf:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+20000000 <CTIMER0>:
+20000000: b580         	push	{r7, lr}
+20000002: 466f         	mov	r7, sp
+20000004: 2003         	movs	r0, #0x3
+20000006: e8bd 4080    	pop.w	{r7, lr}
+2000000a: f000 b831    	b.w	0x20000070 <image::mix_block> @ imm = #0x62
+2000000e: d4d4         	bmi	0x1fffffba              @ imm = #-0x58
+
+20000010 <Reset>:
+20000010: b5e0         	push	{r5, r6, r7, lr}
+20000012: af02         	add	r7, sp, #0x8
+20000014: 4668         	mov	r0, sp
+20000016: f000 f879    	bl	0x2000010c <factory_serial> @ imm = #0xf2
+2000001a: 4808         	ldr	r0, [pc, #0x20]         @ 0x2000003c <Reset+0x2c>
+2000001c: 9900         	ldr	r1, [sp]
+2000001e: 4602         	mov	r2, r0
+20000020: f842 1b08    	str	r1, [r2], #8
+20000024: 2100         	movs	r1, #0x0
+20000026: e9c2 1100    	strd	r1, r1, [r2]
+2000002a: 4905         	ldr	r1, [pc, #0x14]         @ 0x20000040 <Reset+0x30>
+2000002c: 4a05         	ldr	r2, [pc, #0x14]         @ 0x20000044 <Reset+0x34>
+2000002e: 600a         	str	r2, [r1]
+20000030: e9d0 1204    	ldrd	r1, r2, [r0, #16]
+20000034: e9d0 0106    	ldrd	r0, r1, [r0, #24]
+20000038: e7fe         	b	0x20000038 <Reset+0x28> @ imm = #-0x4
+2000003a: bf00         	nop
+2000003c: e8 0b 02 20  	.word	0x20020be8
+20000040: e4 0b 02 20  	.word	0x20020be4
+20000044: 5b 00 00 20  	.word	0x2000005b
+
+20000048 <USB1>:
+20000048: b580         	push	{r7, lr}
+2000004a: 466f         	mov	r7, sp
+2000004c: f000 f808    	bl	0x20000060 <image::fill_ring> @ imm = #0x10
+20000050: 2002         	movs	r0, #0x2
+20000052: e8bd 4080    	pop.w	{r7, lr}
+20000056: f000 b80b    	b.w	0x20000070 <image::mix_block> @ imm = #0x16
+
+2000005a <image::idle>:
+2000005a: b580         	push	{r7, lr}
+2000005c: 466f         	mov	r7, sp
+2000005e: bd80         	pop	{r7, pc}
+
+20000060 <image::fill_ring>:
+20000060: b580         	push	{r7, lr}
+20000062: 466f         	mov	r7, sp
+20000064: 4801         	ldr	r0, [pc, #0x4]          @ 0x2000006c <image::fill_ring+0xc>
+20000066: 210c         	movs	r1, #0xc
+20000068: 6001         	str	r1, [r0]
+2000006a: bd80         	pop	{r7, pc}
+2000006c: e8 0b 02 20  	.word	0x20020be8
+
+20000070 <image::mix_block>:
+20000070: b5f0         	push	{r4, r5, r6, r7, lr}
+20000072: af03         	add	r7, sp, #0xc
+20000074: f84d bd04    	str	r11, [sp, #-4]!
+20000078: b084         	sub	sp, #0x10
+2000007a: 4604         	mov	r4, r0
+2000007c: 4d0a         	ldr	r5, [pc, #0x28]         @ 0x200000a8 <image::mix_block+0x38>
+2000007e: 480b         	ldr	r0, [pc, #0x2c]         @ 0x200000ac <image::mix_block+0x3c>
+20000080: 490b         	ldr	r1, [pc, #0x2c]         @ 0x200000b0 <image::mix_block+0x40>
+20000082: 4a0c         	ldr	r2, [pc, #0x30]         @ 0x200000b4 <image::mix_block+0x44>
+20000084: ab01         	add	r3, sp, #0x4
+20000086: 682e         	ldr	r6, [r5]
+20000088: 9002         	str	r0, [sp, #0x8]
+2000008a: 4668         	mov	r0, sp
+2000008c: 9001         	str	r0, [sp, #0x4]
+2000008e: f1a7 0011    	sub.w	r0, r7, #0x11
+20000092: 9600         	str	r6, [sp]
+20000094: f000 f991    	bl	0x200003ba <core::fmt::write> @ imm = #0x322
+20000098: fb06 f004    	mul	r0, r6, r4
+2000009c: 08c0         	lsrs	r0, r0, #0x3
+2000009e: 6028         	str	r0, [r5]
+200000a0: b004         	add	sp, #0x10
+200000a2: f85d bb04    	ldr	r11, [sp], #4
+200000a6: bdf0         	pop	{r4, r5, r6, r7, pc}
+200000a8: e8 0b 02 20  	.word	0x20020be8
+200000ac: 05 0a 00 20  	.word	0x20000a05
+200000b0: 00 0b 01 20  	.word	0x20010b00
+200000b4: 18 0b 01 20  	.word	0x20010b18
+
+200000b8 <<image::Sink as core::fmt::Write>::write_str>:
+200000b8: b580         	push	{r7, lr}
+200000ba: 466f         	mov	r7, sp
+200000bc: 4801         	ldr	r0, [pc, #0x4]          @ 0x200000c4 <<image::Sink as core::fmt::Write>::write_str+0xc>
+200000be: 6002         	str	r2, [r0]
+200000c0: 2000         	movs	r0, #0x0
+200000c2: bd80         	pop	{r7, pc}
+200000c4: e8 0b 02 20  	.word	0x20020be8
+
+200000c8 <<image::Sink as core::fmt::Write>::write_char>:
+200000c8: b580         	push	{r7, lr}
+200000ca: 466f         	mov	r7, sp
+200000cc: 2980         	cmp	r1, #0x80
+200000ce: d201         	bhs	0x200000d4 <<image::Sink as core::fmt::Write>::write_char+0xc> @ imm = #0x2
+200000d0: 2001         	movs	r0, #0x1
+200000d2: e009         	b	0x200000e8 <<image::Sink as core::fmt::Write>::write_char+0x20> @ imm = #0x12
+200000d4: f5b1 6f00    	cmp.w	r1, #0x800
+200000d8: d201         	bhs	0x200000de <<image::Sink as core::fmt::Write>::write_char+0x16> @ imm = #0x2
+200000da: 2002         	movs	r0, #0x2
+200000dc: e004         	b	0x200000e8 <<image::Sink as core::fmt::Write>::write_char+0x20> @ imm = #0x8
+200000de: 2004         	movs	r0, #0x4
+200000e0: f5b1 3f80    	cmp.w	r1, #0x10000
+200000e4: bf38         	it	lo
+200000e6: 2003         	movlo	r0, #0x3
+200000e8: 4901         	ldr	r1, [pc, #0x4]          @ 0x200000f0 <<image::Sink as core::fmt::Write>::write_char+0x28>
+200000ea: 6008         	str	r0, [r1]
+200000ec: 2000         	movs	r0, #0x0
+200000ee: bd80         	pop	{r7, pc}
+200000f0: e8 0b 02 20  	.word	0x20020be8
+
+200000f4 <<image::Sink as core::fmt::Write>::write_fmt>:
+200000f4: b580         	push	{r7, lr}
+200000f6: 466f         	mov	r7, sp
+200000f8: 4613         	mov	r3, r2
+200000fa: 460a         	mov	r2, r1
+200000fc: 4902         	ldr	r1, [pc, #0x8]          @ 0x20000108 <<image::Sink as core::fmt::Write>::write_fmt+0x14>
+200000fe: e8bd 4080    	pop.w	{r7, lr}
+20000102: f000 b95a    	b.w	0x200003ba <core::fmt::write> @ imm = #0x2b4
+20000106: bf00         	nop
+20000108: 00 0b 01 20  	.word	0x20010b00
+
+2000010c <factory_serial>:
+2000010c: b580         	push	{r7, lr}
+2000010e: 466f         	mov	r7, sp
+20000110: 4902         	ldr	r1, [pc, #0x8]          @ 0x2000011c <factory_serial+0x10>
+20000112: 680a         	ldr	r2, [r1]
+20000114: 6849         	ldr	r1, [r1, #0x4]
+20000116: e9c0 2100    	strd	r2, r1, [r0]
+2000011a: bd80         	pop	{r7, pc}
+2000011c: 00 82 03 00  	.word	0x00038200
+
+20000120 <<core::fmt::Formatter>::pad_integral>:
+20000120: b5f0         	push	{r4, r5, r6, r7, lr}
+20000122: af03         	add	r7, sp, #0xc
+20000124: e92d 0f00    	push.w	{r8, r9, r10, r11}
+20000128: b087         	sub	sp, #0x1c
+2000012a: 68fd         	ldr	r5, [r7, #0xc]
+2000012c: 4614         	mov	r4, r2
+2000012e: 4682         	mov	r10, r0
+20000130: 2900         	cmp	r1, #0x0
+20000132: d04d         	beq	0x200001d0 <<core::fmt::Formatter>::pad_integral+0xb0> @ imm = #0x9a
+20000134: f8da b008    	ldr.w	r11, [r10, #0x8]
+20000138: 222b         	movs	r2, #0x2b
+2000013a: f41b 1000    	ands	r0, r11, #0x200000
+2000013e: bf08         	it	eq
+20000140: f04f 32ff    	moveq.w	r2, #0xffffffff
+20000144: eb05 5950    	add.w	r9, r5, r0, lsr #21
+20000148: 68b8         	ldr	r0, [r7, #0x8]
+2000014a: 9006         	str	r0, [sp, #0x18]
+2000014c: ea5f 200b    	lsls.w	r0, r11, #0x8
+20000150: d548         	bpl	0x200001e4 <<core::fmt::Formatter>::pad_integral+0xc4> @ imm = #0x90
+20000152: 2b10         	cmp	r3, #0x10
+20000154: d25a         	bhs	0x2000020c <<core::fmt::Formatter>::pad_integral+0xec> @ imm = #0xb4
+20000156: 2b00         	cmp	r3, #0x0
+20000158: d06d         	beq	0x20000236 <<core::fmt::Formatter>::pad_integral+0x116> @ imm = #0xda
+2000015a: f003 0c03    	and	r12, r3, #0x3
+2000015e: 0898         	lsrs	r0, r3, #0x2
+20000160: f04f 0100    	mov.w	r1, #0x0
+20000164: d069         	beq	0x2000023a <<core::fmt::Formatter>::pad_integral+0x11a> @ imm = #0xd2
+20000166: f000 0003    	and	r0, r0, #0x3
+2000016a: e9cd 3203    	strd	r3, r2, [sp, #12]
+2000016e: f104 0e01    	add.w	lr, r4, #0x1
+20000172: 46a0         	mov	r8, r4
+20000174: eba1 0380    	sub.w	r3, r1, r0, lsl #2
+20000178: f06f 0203    	mvn	r2, #0x3
+2000017c: 2000         	movs	r0, #0x0
+2000017e: 9505         	str	r5, [sp, #0x14]
+20000180: eb0e 0502    	add.w	r5, lr, r2
+20000184: 3204         	adds	r2, #0x4
+20000186: f995 6003    	ldrsb.w	r6, [r5, #0x3]
+2000018a: f995 4006    	ldrsb.w	r4, [r5, #0x6]
+2000018e: f995 1005    	ldrsb.w	r1, [r5, #0x5]
+20000192: f116 0f41    	cmn.w	r6, #0x41
+20000196: f995 5004    	ldrsb.w	r5, [r5, #0x4]
+2000019a: bfc8         	it	gt
+2000019c: 3001         	addgt	r0, #0x1
+2000019e: f115 0f41    	cmn.w	r5, #0x41
+200001a2: bfc8         	it	gt
+200001a4: 3001         	addgt	r0, #0x1
+200001a6: f111 0f41    	cmn.w	r1, #0x41
+200001aa: bfc8         	it	gt
+200001ac: 3001         	addgt	r0, #0x1
+200001ae: f114 0f41    	cmn.w	r4, #0x41
+200001b2: eb03 0102    	add.w	r1, r3, r2
+200001b6: bfc8         	it	gt
+200001b8: 3001         	addgt	r0, #0x1
+200001ba: 3104         	adds	r1, #0x4
+200001bc: d1e0         	bne	0x20000180 <<core::fmt::Formatter>::pad_integral+0x60> @ imm = #-0x40
+200001be: f1bc 0f00    	cmp.w	r12, #0x0
+200001c2: d054         	beq	0x2000026e <<core::fmt::Formatter>::pad_integral+0x14e> @ imm = #0xa8
+200001c4: 1d11         	adds	r1, r2, #0x4
+200001c6: 9d05         	ldr	r5, [sp, #0x14]
+200001c8: e9dd 3203    	ldrd	r3, r2, [sp, #12]
+200001cc: 4644         	mov	r4, r8
+200001ce: e035         	b	0x2000023c <<core::fmt::Formatter>::pad_integral+0x11c> @ imm = #0x6a
+200001d0: f8da b008    	ldr.w	r11, [r10, #0x8]
+200001d4: f105 0901    	add.w	r9, r5, #0x1
+200001d8: 222d         	movs	r2, #0x2d
+200001da: 68b8         	ldr	r0, [r7, #0x8]
+200001dc: 9006         	str	r0, [sp, #0x18]
+200001de: ea5f 200b    	lsls.w	r0, r11, #0x8
+200001e2: d4b6         	bmi	0x20000152 <<core::fmt::Formatter>::pad_integral+0x32> @ imm = #-0x94
+200001e4: 2400         	movs	r4, #0x0
+200001e6: f8ba 800c    	ldrh.w	r8, [r10, #0xc]
+200001ea: 45c1         	cmp	r9, r8
+200001ec: d348         	blo	0x20000280 <<core::fmt::Formatter>::pad_integral+0x160> @ imm = #0x90
+200001ee: 46a8         	mov	r8, r5
+200001f0: e9da 5600    	ldrd	r5, r6, [r10]
+200001f4: 9300         	str	r3, [sp]
+200001f6: 4631         	mov	r1, r6
+200001f8: 4623         	mov	r3, r4
+200001fa: 4628         	mov	r0, r5
+200001fc: f000 fbe0    	bl	0x200009c0 <<core::fmt::Formatter>::pad_integral::write_prefix> @ imm = #0x7c0
+20000200: b178         	cbz	r0, 0x20000222 <<core::fmt::Formatter>::pad_integral+0x102> @ imm = #0x1e
+20000202: 2001         	movs	r0, #0x1
+20000204: b007         	add	sp, #0x1c
+20000206: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+2000020a: bdf0         	pop	{r4, r5, r6, r7, pc}
+2000020c: 4620         	mov	r0, r4
+2000020e: 4619         	mov	r1, r3
+20000210: 46a8         	mov	r8, r5
+20000212: 461d         	mov	r5, r3
+20000214: 4616         	mov	r6, r2
+20000216: f000 f956    	bl	0x200004c6 <core::str::count::do_count_chars> @ imm = #0x2ac
+2000021a: 462b         	mov	r3, r5
+2000021c: 4632         	mov	r2, r6
+2000021e: 4645         	mov	r5, r8
+20000220: e029         	b	0x20000276 <<core::fmt::Formatter>::pad_integral+0x156> @ imm = #0x52
+20000222: 68f3         	ldr	r3, [r6, #0xc]
+20000224: 4628         	mov	r0, r5
+20000226: 9906         	ldr	r1, [sp, #0x18]
+20000228: 4642         	mov	r2, r8
+2000022a: b007         	add	sp, #0x1c
+2000022c: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+20000230: e8bd 40f0    	pop.w	{r4, r5, r6, r7, lr}
+20000234: 4718         	bx	r3
+20000236: 2000         	movs	r0, #0x0
+20000238: e01d         	b	0x20000276 <<core::fmt::Formatter>::pad_integral+0x156> @ imm = #0x3a
+2000023a: 2000         	movs	r0, #0x0
+2000023c: 5666         	ldrsb	r6, [r4, r1]
+2000023e: f116 0f41    	cmn.w	r6, #0x41
+20000242: bfc8         	it	gt
+20000244: 3001         	addgt	r0, #0x1
+20000246: f1bc 0f01    	cmp.w	r12, #0x1
+2000024a: d014         	beq	0x20000276 <<core::fmt::Formatter>::pad_integral+0x156> @ imm = #0x28
+2000024c: 4421         	add	r1, r4
+2000024e: f991 6001    	ldrsb.w	r6, [r1, #0x1]
+20000252: f116 0f41    	cmn.w	r6, #0x41
+20000256: bfc8         	it	gt
+20000258: 3001         	addgt	r0, #0x1
+2000025a: f1bc 0f02    	cmp.w	r12, #0x2
+2000025e: d00a         	beq	0x20000276 <<core::fmt::Formatter>::pad_integral+0x156> @ imm = #0x14
+20000260: f991 1002    	ldrsb.w	r1, [r1, #0x2]
+20000264: f111 0f41    	cmn.w	r1, #0x41
+20000268: bfc8         	it	gt
+2000026a: 3001         	addgt	r0, #0x1
+2000026c: e003         	b	0x20000276 <<core::fmt::Formatter>::pad_integral+0x156> @ imm = #0x6
+2000026e: 9d05         	ldr	r5, [sp, #0x14]
+20000270: 4644         	mov	r4, r8
+20000272: e9dd 3203    	ldrd	r3, r2, [sp, #12]
+20000276: 4481         	add	r9, r0
+20000278: f8ba 800c    	ldrh.w	r8, [r10, #0xc]
+2000027c: 45c1         	cmp	r9, r8
+2000027e: d2b6         	bhs	0x200001ee <<core::fmt::Formatter>::pad_integral+0xce> @ imm = #-0x94
+20000280: ea5f 10cb    	lsls.w	r0, r11, #0x7
+20000284: d425         	bmi	0x200002d2 <<core::fmt::Formatter>::pad_integral+0x1b2> @ imm = #0x4a
+20000286: f3cb 7041    	ubfx	r0, r11, #0x1d, #0x2
+2000028a: 9505         	str	r5, [sp, #0x14]
+2000028c: 9204         	str	r2, [sp, #0x10]
+2000028e: eba8 0509    	sub.w	r5, r8, r9
+20000292: 9403         	str	r4, [sp, #0xc]
+20000294: f36f 5b5f    	bfc	r11, #21, #11
+20000298: f04f 0900    	mov.w	r9, #0x0
+2000029c: 461e         	mov	r6, r3
+2000029e: e8df f000    	tbb	[pc, r0]
+200002a2: 03 02 52 02  	.word	0x02520203
+200002a6: 46a9         	mov	r9, r5
+200002a8: 9502         	str	r5, [sp, #0x8]
+200002aa: ea5f 4009    	lsls.w	r0, r9, #0x10
+200002ae: e9da 5a00    	ldrd	r5, r10, [r10]
+200002b2: d051         	beq	0x20000358 <<core::fmt::Formatter>::pad_integral+0x238> @ imm = #0xa2
+200002b4: f8da 8010    	ldr.w	r8, [r10, #0x10]
+200002b8: 2400         	movs	r4, #0x0
+200002ba: 4628         	mov	r0, r5
+200002bc: 4659         	mov	r1, r11
+200002be: 47c0         	blx	r8
+200002c0: 2800         	cmp	r0, #0x0
+200002c2: d158         	bne	0x20000376 <<core::fmt::Formatter>::pad_integral+0x256> @ imm = #0xb0
+200002c4: 3401         	adds	r4, #0x1
+200002c6: fa1f f089    	uxth.w	r0, r9
+200002ca: b2a1         	uxth	r1, r4
+200002cc: 4281         	cmp	r1, r0
+200002ce: d3f4         	blo	0x200002ba <<core::fmt::Formatter>::pad_integral+0x19a> @ imm = #-0x18
+200002d0: e042         	b	0x20000358 <<core::fmt::Formatter>::pad_integral+0x238> @ imm = #0x84
+200002d2: e9da 6002    	ldrd	r6, r0, [r10, #8]
+200002d6: e9da b100    	ldrd	r11, r1, [r10]
+200002da: 9003         	str	r0, [sp, #0xc]
+200002dc: 2000         	movs	r0, #0x0
+200002de: f6c9 70e0    	movt	r0, #0x9fe0
+200002e2: 4030         	ands	r0, r6
+200002e4: f040 5000    	orr	r0, r0, #0x20000000
+200002e8: f040 0030    	orr	r0, r0, #0x30
+200002ec: f8ca 0008    	str.w	r0, [r10, #0x8]
+200002f0: 9300         	str	r3, [sp]
+200002f2: 4658         	mov	r0, r11
+200002f4: 4623         	mov	r3, r4
+200002f6: 9104         	str	r1, [sp, #0x10]
+200002f8: f000 fb62    	bl	0x200009c0 <<core::fmt::Formatter>::pad_integral::write_prefix> @ imm = #0x6c4
+200002fc: bbd8         	cbnz	r0, 0x20000376 <<core::fmt::Formatter>::pad_integral+0x256> @ imm = #0x76
+200002fe: 9602         	str	r6, [sp, #0x8]
+20000300: fa1f f089    	uxth.w	r0, r9
+20000304: 4580         	cmp	r8, r0
+20000306: 9505         	str	r5, [sp, #0x14]
+20000308: d00d         	beq	0x20000326 <<core::fmt::Formatter>::pad_integral+0x206> @ imm = #0x1a
+2000030a: 9904         	ldr	r1, [sp, #0x10]
+2000030c: eba8 0009    	sub.w	r0, r8, r9
+20000310: 2500         	movs	r5, #0x0
+20000312: b286         	uxth	r6, r0
+20000314: 690c         	ldr	r4, [r1, #0x10]
+20000316: 4658         	mov	r0, r11
+20000318: 2130         	movs	r1, #0x30
+2000031a: 47a0         	blx	r4
+2000031c: bb58         	cbnz	r0, 0x20000376 <<core::fmt::Formatter>::pad_integral+0x256> @ imm = #0x56
+2000031e: 3501         	adds	r5, #0x1
+20000320: b2a8         	uxth	r0, r5
+20000322: 42b0         	cmp	r0, r6
+20000324: d3f7         	blo	0x20000316 <<core::fmt::Formatter>::pad_integral+0x1f6> @ imm = #-0x12
+20000326: 9804         	ldr	r0, [sp, #0x10]
+20000328: e9dd 2105    	ldrd	r2, r1, [sp, #20]
+2000032c: 68c3         	ldr	r3, [r0, #0xc]
+2000032e: 4658         	mov	r0, r11
+20000330: 4798         	blx	r3
+20000332: bb00         	cbnz	r0, 0x20000376 <<core::fmt::Formatter>::pad_integral+0x256> @ imm = #0x40
+20000334: e9dd 0102    	ldrd	r0, r1, [sp, #8]
+20000338: e9ca 0102    	strd	r0, r1, [r10, #8]
+2000033c: 2000         	movs	r0, #0x0
+2000033e: b007         	add	sp, #0x1c
+20000340: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+20000344: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000346: b2a8         	uxth	r0, r5
+20000348: ea4f 0950    	lsr.w	r9, r0, #0x1
+2000034c: 9502         	str	r5, [sp, #0x8]
+2000034e: ea5f 4009    	lsls.w	r0, r9, #0x10
+20000352: e9da 5a00    	ldrd	r5, r10, [r10]
+20000356: d1ad         	bne	0x200002b4 <<core::fmt::Formatter>::pad_integral+0x194> @ imm = #-0xa6
+20000358: 9600         	str	r6, [sp]
+2000035a: 4628         	mov	r0, r5
+2000035c: e9dd 3203    	ldrd	r3, r2, [sp, #12]
+20000360: 4651         	mov	r1, r10
+20000362: f000 fb2d    	bl	0x200009c0 <<core::fmt::Formatter>::pad_integral::write_prefix> @ imm = #0x65a
+20000366: b930         	cbnz	r0, 0x20000376 <<core::fmt::Formatter>::pad_integral+0x256> @ imm = #0xc
+20000368: e9dd 2105    	ldrd	r2, r1, [sp, #20]
+2000036c: 4628         	mov	r0, r5
+2000036e: f8da 300c    	ldr.w	r3, [r10, #0xc]
+20000372: 4798         	blx	r3
+20000374: b120         	cbz	r0, 0x20000380 <<core::fmt::Formatter>::pad_integral+0x260> @ imm = #0x8
+20000376: 2001         	movs	r0, #0x1
+20000378: b007         	add	sp, #0x1c
+2000037a: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+2000037e: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000380: 9a02         	ldr	r2, [sp, #0x8]
+20000382: fa1f f089    	uxth.w	r0, r9
+20000386: b291         	uxth	r1, r2
+20000388: 4281         	cmp	r1, r0
+2000038a: d104         	bne	0x20000396 <<core::fmt::Formatter>::pad_integral+0x276> @ imm = #0x8
+2000038c: 2000         	movs	r0, #0x0
+2000038e: b007         	add	sp, #0x1c
+20000390: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+20000394: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000396: eba2 0009    	sub.w	r0, r2, r9
+2000039a: f8da 8010    	ldr.w	r8, [r10, #0x10]
+2000039e: 2400         	movs	r4, #0x0
+200003a0: fa1f f980    	uxth.w	r9, r0
+200003a4: 4628         	mov	r0, r5
+200003a6: 4659         	mov	r1, r11
+200003a8: 47c0         	blx	r8
+200003aa: 2800         	cmp	r0, #0x0
+200003ac: f47f af2a    	bne.w	0x20000204 <<core::fmt::Formatter>::pad_integral+0xe4> @ imm = #-0x1ac
+200003b0: 3401         	adds	r4, #0x1
+200003b2: b2a1         	uxth	r1, r4
+200003b4: 4549         	cmp	r1, r9
+200003b6: d3f5         	blo	0x200003a4 <<core::fmt::Formatter>::pad_integral+0x284> @ imm = #-0x16
+200003b8: e724         	b	0x20000204 <<core::fmt::Formatter>::pad_integral+0xe4> @ imm = #-0x1b8
+
+200003ba <core::fmt::write>:
+200003ba: b5f0         	push	{r4, r5, r6, r7, lr}
+200003bc: af03         	add	r7, sp, #0xc
+200003be: e92d 0f00    	push.w	{r8, r9, r10, r11}
+200003c2: b085         	sub	sp, #0x14
+200003c4: 4606         	mov	r6, r0
+200003c6: 469b         	mov	r11, r3
+200003c8: 468a         	mov	r10, r1
+200003ca: 07d8         	lsls	r0, r3, #0x1f
+200003cc: d164         	bne	0x20000498 <core::fmt::write+0xde> @ imm = #0xc8
+200003ce: 7815         	ldrb	r5, [r2]
+200003d0: 2000         	movs	r0, #0x0
+200003d2: 2d00         	cmp	r5, #0x0
+200003d4: d06e         	beq	0x200004b4 <core::fmt::write+0xfa> @ imm = #0xdc
+200003d6: f8da 900c    	ldr.w	r9, [r10, #0xc]
+200003da: f04f 0800    	mov.w	r8, #0x0
+200003de: e002         	b	0x200003e6 <core::fmt::write+0x2c> @ imm = #0x4
+200003e0: 7815         	ldrb	r5, [r2]
+200003e2: 2d00         	cmp	r5, #0x0
+200003e4: d06a         	beq	0x200004bc <core::fmt::write+0x102> @ imm = #0xd4
+200003e6: 1c54         	adds	r4, r2, #0x1
+200003e8: b268         	sxtb	r0, r5
+200003ea: f1b0 3fff    	cmp.w	r0, #0xffffffff
+200003ee: dd07         	ble	0x20000400 <core::fmt::write+0x46> @ imm = #0xe
+200003f0: 4630         	mov	r0, r6
+200003f2: 4621         	mov	r1, r4
+200003f4: 462a         	mov	r2, r5
+200003f6: 47c8         	blx	r9
+200003f8: 2800         	cmp	r0, #0x0
+200003fa: d15a         	bne	0x200004b2 <core::fmt::write+0xf8> @ imm = #0xb4
+200003fc: 1962         	adds	r2, r4, r5
+200003fe: e7ef         	b	0x200003e0 <core::fmt::write+0x26> @ imm = #-0x22
+20000400: 2d80         	cmp	r5, #0x80
+20000402: d009         	beq	0x20000418 <core::fmt::write+0x5e> @ imm = #0x12
+20000404: 2dc0         	cmp	r5, #0xc0
+20000406: d112         	bne	0x2000042e <core::fmt::write+0x74> @ imm = #0x24
+20000408: f85b 0038    	ldr.w	r0, [r11, r8, lsl #3]
+2000040c: 2100         	movs	r1, #0x0
+2000040e: 9104         	str	r1, [sp, #0x10]
+20000410: 2120         	movs	r1, #0x20
+20000412: f2c6 0100    	movt	r1, #0x6000
+20000416: e031         	b	0x2000047c <core::fmt::write+0xc2> @ imm = #0x62
+20000418: f8b2 4001    	ldrh.w	r4, [r2, #0x1]
+2000041c: 1cd5         	adds	r5, r2, #0x3
+2000041e: 4630         	mov	r0, r6
+20000420: 4629         	mov	r1, r5
+20000422: 4622         	mov	r2, r4
+20000424: 47c8         	blx	r9
+20000426: 2800         	cmp	r0, #0x0
+20000428: d143         	bne	0x200004b2 <core::fmt::write+0xf8> @ imm = #0x86
+2000042a: 192a         	adds	r2, r5, r4
+2000042c: e7d8         	b	0x200003e0 <core::fmt::write+0x26> @ imm = #-0x50
+2000042e: 07e8         	lsls	r0, r5, #0x1f
+20000430: d103         	bne	0x2000043a <core::fmt::write+0x80> @ imm = #0x6
+20000432: 2120         	movs	r1, #0x20
+20000434: f2c6 0100    	movt	r1, #0x6000
+20000438: e002         	b	0x20000440 <core::fmt::write+0x86> @ imm = #0x4
+2000043a: f8d2 1001    	ldr.w	r1, [r2, #0x1]
+2000043e: 1d54         	adds	r4, r2, #0x5
+20000440: 07a8         	lsls	r0, r5, #0x1e
+20000442: bf4c         	ite	mi
+20000444: f834 2b02    	ldrhmi	r2, [r4], #2
+20000448: 2200         	movpl	r2, #0x0
+2000044a: 0768         	lsls	r0, r5, #0x1d
+2000044c: bf4c         	ite	mi
+2000044e: f834 3b02    	ldrhmi	r3, [r4], #2
+20000452: 2300         	movpl	r3, #0x0
+20000454: 0728         	lsls	r0, r5, #0x1c
+20000456: bf48         	it	mi
+20000458: f834 8b02    	ldrhmi	r8, [r4], #2
+2000045c: 06e8         	lsls	r0, r5, #0x1b
+2000045e: bf44         	itt	mi
+20000460: eb0b 00c2    	addmi.w	r0, r11, r2, lsl #3
+20000464: 8882         	ldrhmi	r2, [r0, #0x4]
+20000466: 06a8         	lsls	r0, r5, #0x1a
+20000468: bf44         	itt	mi
+2000046a: eb0b 00c3    	addmi.w	r0, r11, r3, lsl #3
+2000046e: 8883         	ldrhmi	r3, [r0, #0x4]
+20000470: f85b 0038    	ldr.w	r0, [r11, r8, lsl #3]
+20000474: f8ad 3012    	strh.w	r3, [sp, #0x12]
+20000478: f8ad 2010    	strh.w	r2, [sp, #0x10]
+2000047c: 9103         	str	r1, [sp, #0xc]
+2000047e: eb0b 01c8    	add.w	r1, r11, r8, lsl #3
+20000482: f8cd a008    	str.w	r10, [sp, #0x8]
+20000486: 684a         	ldr	r2, [r1, #0x4]
+20000488: a901         	add	r1, sp, #0x4
+2000048a: 9601         	str	r6, [sp, #0x4]
+2000048c: 4790         	blx	r2
+2000048e: b980         	cbnz	r0, 0x200004b2 <core::fmt::write+0xf8> @ imm = #0x20
+20000490: f108 0801    	add.w	r8, r8, #0x1
+20000494: 4622         	mov	r2, r4
+20000496: e7a3         	b	0x200003e0 <core::fmt::write+0x26> @ imm = #-0xba
+20000498: ea4f 035b    	lsr.w	r3, r11, #0x1
+2000049c: 4611         	mov	r1, r2
+2000049e: f8da c00c    	ldr.w	r12, [r10, #0xc]
+200004a2: 4630         	mov	r0, r6
+200004a4: 461a         	mov	r2, r3
+200004a6: b005         	add	sp, #0x14
+200004a8: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+200004ac: e8bd 40f0    	pop.w	{r4, r5, r6, r7, lr}
+200004b0: 4760         	bx	r12
+200004b2: 2001         	movs	r0, #0x1
+200004b4: b005         	add	sp, #0x14
+200004b6: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+200004ba: bdf0         	pop	{r4, r5, r6, r7, pc}
+200004bc: 2000         	movs	r0, #0x0
+200004be: b005         	add	sp, #0x14
+200004c0: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+200004c4: bdf0         	pop	{r4, r5, r6, r7, pc}
+
+200004c6 <core::str::count::do_count_chars>:
+200004c6: b5f0         	push	{r4, r5, r6, r7, lr}
+200004c8: af03         	add	r7, sp, #0xc
+200004ca: e92d 0f00    	push.w	{r8, r9, r10, r11}
+200004ce: b083         	sub	sp, #0xc
+200004d0: 4681         	mov	r9, r0
+200004d2: 3003         	adds	r0, #0x3
+200004d4: f020 0003    	bic	r0, r0, #0x3
+200004d8: eba0 0309    	sub.w	r3, r0, r9
+200004dc: 4299         	cmp	r1, r3
+200004de: d233         	bhs	0x20000548 <core::str::count::do_count_chars+0x82> @ imm = #0x66
+200004e0: 2900         	cmp	r1, #0x0
+200004e2: d044         	beq	0x2000056e <core::str::count::do_count_chars+0xa8> @ imm = #0x88
+200004e4: f001 0c03    	and	r12, r1, #0x3
+200004e8: 0888         	lsrs	r0, r1, #0x2
+200004ea: f04f 0100    	mov.w	r1, #0x0
+200004ee: f000 8247    	beq.w	0x20000980 <core::str::count::do_count_chars+0x4ba> @ imm = #0x48e
+200004f2: eba1 0680    	sub.w	r6, r1, r0, lsl #2
+200004f6: f109 0e01    	add.w	lr, r9, #0x1
+200004fa: f06f 0103    	mvn	r1, #0x3
+200004fe: 2000         	movs	r0, #0x0
+20000500: eb0e 0201    	add.w	r2, lr, r1
+20000504: 3104         	adds	r1, #0x4
+20000506: f992 3003    	ldrsb.w	r3, [r2, #0x3]
+2000050a: f992 4006    	ldrsb.w	r4, [r2, #0x6]
+2000050e: f992 5005    	ldrsb.w	r5, [r2, #0x5]
+20000512: f113 0f41    	cmn.w	r3, #0x41
+20000516: f992 2004    	ldrsb.w	r2, [r2, #0x4]
+2000051a: bfc8         	it	gt
+2000051c: 3001         	addgt	r0, #0x1
+2000051e: f112 0f41    	cmn.w	r2, #0x41
+20000522: bfc8         	it	gt
+20000524: 3001         	addgt	r0, #0x1
+20000526: f115 0f41    	cmn.w	r5, #0x41
+2000052a: bfc8         	it	gt
+2000052c: 3001         	addgt	r0, #0x1
+2000052e: f114 0f41    	cmn.w	r4, #0x41
+20000532: eb06 0201    	add.w	r2, r6, r1
+20000536: bfc8         	it	gt
+20000538: 3001         	addgt	r0, #0x1
+2000053a: 3204         	adds	r2, #0x4
+2000053c: d1e0         	bne	0x20000500 <core::str::count::do_count_chars+0x3a> @ imm = #-0x40
+2000053e: f1bc 0f00    	cmp.w	r12, #0x0
+20000542: d015         	beq	0x20000570 <core::str::count::do_count_chars+0xaa> @ imm = #0x2a
+20000544: 3104         	adds	r1, #0x4
+20000546: e21c         	b	0x20000982 <core::str::count::do_count_chars+0x4bc> @ imm = #0x438
+20000548: eba1 0803    	sub.w	r8, r1, r3
+2000054c: ea5f 0b98    	lsrs.w	r11, r8, #0x2
+20000550: d0c6         	beq	0x200004e0 <core::str::count::do_count_chars+0x1a> @ imm = #-0x74
+20000552: f008 0e03    	and	lr, r8, #0x3
+20000556: 4548         	cmp	r0, r9
+20000558: d101         	bne	0x2000055e <core::str::count::do_count_chars+0x98> @ imm = #0x2
+2000055a: 2000         	movs	r0, #0x0
+2000055c: e049         	b	0x200005f2 <core::str::count::do_count_chars+0x12c> @ imm = #0x92
+2000055e: eba9 0000    	sub.w	r0, r9, r0
+20000562: f110 0f04    	cmn.w	r0, #0x4
+20000566: d907         	bls	0x20000578 <core::str::count::do_count_chars+0xb2> @ imm = #0xe
+20000568: 2600         	movs	r6, #0x0
+2000056a: 2000         	movs	r0, #0x0
+2000056c: e029         	b	0x200005c2 <core::str::count::do_count_chars+0xfc> @ imm = #0x52
+2000056e: 2000         	movs	r0, #0x0
+20000570: b003         	add	sp, #0xc
+20000572: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+20000576: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000578: f109 0c01    	add.w	r12, r9, #0x1
+2000057c: 2000         	movs	r0, #0x0
+2000057e: f06f 0103    	mvn	r1, #0x3
+20000582: eb0c 0601    	add.w	r6, r12, r1
+20000586: f996 5003    	ldrsb.w	r5, [r6, #0x3]
+2000058a: f996 2006    	ldrsb.w	r2, [r6, #0x6]
+2000058e: f996 4005    	ldrsb.w	r4, [r6, #0x5]
+20000592: f115 0f41    	cmn.w	r5, #0x41
+20000596: f996 6004    	ldrsb.w	r6, [r6, #0x4]
+2000059a: bfc8         	it	gt
+2000059c: 3001         	addgt	r0, #0x1
+2000059e: f116 0f41    	cmn.w	r6, #0x41
+200005a2: bfc8         	it	gt
+200005a4: 3001         	addgt	r0, #0x1
+200005a6: f114 0f41    	cmn.w	r4, #0x41
+200005aa: bfc8         	it	gt
+200005ac: 3001         	addgt	r0, #0x1
+200005ae: f112 0f41    	cmn.w	r2, #0x41
+200005b2: f101 0204    	add.w	r2, r1, #0x4
+200005b6: bfc8         	it	gt
+200005b8: 3001         	addgt	r0, #0x1
+200005ba: f111 0608    	adds.w	r6, r1, #0x8
+200005be: 4611         	mov	r1, r2
+200005c0: d1df         	bne	0x20000582 <core::str::count::do_count_chars+0xbc> @ imm = #-0x42
+200005c2: f919 1006    	ldrsb.w	r1, [r9, r6]
+200005c6: f111 0f41    	cmn.w	r1, #0x41
+200005ca: bfc8         	it	gt
+200005cc: 3001         	addgt	r0, #0x1
+200005ce: 2b01         	cmp	r3, #0x1
+200005d0: d00f         	beq	0x200005f2 <core::str::count::do_count_chars+0x12c> @ imm = #0x1e
+200005d2: eb09 0106    	add.w	r1, r9, r6
+200005d6: f991 2001    	ldrsb.w	r2, [r1, #0x1]
+200005da: f112 0f41    	cmn.w	r2, #0x41
+200005de: bfc8         	it	gt
+200005e0: 3001         	addgt	r0, #0x1
+200005e2: 2b02         	cmp	r3, #0x2
+200005e4: d005         	beq	0x200005f2 <core::str::count::do_count_chars+0x12c> @ imm = #0xa
+200005e6: f991 1002    	ldrsb.w	r1, [r1, #0x2]
+200005ea: f111 0f41    	cmn.w	r1, #0x41
+200005ee: bfc8         	it	gt
+200005f0: 3001         	addgt	r0, #0x1
+200005f2: f64f 71fc    	movw	r1, #0xfffc
+200005f6: eb09 0203    	add.w	r2, r9, r3
+200005fa: f6c1 71ff    	movt	r1, #0x1fff
+200005fe: 2500         	movs	r5, #0x0
+20000600: f1be 0f00    	cmp.w	lr, #0x0
+20000604: d01c         	beq	0x20000640 <core::str::count::do_count_chars+0x17a> @ imm = #0x38
+20000606: f101 41c0    	add.w	r1, r1, #0x60000000
+2000060a: ea01 0108    	and.w	r1, r1, r8
+2000060e: 4411         	add	r1, r2
+20000610: f991 4000    	ldrsb.w	r4, [r1]
+20000614: f114 0f41    	cmn.w	r4, #0x41
+20000618: bfc8         	it	gt
+2000061a: 2501         	movgt	r5, #0x1
+2000061c: f1be 0f01    	cmp.w	lr, #0x1
+20000620: d00e         	beq	0x20000640 <core::str::count::do_count_chars+0x17a> @ imm = #0x1c
+20000622: f991 4001    	ldrsb.w	r4, [r1, #0x1]
+20000626: f114 0f41    	cmn.w	r4, #0x41
+2000062a: bfc8         	it	gt
+2000062c: 3501         	addgt	r5, #0x1
+2000062e: f1be 0f02    	cmp.w	lr, #0x2
+20000632: d005         	beq	0x20000640 <core::str::count::do_count_chars+0x17a> @ imm = #0xa
+20000634: f991 1002    	ldrsb.w	r1, [r1, #0x2]
+20000638: f111 0f41    	cmn.w	r1, #0x41
+2000063c: bfc8         	it	gt
+2000063e: 3501         	addgt	r5, #0x1
+20000640: 4428         	add	r0, r5
+20000642: f04f 18ff    	mov.w	r8, #0xff00ff
+20000646: e011         	b	0x2000066c <core::str::count::do_count_chars+0x1a6> @ imm = #0x22
+20000648: 2600         	movs	r6, #0x0
+2000064a: ea08 2316    	and.w	r3, r8, r6, lsr #8
+2000064e: f026 26ff    	bic	r6, r6, #0xff00ff00
+20000652: 4433         	add	r3, r6
+20000654: ebab 0b0a    	sub.w	r11, r11, r10
+20000658: eb0e 028a    	add.w	r2, lr, r10, lsl #2
+2000065c: f01a 0103    	ands	r1, r10, #0x3
+20000660: eb03 4303    	add.w	r3, r3, r3, lsl #16
+20000664: eb00 4013    	add.w	r0, r0, r3, lsr #16
+20000668: f040 8156    	bne.w	0x20000918 <core::str::count::do_count_chars+0x452> @ imm = #0x2ac
+2000066c: f1bb 0f00    	cmp.w	r11, #0x0
+20000670: f43f af7e    	beq.w	0x20000570 <core::str::count::do_count_chars+0xaa> @ imm = #-0x104
+20000674: 4696         	mov	lr, r2
+20000676: f1bb 0fc0    	cmp.w	r11, #0xc0
+2000067a: 46da         	mov	r10, r11
+2000067c: bf28         	it	hs
+2000067e: f04f 0ac0    	movhs.w	r10, #0xc0
+20000682: f1bb 0f04    	cmp.w	r11, #0x4
+20000686: d3df         	blo	0x20000648 <core::str::count::do_count_chars+0x182> @ imm = #-0x42
+20000688: f06f 010f    	mvn	r1, #0xf
+2000068c: eb01 028a    	add.w	r2, r1, r10, lsl #2
+20000690: 2101         	movs	r1, #0x1
+20000692: 2a30         	cmp	r2, #0x30
+20000694: eb01 1112    	add.w	r1, r1, r2, lsr #4
+20000698: f001 0903    	and	r9, r1, #0x3
+2000069c: d202         	bhs	0x200006a4 <core::str::count::do_count_chars+0x1de> @ imm = #0x4
+2000069e: 2600         	movs	r6, #0x0
+200006a0: 4672         	mov	r2, lr
+200006a2: e0c0         	b	0x20000826 <core::str::count::do_count_chars+0x360> @ imm = #0x180
+200006a4: f64f 72fc    	movw	r2, #0xfffc
+200006a8: f8cd b008    	str.w	r11, [sp, #0x8]
+200006ac: f6c1 72ff    	movt	r2, #0x1fff
+200006b0: ea01 0b02    	and.w	r11, r1, r2
+200006b4: 2600         	movs	r6, #0x0
+200006b6: 4672         	mov	r2, lr
+200006b8: f8cd 9000    	str.w	r9, [sp]
+200006bc: f8cd e004    	str.w	lr, [sp, #0x4]
+200006c0: e892 5010    	ldm.w	r2, {r4, r12, lr}
+200006c4: f1bb 0b04    	subs.w	r11, r11, #0x4
+200006c8: f8d2 800c    	ldr.w	r8, [r2, #0xc]
+200006cc: ea6f 0904    	mvn.w	r9, r4
+200006d0: 6991         	ldr	r1, [r2, #0x18]
+200006d2: ea4f 13d9    	lsr.w	r3, r9, #0x7
+200006d6: f8d2 9038    	ldr.w	r9, [r2, #0x38]
+200006da: ea43 1394    	orr.w	r3, r3, r4, lsr #6
+200006de: ea6f 040c    	mvn.w	r4, r12
+200006e2: f023 33fe    	bic	r3, r3, #0xfefefefe
+200006e6: ea4f 14d4    	lsr.w	r4, r4, #0x7
+200006ea: 4433         	add	r3, r6
+200006ec: ea44 169c    	orr.w	r6, r4, r12, lsr #6
+200006f0: f026 34fe    	bic	r4, r6, #0xfefefefe
+200006f4: 6916         	ldr	r6, [r2, #0x10]
+200006f6: 4423         	add	r3, r4
+200006f8: ea6f 040e    	mvn.w	r4, lr
+200006fc: ea4f 15d4    	lsr.w	r5, r4, #0x7
+20000700: 6954         	ldr	r4, [r2, #0x14]
+20000702: ea45 159e    	orr.w	r5, r5, lr, lsr #6
+20000706: f8d2 c03c    	ldr.w	r12, [r2, #0x3c]
+2000070a: f025 35fe    	bic	r5, r5, #0xfefefefe
+2000070e: 442b         	add	r3, r5
+20000710: ea6f 0508    	mvn.w	r5, r8
+20000714: ea4f 15d5    	lsr.w	r5, r5, #0x7
+20000718: ea45 1598    	orr.w	r5, r5, r8, lsr #6
+2000071c: f025 35fe    	bic	r5, r5, #0xfefefefe
+20000720: 442b         	add	r3, r5
+20000722: ea6f 0506    	mvn.w	r5, r6
+20000726: ea4f 15d5    	lsr.w	r5, r5, #0x7
+2000072a: ea45 1696    	orr.w	r6, r5, r6, lsr #6
+2000072e: f026 36fe    	bic	r6, r6, #0xfefefefe
+20000732: 69d5         	ldr	r5, [r2, #0x1c]
+20000734: 4433         	add	r3, r6
+20000736: ea6f 0604    	mvn.w	r6, r4
+2000073a: ea4f 16d6    	lsr.w	r6, r6, #0x7
+2000073e: ea46 1694    	orr.w	r6, r6, r4, lsr #6
+20000742: 6a14         	ldr	r4, [r2, #0x20]
+20000744: f026 36fe    	bic	r6, r6, #0xfefefefe
+20000748: 4433         	add	r3, r6
+2000074a: ea6f 0601    	mvn.w	r6, r1
+2000074e: ea4f 16d6    	lsr.w	r6, r6, #0x7
+20000752: ea46 1191    	orr.w	r1, r6, r1, lsr #6
+20000756: f021 31fe    	bic	r1, r1, #0xfefefefe
+2000075a: 6a56         	ldr	r6, [r2, #0x24]
+2000075c: 4419         	add	r1, r3
+2000075e: ea6f 0305    	mvn.w	r3, r5
+20000762: ea4f 13d3    	lsr.w	r3, r3, #0x7
+20000766: ea43 1395    	orr.w	r3, r3, r5, lsr #6
+2000076a: 6a95         	ldr	r5, [r2, #0x28]
+2000076c: f023 33fe    	bic	r3, r3, #0xfefefefe
+20000770: 4419         	add	r1, r3
+20000772: ea6f 0304    	mvn.w	r3, r4
+20000776: ea4f 13d3    	lsr.w	r3, r3, #0x7
+2000077a: ea43 1394    	orr.w	r3, r3, r4, lsr #6
+2000077e: 6ad4         	ldr	r4, [r2, #0x2c]
+20000780: f023 33fe    	bic	r3, r3, #0xfefefefe
+20000784: 4419         	add	r1, r3
+20000786: ea6f 0306    	mvn.w	r3, r6
+2000078a: ea4f 13d3    	lsr.w	r3, r3, #0x7
+2000078e: ea43 1396    	orr.w	r3, r3, r6, lsr #6
+20000792: 6b16         	ldr	r6, [r2, #0x30]
+20000794: f023 33fe    	bic	r3, r3, #0xfefefefe
+20000798: 4419         	add	r1, r3
+2000079a: ea6f 0305    	mvn.w	r3, r5
+2000079e: ea4f 13d3    	lsr.w	r3, r3, #0x7
+200007a2: ea43 1395    	orr.w	r3, r3, r5, lsr #6
+200007a6: 6b55         	ldr	r5, [r2, #0x34]
+200007a8: f023 33fe    	bic	r3, r3, #0xfefefefe
+200007ac: f102 0240    	add.w	r2, r2, #0x40
+200007b0: 4419         	add	r1, r3
+200007b2: ea6f 0304    	mvn.w	r3, r4
+200007b6: ea4f 13d3    	lsr.w	r3, r3, #0x7
+200007ba: ea43 1394    	orr.w	r3, r3, r4, lsr #6
+200007be: f023 33fe    	bic	r3, r3, #0xfefefefe
+200007c2: 4419         	add	r1, r3
+200007c4: ea6f 0306    	mvn.w	r3, r6
+200007c8: ea4f 13d3    	lsr.w	r3, r3, #0x7
+200007cc: ea43 1396    	orr.w	r3, r3, r6, lsr #6
+200007d0: f023 33fe    	bic	r3, r3, #0xfefefefe
+200007d4: 4419         	add	r1, r3
+200007d6: ea6f 0305    	mvn.w	r3, r5
+200007da: ea4f 13d3    	lsr.w	r3, r3, #0x7
+200007de: ea43 1395    	orr.w	r3, r3, r5, lsr #6
+200007e2: f023 33fe    	bic	r3, r3, #0xfefefefe
+200007e6: 4419         	add	r1, r3
+200007e8: ea6f 0309    	mvn.w	r3, r9
+200007ec: ea4f 13d3    	lsr.w	r3, r3, #0x7
+200007f0: ea43 1399    	orr.w	r3, r3, r9, lsr #6
+200007f4: f023 33fe    	bic	r3, r3, #0xfefefefe
+200007f8: 4419         	add	r1, r3
+200007fa: ea6f 030c    	mvn.w	r3, r12
+200007fe: ea4f 13d3    	lsr.w	r3, r3, #0x7
+20000802: ea43 139c    	orr.w	r3, r3, r12, lsr #6
+20000806: f023 33fe    	bic	r3, r3, #0xfefefefe
+2000080a: eb03 0601    	add.w	r6, r3, r1
+2000080e: f47f af57    	bne.w	0x200006c0 <core::str::count::do_count_chars+0x1fa> @ imm = #-0x152
+20000812: f8dd 9000    	ldr.w	r9, [sp]
+20000816: f04f 18ff    	mov.w	r8, #0xff00ff
+2000081a: e9dd eb01    	ldrd	lr, r11, [sp, #4]
+2000081e: f1b9 0f00    	cmp.w	r9, #0x0
+20000822: f43f af12    	beq.w	0x2000064a <core::str::count::do_count_chars+0x184> @ imm = #-0x1dc
+20000826: e892 102a    	ldm.w	r2, {r1, r3, r5, r12}
+2000082a: f1b9 0f01    	cmp.w	r9, #0x1
+2000082e: ea6f 0401    	mvn.w	r4, r1
+20000832: ea4f 14d4    	lsr.w	r4, r4, #0x7
+20000836: ea44 1191    	orr.w	r1, r4, r1, lsr #6
+2000083a: f021 31fe    	bic	r1, r1, #0xfefefefe
+2000083e: 4431         	add	r1, r6
+20000840: ea6f 0603    	mvn.w	r6, r3
+20000844: ea4f 16d6    	lsr.w	r6, r6, #0x7
+20000848: ea46 1393    	orr.w	r3, r6, r3, lsr #6
+2000084c: f023 33fe    	bic	r3, r3, #0xfefefefe
+20000850: 4419         	add	r1, r3
+20000852: ea6f 0305    	mvn.w	r3, r5
+20000856: ea4f 13d3    	lsr.w	r3, r3, #0x7
+2000085a: ea43 1395    	orr.w	r3, r3, r5, lsr #6
+2000085e: f023 33fe    	bic	r3, r3, #0xfefefefe
+20000862: 4419         	add	r1, r3
+20000864: ea6f 030c    	mvn.w	r3, r12
+20000868: ea4f 13d3    	lsr.w	r3, r3, #0x7
+2000086c: ea43 139c    	orr.w	r3, r3, r12, lsr #6
+20000870: f023 33fe    	bic	r3, r3, #0xfefefefe
+20000874: eb03 0601    	add.w	r6, r3, r1
+20000878: f43f aee7    	beq.w	0x2000064a <core::str::count::do_count_chars+0x184> @ imm = #-0x232
+2000087c: f102 0c10    	add.w	r12, r2, #0x10
+20000880: f1b9 0f02    	cmp.w	r9, #0x2
+20000884: e89c 102a    	ldm.w	r12, {r1, r3, r5, r12}
+20000888: ea6f 0401    	mvn.w	r4, r1
+2000088c: ea4f 14d4    	lsr.w	r4, r4, #0x7
+20000890: ea44 1191    	orr.w	r1, r4, r1, lsr #6
+20000894: f021 31fe    	bic	r1, r1, #0xfefefefe
+20000898: 4431         	add	r1, r6
+2000089a: ea6f 0603    	mvn.w	r6, r3
+2000089e: ea4f 16d6    	lsr.w	r6, r6, #0x7
+200008a2: ea46 1393    	orr.w	r3, r6, r3, lsr #6
+200008a6: f023 33fe    	bic	r3, r3, #0xfefefefe
+200008aa: 4419         	add	r1, r3
+200008ac: ea6f 0305    	mvn.w	r3, r5
+200008b0: ea4f 13d3    	lsr.w	r3, r3, #0x7
+200008b4: ea43 1395    	orr.w	r3, r3, r5, lsr #6
+200008b8: f023 33fe    	bic	r3, r3, #0xfefefefe
+200008bc: 4419         	add	r1, r3
+200008be: ea6f 030c    	mvn.w	r3, r12
+200008c2: ea4f 13d3    	lsr.w	r3, r3, #0x7
+200008c6: ea43 139c    	orr.w	r3, r3, r12, lsr #6
+200008ca: f023 33fe    	bic	r3, r3, #0xfefefefe
+200008ce: eb03 0601    	add.w	r6, r3, r1
+200008d2: f43f aeba    	beq.w	0x2000064a <core::str::count::do_count_chars+0x184> @ imm = #-0x28c
+200008d6: f102 0520    	add.w	r5, r2, #0x20
+200008da: 6ad2         	ldr	r2, [r2, #0x2c]
+200008dc: cd2a         	ldm	r5, {r1, r3, r5}
+200008de: 43cc         	mvns	r4, r1
+200008e0: 09e4         	lsrs	r4, r4, #0x7
+200008e2: ea44 1191    	orr.w	r1, r4, r1, lsr #6
+200008e6: f021 31fe    	bic	r1, r1, #0xfefefefe
+200008ea: 4431         	add	r1, r6
+200008ec: 43de         	mvns	r6, r3
+200008ee: 09f6         	lsrs	r6, r6, #0x7
+200008f0: ea46 1393    	orr.w	r3, r6, r3, lsr #6
+200008f4: f023 33fe    	bic	r3, r3, #0xfefefefe
+200008f8: 4419         	add	r1, r3
+200008fa: 43eb         	mvns	r3, r5
+200008fc: 09db         	lsrs	r3, r3, #0x7
+200008fe: ea43 1395    	orr.w	r3, r3, r5, lsr #6
+20000902: f023 33fe    	bic	r3, r3, #0xfefefefe
+20000906: 4419         	add	r1, r3
+20000908: 43d3         	mvns	r3, r2
+2000090a: 09db         	lsrs	r3, r3, #0x7
+2000090c: ea43 1292    	orr.w	r2, r3, r2, lsr #6
+20000910: f022 32fe    	bic	r2, r2, #0xfefefefe
+20000914: 1856         	adds	r6, r2, r1
+20000916: e698         	b	0x2000064a <core::str::count::do_count_chars+0x184> @ imm = #-0x2d0
+20000918: f00a 03fc    	and	r3, r10, #0xfc
+2000091c: 2901         	cmp	r1, #0x1
+2000091e: f85e 2023    	ldr.w	r2, [lr, r3, lsl #2]
+20000922: ea6f 0602    	mvn.w	r6, r2
+20000926: ea4f 16d6    	lsr.w	r6, r6, #0x7
+2000092a: ea46 1292    	orr.w	r2, r6, r2, lsr #6
+2000092e: f022 32fe    	bic	r2, r2, #0xfefefefe
+20000932: d015         	beq	0x20000960 <core::str::count::do_count_chars+0x49a> @ imm = #0x2a
+20000934: eb0e 0383    	add.w	r3, lr, r3, lsl #2
+20000938: 2902         	cmp	r1, #0x2
+2000093a: 685e         	ldr	r6, [r3, #0x4]
+2000093c: ea6f 0506    	mvn.w	r5, r6
+20000940: ea4f 15d5    	lsr.w	r5, r5, #0x7
+20000944: ea45 1696    	orr.w	r6, r5, r6, lsr #6
+20000948: f026 36fe    	bic	r6, r6, #0xfefefefe
+2000094c: 4432         	add	r2, r6
+2000094e: d007         	beq	0x20000960 <core::str::count::do_count_chars+0x49a> @ imm = #0xe
+20000950: 6899         	ldr	r1, [r3, #0x8]
+20000952: 43cb         	mvns	r3, r1
+20000954: 09db         	lsrs	r3, r3, #0x7
+20000956: ea43 1191    	orr.w	r1, r3, r1, lsr #6
+2000095a: f021 31fe    	bic	r1, r1, #0xfefefefe
+2000095e: 440a         	add	r2, r1
+20000960: 21ff         	movs	r1, #0xff
+20000962: f2c0 0107    	movt	r1, #0x7
+20000966: ea01 2112    	and.w	r1, r1, r2, lsr #8
+2000096a: f022 22ff    	bic	r2, r2, #0xff00ff00
+2000096e: 4411         	add	r1, r2
+20000970: eb01 4101    	add.w	r1, r1, r1, lsl #16
+20000974: eb00 4011    	add.w	r0, r0, r1, lsr #16
+20000978: b003         	add	sp, #0xc
+2000097a: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+2000097e: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000980: 2000         	movs	r0, #0x0
+20000982: f919 2001    	ldrsb.w	r2, [r9, r1]
+20000986: f112 0f41    	cmn.w	r2, #0x41
+2000098a: bfc8         	it	gt
+2000098c: 3001         	addgt	r0, #0x1
+2000098e: f1bc 0f01    	cmp.w	r12, #0x1
+20000992: f43f aded    	beq.w	0x20000570 <core::str::count::do_count_chars+0xaa> @ imm = #-0x426
+20000996: 4449         	add	r1, r9
+20000998: f991 2001    	ldrsb.w	r2, [r1, #0x1]
+2000099c: f112 0f41    	cmn.w	r2, #0x41
+200009a0: bfc8         	it	gt
+200009a2: 3001         	addgt	r0, #0x1
+200009a4: f1bc 0f02    	cmp.w	r12, #0x2
+200009a8: f43f ade2    	beq.w	0x20000570 <core::str::count::do_count_chars+0xaa> @ imm = #-0x43c
+200009ac: f991 1002    	ldrsb.w	r1, [r1, #0x2]
+200009b0: f111 0f41    	cmn.w	r1, #0x41
+200009b4: bfc8         	it	gt
+200009b6: 3001         	addgt	r0, #0x1
+200009b8: b003         	add	sp, #0xc
+200009ba: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+200009be: bdf0         	pop	{r4, r5, r6, r7, pc}
+
+200009c0 <<core::fmt::Formatter>::pad_integral::write_prefix>:
+200009c0: b5f0         	push	{r4, r5, r6, r7, lr}
+200009c2: af03         	add	r7, sp, #0xc
+200009c4: f84d 8d04    	str	r8, [sp, #-4]!
+200009c8: f8d7 8008    	ldr.w	r8, [r7, #0x8]
+200009cc: 4606         	mov	r6, r0
+200009ce: 461c         	mov	r4, r3
+200009d0: 460d         	mov	r5, r1
+200009d2: 1c50         	adds	r0, r2, #0x1
+200009d4: d008         	beq	0x200009e8 <<core::fmt::Formatter>::pad_integral::write_prefix+0x28> @ imm = #0x10
+200009d6: 692b         	ldr	r3, [r5, #0x10]
+200009d8: 4630         	mov	r0, r6
+200009da: 4611         	mov	r1, r2
+200009dc: 4798         	blx	r3
+200009de: b118         	cbz	r0, 0x200009e8 <<core::fmt::Formatter>::pad_integral::write_prefix+0x28> @ imm = #0x6
+200009e0: 2001         	movs	r0, #0x1
+200009e2: f85d 8b04    	ldr	r8, [sp], #4
+200009e6: bdf0         	pop	{r4, r5, r6, r7, pc}
+200009e8: b144         	cbz	r4, 0x200009fc <<core::fmt::Formatter>::pad_integral::write_prefix+0x3c> @ imm = #0x10
+200009ea: 68eb         	ldr	r3, [r5, #0xc]
+200009ec: 4630         	mov	r0, r6
+200009ee: 4621         	mov	r1, r4
+200009f0: 4642         	mov	r2, r8
+200009f2: f85d 8b04    	ldr	r8, [sp], #4
+200009f6: e8bd 40f0    	pop.w	{r4, r5, r6, r7, lr}
+200009fa: 4718         	bx	r3
+200009fc: 2000         	movs	r0, #0x0
+200009fe: f85d 8b04    	ldr	r8, [sp], #4
+20000a02: bdf0         	pop	{r4, r5, r6, r7, pc}
+
+20000a04 <<usize as core::fmt::Display>::fmt>:
+20000a04: b5f0         	push	{r4, r5, r6, r7, lr}
+20000a06: af03         	add	r7, sp, #0xc
+20000a08: e92d 0f00    	push.w	{r8, r9, r10, r11}
+20000a0c: b087         	sub	sp, #0x1c
+20000a0e: 6804         	ldr	r4, [r0]
+20000a10: f640 301a    	movw	r0, #0xb1a
+20000a14: 460d         	mov	r5, r1
+20000a16: f2c2 0001    	movt	r0, #0x2001
+20000a1a: f5b4 7f7a    	cmp.w	r4, #0x3e8
+20000a1e: d338         	blo	0x20000a92 <<usize as core::fmt::Display>::fmt+0x8e> @ imm = #0x70
+20000a20: f249 687f    	movw	r8, #0x967f
+20000a24: f1a7 0e26    	sub.w	lr, r7, #0x26
+20000a28: 2300         	movs	r3, #0x0
+20000a2a: f242 7910    	movw	r9, #0x2710
+20000a2e: f241 4a7b    	movw	r10, #0x147b
+20000a32: f04f 0b64    	mov.w	r11, #0x64
+20000a36: f2c0 0898    	movt	r8, #0x98
+20000a3a: 4621         	mov	r1, r4
+20000a3c: 9503         	str	r5, [sp, #0xc]
+20000a3e: 9402         	str	r4, [sp, #0x8]
+20000a40: 460a         	mov	r2, r1
+20000a42: f241 7159    	movw	r1, #0x1759
+20000a46: f2cd 11b7    	movt	r1, #0xd1b7
+20000a4a: eb0e 0403    	add.w	r4, lr, r3
+20000a4e: fba2 1601    	umull	r1, r6, r2, r1
+20000a52: 3b04         	subs	r3, #0x4
+20000a54: 4542         	cmp	r2, r8
+20000a56: ea4f 3156    	lsr.w	r1, r6, #0xd
+20000a5a: fb01 2619    	mls	r6, r1, r9, r2
+20000a5e: fa1f fc86    	uxth.w	r12, r6
+20000a62: ea4f 059c    	lsr.w	r5, r12, #0x2
+20000a66: fb05 f50a    	mul	r5, r5, r10
+20000a6a: ea4f 4555    	lsr.w	r5, r5, #0x11
+20000a6e: fb05 661b    	mls	r6, r5, r11, r6
+20000a72: f830 5015    	ldrh.w	r5, [r0, r5, lsl #1]
+20000a76: 80e5         	strh	r5, [r4, #0x6]
+20000a78: b2b6         	uxth	r6, r6
+20000a7a: f830 6016    	ldrh.w	r6, [r0, r6, lsl #1]
+20000a7e: 8126         	strh	r6, [r4, #0x8]
+20000a80: d8de         	bhi	0x20000a40 <<usize as core::fmt::Display>::fmt+0x3c> @ imm = #-0x44
+20000a82: e9dd 4502    	ldrd	r4, r5, [sp, #8]
+20000a86: 330a         	adds	r3, #0xa
+20000a88: 2909         	cmp	r1, #0x9
+20000a8a: d806         	bhi	0x20000a9a <<usize as core::fmt::Display>::fmt+0x96> @ imm = #0xc
+20000a8c: 460a         	mov	r2, r1
+20000a8e: b9ac         	cbnz	r4, 0x20000abc <<usize as core::fmt::Display>::fmt+0xb8> @ imm = #0x2a
+20000a90: e015         	b	0x20000abe <<usize as core::fmt::Display>::fmt+0xba> @ imm = #0x2a
+20000a92: 230a         	movs	r3, #0xa
+20000a94: 4621         	mov	r1, r4
+20000a96: 2909         	cmp	r1, #0x9
+20000a98: d9f8         	bls	0x20000a8c <<usize as core::fmt::Display>::fmt+0x88> @ imm = #-0x10
+20000a9a: b28a         	uxth	r2, r1
+20000a9c: f241 467b    	movw	r6, #0x147b
+20000aa0: 0892         	lsrs	r2, r2, #0x2
+20000aa2: 3b02         	subs	r3, #0x2
+20000aa4: 4372         	muls	r2, r6, r2
+20000aa6: 2664         	movs	r6, #0x64
+20000aa8: 0c52         	lsrs	r2, r2, #0x11
+20000aaa: fb02 1116    	mls	r1, r2, r6, r1
+20000aae: f1a7 0626    	sub.w	r6, r7, #0x26
+20000ab2: b289         	uxth	r1, r1
+20000ab4: f830 1011    	ldrh.w	r1, [r0, r1, lsl #1]
+20000ab8: 52f1         	strh	r1, [r6, r3]
+20000aba: b104         	cbz	r4, 0x20000abe <<usize as core::fmt::Display>::fmt+0xba> @ imm = #0x0
+20000abc: b132         	cbz	r2, 0x20000acc <<usize as core::fmt::Display>::fmt+0xc8> @ imm = #0xc
+20000abe: eb00 0042    	add.w	r0, r0, r2, lsl #1
+20000ac2: 3b01         	subs	r3, #0x1
+20000ac4: f1a7 0126    	sub.w	r1, r7, #0x26
+20000ac8: 7840         	ldrb	r0, [r0, #0x1]
+20000aca: 54c8         	strb	r0, [r1, r3]
+20000acc: f1a7 0126    	sub.w	r1, r7, #0x26
+20000ad0: f1c3 000a    	rsb.w	r0, r3, #0xa
+20000ad4: 4419         	add	r1, r3
+20000ad6: 2201         	movs	r2, #0x1
+20000ad8: e9cd 1000    	strd	r1, r0, [sp]
+20000adc: 4628         	mov	r0, r5
+20000ade: 2101         	movs	r1, #0x1
+20000ae0: 2300         	movs	r3, #0x0
+20000ae2: f7ff fb1d    	bl	0x20000120 <<core::fmt::Formatter>::pad_integral> @ imm = #-0x9c6
+20000ae6: b007         	add	sp, #0x1c
+20000ae8: e8bd 0f00    	pop.w	{r8, r9, r10, r11}
+20000aec: bdf0         	pop	{r4, r5, r6, r7, pc}

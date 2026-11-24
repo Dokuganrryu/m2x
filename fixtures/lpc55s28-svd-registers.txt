@@ -1,0 +1,1086 @@
+REG SYSCON AHBCLKCTRL0 0x40000200 offset 0x200 :: AHB Clock control 0
+  FIELD ROM [1] header-agrees :: Enables the clock for the ROM.
+  FIELD FLASH [7] header-agrees :: Enables the clock for the Flash controller.
+  FIELD FMC [8] header-agrees :: Enables the clock for the FMC controller.
+  FIELD MUX [11] header-agrees :: Enables the clock for the Input Mux.
+  FIELD IOCON [13] header-agrees :: Enables the clock for the I/O controller.
+  FIELD GPIO0 [14] header-agrees :: Enables the clock for the GPIO0.
+  FIELD GPIO1 [15] header-agrees :: Enables the clock for the GPIO1.
+  FIELD DMA0 [20] header-agrees :: Enables the clock for the DMA0.
+  FIELD WWDT [22] header-agrees :: Enables the clock for the Watchdog Timer.
+  FIELD ADC [27] header-agrees :: Enables the clock for the ADC.
+REG SYSCON AHBCLKCTRL1 0x40000204 offset 0x204 :: AHB Clock control 1
+  FIELD FC0 [11] header-agrees :: Enables the clock for the FC0.
+  FIELD FC1 [12] header-agrees :: Enables the clock for the FC1.
+  FIELD FC2 [13] header-agrees :: Enables the clock for the FC2.
+  FIELD FC3 [14] header-agrees :: Enables the clock for the FC3.
+  FIELD FC4 [15] header-agrees :: Enables the clock for the FC4.
+  FIELD FC6 [17] header-agrees :: Enables the clock for the FC6.
+  FIELD FC7 [18] header-agrees :: Enables the clock for the FC7.
+  FIELD TIMER0 [26] header-agrees :: Enables the clock for the Timer 0.
+REG SYSCON AHBCLKCTRLSET[%s] 0x40000220 offset 0x220 dim 3 step 0x4 :: Peripheral reset control register
+  FIELD DATA [31:0] header-agrees :: Data array value
+REG SYSCON PRESETCTRL0 0x40000100 offset 0x100 :: Peripheral reset control 0
+  FIELD IOCON_RST [13] header-agrees :: I/O controller reset control.
+  FIELD GPIO0_RST [14] header-agrees :: GPIO0 reset control.
+  FIELD GPIO1_RST [15] header-agrees :: GPIO1 reset control.
+  FIELD DMA0_RST [20] header-agrees :: DMA0 reset control.
+  FIELD ADC_RST [27] header-agrees :: ADC reset control.
+REG SYSCON PRESETCTRL1 0x40000104 offset 0x104 :: Peripheral reset control 1
+  FIELD MRT_RST [0] header-agrees :: MRT reset control.
+  FIELD OSTIMER_RST [1] header-agrees :: OS Event Timer reset control.
+  FIELD SCT_RST [2] header-agrees :: SCT reset control.
+  FIELD SCTIPU_RST [6] header-agrees :: SCTIPU reset control.
+  FIELD UTICK_RST [10] header-agrees :: UTICK reset control.
+  FIELD FC0_RST [11] header-agrees :: FC0 reset control.
+  FIELD FC1_RST [12] header-agrees :: FC1 reset control.
+  FIELD FC2_RST [13] header-agrees :: FC2 reset control.
+  FIELD FC3_RST [14] header-agrees :: FC3 reset control.
+  FIELD FC4_RST [15] header-agrees :: FC4 reset control.
+  FIELD FC5_RST [16] header-agrees :: FC5 reset control.
+  FIELD FC6_RST [17] header-agrees :: FC6 reset control.
+  FIELD FC7_RST [18] header-agrees :: FC7 reset control.
+  FIELD TIMER2_RST [22] header-agrees :: Timer 2 reset control.
+  FIELD USB0_DEV_RST [25] header-agrees :: USB0 DEV reset control.
+  FIELD TIMER0_RST [26] header-agrees :: Timer 0 reset control.
+  FIELD TIMER1_RST [27] header-agrees :: Timer 1 reset control.
+REG SYSCON SYSTICKCLKSEL0 0x40000260 offset 0x260 :: System Tick Timer for CPU0 source select
+  FIELD SEL [2:0] header-agrees :: System Tick Timer for CPU0 source select.
+REG SYSCON MAINCLKSELA 0x40000280 offset 0x280 :: Main clock A source select
+  FIELD SEL [2:0] header-agrees :: Main clock A source select.
+REG SYSCON MAINCLKSELB 0x40000284 offset 0x284 :: Main clock source select
+  FIELD SEL [2:0] header-agrees :: Main clock source select.
+REG SYSCON PLL0CLKSEL 0x40000290 offset 0x290 :: PLL0 clock source select
+  FIELD SEL [2:0] header-agrees :: PLL0 clock source select.
+REG SYSCON PLL1CLKSEL 0x40000294 offset 0x294 :: PLL1 clock source select
+  FIELD SEL [2:0] header-agrees :: PLL1 clock source select.
+REG SYSCON CTIMERCLKSEL0 0x4000026C offset 0x26C :: CTimer 0 clock source select
+  FIELD SEL [2:0] header-agrees :: CTimer 0 clock source select.
+REG SYSCON FCCLKSEL0 0x400002B0 offset 0x2B0 :: Flexcomm Interface 0 clock source select for Fractional Rate Divider
+  FIELD SEL [2:0] header-agrees :: Flexcomm Interface 0 clock source select for Fractional Rate Divider.
+REG SYSCON MCLKCLKSEL 0x400002E0 offset 0x2E0 :: MCLK clock source select
+  FIELD SEL [2:0] header-agrees :: MCLK clock source select.
+REG SYSCON ADCCLKSEL 0x400002A4 offset 0x2A4 :: ADC clock source select
+  FIELD SEL [2:0] header-agrees :: ADC clock source select.
+REG SYSCON SYSTICKCLKDIV0 0x40000300 offset 0x300 :: System Tick Timer divider for CPU0
+  FIELD DIV [7:0] header-agrees :: Clock divider value.
+  FIELD RESET [29] header-agrees :: Resets the divider counter.
+  FIELD HALT [30] header-agrees :: Halts the divider counter.
+  FIELD REQFLAG [31] header-agrees :: Divider status flag.
+REG SYSCON AHBCLKDIV 0x40000380 offset 0x380 :: System clock divider
+  FIELD DIV [7:0] header-agrees :: Clock divider value.
+  FIELD RESET [29] header-agrees :: Resets the divider counter.
+  FIELD HALT [30] header-agrees :: Halts the divider counter.
+  FIELD REQFLAG [31] header-agrees :: Divider status flag.
+REG SYSCON FROHFDIV 0x40000388 offset 0x388 :: FRO_HF (96MHz) clock divider
+  FIELD DIV [7:0] header-agrees :: Clock divider value.
+  FIELD RESET [29] header-agrees :: Resets the divider counter.
+  FIELD HALT [30] header-agrees :: Halts the divider counter.
+  FIELD REQFLAG [31] header-agrees :: Divider status flag.
+REG SYSCON WDTCLKDIV 0x4000038C offset 0x38C :: WDT clock divider
+  FIELD DIV [5:0] header-agrees :: Clock divider value.
+  FIELD RESET [29] header-agrees :: Resets the divider counter.
+  FIELD HALT [30] header-agrees :: Halts the divider counter.
+  FIELD REQFLAG [31] header-agrees :: Divider status flag.
+REG SYSCON ADCCLKDIV 0x40000394 offset 0x394 :: ADC clock divider
+  FIELD DIV [2:0] header-agrees :: Clock divider value.
+  FIELD RESET [29] header-agrees :: Resets the divider counter.
+  FIELD HALT [30] header-agrees :: Halts the divider counter.
+  FIELD REQFLAG [31] header-agrees :: Divider status flag.
+REG SYSCON MCLKDIV 0x400003AC offset 0x3AC :: I2S MCLK clock divider
+  FIELD DIV [7:0] header-agrees :: Clock divider value.
+  FIELD RESET [29] header-agrees :: Resets the divider counter.
+  FIELD HALT [30] header-agrees :: Halts the divider counter.
+  FIELD REQFLAG [31] header-agrees :: Divider status flag.
+REG SYSCON PLL0CLKDIV 0x400003C4 offset 0x3C4 :: PLL0 clock divider
+  FIELD DIV [7:0] header-agrees :: Clock divider value.
+  FIELD RESET [29] header-agrees :: Resets the divider counter.
+  FIELD HALT [30] header-agrees :: Halts the divider counter.
+  FIELD REQFLAG [31] header-agrees :: Divider status flag.
+REG SYSCON CLOCK_CTRL 0x40000A18 offset 0xA18 :: Various system clock controls : Flash clock (48 MHz) control, clocks to Frequency Measures
+  FIELD XTAL32MHZ_FREQM_ENA [1] header-agrees :: Enable XTAL32MHz clock for Frequency Measure module.
+  FIELD FRO1MHZ_UTICK_ENA [2] header-agrees :: Enable FRO 1MHz clock for Frequency Measure module and for UTICK.
+  FIELD FRO12MHZ_FREQM_ENA [3] header-agrees :: Enable FRO 12MHz clock for Frequency Measure module.
+  FIELD FRO_HF_FREQM_ENA [4] header-agrees :: Enable FRO 96MHz clock for Frequency Measure module.
+  FIELD CLKIN_ENA [5] header-agrees :: Enable clock_in clock for clock module.
+  FIELD FRO1MHZ_CLK_ENA [6] header-agrees :: Enable FRO 1MHz clock for clock muxing in clock gen.
+  FIELD ANA_FRO12M_CLK_ENA [7] header-agrees :: Enable FRO 12MHz clock for analog control of the FRO 192MHz.
+  FIELD XO_CAL_CLK_ENA [8] header-agrees :: Enable clock for cristal oscilator calibration.
+  FIELD PLU_DEGLITCH_CLK_ENA [9] header-agrees :: Enable clocks FRO_1MHz and FRO_12MHz for PLU deglitching.
+REG SYSCON MCLKIO 0x40000420 offset 0x420 :: MCLK control
+  FIELD MCLKIO [0] header-agrees :: MCLK control.
+REG SYSCON FMCCR 0x40000400 offset 0x400 :: FMC configuration register
+  FIELD FLASHTIM [15:12] header-agrees :: Flash memory access time.
+REG SYSCON PLL1CTRL 0x40000560 offset 0x560 :: PLL1 550m control
+  FIELD SELR [3:0] header-agrees :: Bandwidth select R value.
+  FIELD SELI [9:4] header-agrees :: Bandwidth select I value.
+  FIELD SELP [14:10] header-agrees :: Bandwidth select P value.
+  FIELD BYPASSPLL [15] header-agrees :: Bypass PLL input clock is sent directly to the PLL output (default).
+  FIELD BYPASSPOSTDIV2 [16] header-agrees :: bypass of the divide-by-2 divider in the post-divider.
+  FIELD LIMUPOFF [17] header-agrees :: limup_off = 1 in spread spectrum and fractional PLL applications.
+  FIELD BWDIRECT [18] header-agrees :: control of the bandwidth of the PLL.
+  FIELD BYPASSPREDIV [19] header-agrees :: bypass of the pre-divider.
+  FIELD BYPASSPOSTDIV [20] header-agrees :: bypass of the post-divider.
+  FIELD CLKEN [21] header-agrees :: enable the output clock.
+  FIELD FRMEN [22] header-agrees :: 1: free running mode.
+  FIELD FRMCLKSTABLE [23] header-agrees :: free running mode clockstable: Warning: Only make frm_clockstable = 1 after the PLL output frequency is stable.
+  FIELD SKEWEN [24] header-agrees :: Skew mode.
+REG SYSCON PLL1STAT 0x40000564 offset 0x564 :: PLL1 550m status
+  FIELD LOCK [0] header-agrees :: lock detector output (active high) Warning: The lock signal is only reliable between fref[2] :100 kHz to 20 MHz.
+  FIELD PREDIVACK [1] header-agrees :: pre-divider ratio change acknowledge.
+  FIELD FEEDDIVACK [2] header-agrees :: feedback divider ratio change acknowledge.
+  FIELD POSTDIVACK [3] header-agrees :: post-divider ratio change acknowledge.
+  FIELD FRMDET [4] header-agrees :: free running detector output (active high).
+REG SYSCON PLL1NDEC 0x40000568 offset 0x568 :: PLL1 550m N divider
+  FIELD NDIV [7:0] header-agrees :: pre-divider divider ratio (N-divider).
+  FIELD NREQ [8] header-agrees :: pre-divider ratio change request.
+REG SYSCON PLL1MDEC 0x4000056C offset 0x56C :: PLL1 550m M divider
+  FIELD MDIV [15:0] header-agrees :: feedback divider divider ratio (M-divider).
+  FIELD MREQ [16] header-agrees :: feedback ratio change request.
+REG SYSCON PLL1PDEC 0x40000570 offset 0x570 :: PLL1 550m P divider
+  FIELD PDIV [4:0] header-agrees :: post-divider divider ratio (P-divider)
+  FIELD PREQ [5] header-agrees :: feedback ratio change request.
+REG SYSCON PLL0CTRL 0x40000580 offset 0x580 :: PLL0 550m control
+  FIELD SELR [3:0] header-agrees :: Bandwidth select R value.
+  FIELD SELI [9:4] header-agrees :: Bandwidth select I value.
+  FIELD SELP [14:10] header-agrees :: Bandwidth select P value.
+  FIELD BYPASSPLL [15] header-agrees :: Bypass PLL input clock is sent directly to the PLL output (default).
+  FIELD BYPASSPOSTDIV2 [16] header-agrees :: bypass of the divide-by-2 divider in the post-divider.
+  FIELD LIMUPOFF [17] header-agrees :: limup_off = 1 in spread spectrum and fractional PLL applications.
+  FIELD BWDIRECT [18] header-agrees :: Control of the bandwidth of the PLL.
+  FIELD BYPASSPREDIV [19] header-agrees :: bypass of the pre-divider.
+  FIELD BYPASSPOSTDIV [20] header-agrees :: bypass of the post-divider.
+  FIELD CLKEN [21] header-agrees :: enable the output clock.
+  FIELD FRMEN [22] header-agrees :: free running mode.
+  FIELD FRMCLKSTABLE [23] header-agrees :: free running mode clockstable: Warning: Only make frm_clockstable =1 after the PLL output frequency is stable.
+  FIELD SKEWEN [24] header-agrees :: skew mode.
+REG SYSCON PLL0STAT 0x40000584 offset 0x584 :: PLL0 550m status
+  FIELD LOCK [0] header-agrees :: lock detector output (active high) Warning: The lock signal is only reliable between fref[2] :100 kHz to 20 MHz.
+  FIELD PREDIVACK [1] header-agrees :: pre-divider ratio change acknowledge.
+  FIELD FEEDDIVACK [2] header-agrees :: feedback divider ratio change acknowledge.
+  FIELD POSTDIVACK [3] header-agrees :: post-divider ratio change acknowledge.
+  FIELD FRMDET [4] header-agrees :: free running detector output (active high).
+REG SYSCON PLL0NDEC 0x40000588 offset 0x588 :: PLL0 550m N divider
+  FIELD NDIV [7:0] header-agrees :: pre-divider divider ratio (N-divider).
+  FIELD NREQ [8] header-agrees :: pre-divider ratio change request.
+REG SYSCON PLL0PDEC 0x4000058C offset 0x58C :: PLL0 550m P divider
+  FIELD PDIV [4:0] header-agrees :: post-divider divider ratio (P-divider)
+  FIELD PREQ [5] header-agrees :: feedback ratio change request.
+REG SYSCON PLL0SSCG0 0x40000590 offset 0x590 :: PLL0 Spread Spectrum Wrapper control register 0
+  FIELD MD_LBS [31:0] header-agrees :: input word of the wrapper bit 31 to 0.
+REG SYSCON PLL0SSCG1 0x40000594 offset 0x594 :: PLL0 Spread Spectrum Wrapper control register 1
+  FIELD MD_MBS [0] header-agrees :: input word of the wrapper bit 32.
+  FIELD MD_REQ [1] header-agrees :: md change request.
+  FIELD MF [4:2] header-agrees :: programmable modulation frequency fm = Fref/Nss mf[2:0] = 000 => Nss=512 (fm ~ 3.
+  FIELD MR [7:5] header-agrees :: programmable frequency modulation depth Dfmodpk-pk = Fref*kss/Fcco = kss/(2*md[32:25]dec) mr[2:0] = 000 => kss = 0 (no spread spectrum) mr[2:0] = 001 => kss ~ 1 mr[2:0] = 010 => kss ~ 1.
+  FIELD MC [9:8] header-agrees :: modulation waveform control Compensation for low pass filtering of the PLL to get a triangular modulation at the output of the PLL, giving a flat frequency spectrum.
+  FIELD MDIV_EXT [25:10] header-agrees :: to select an external mdiv value.
+  FIELD MREQ [26] header-agrees :: to select an external mreq value.
+  FIELD DITHER [27] header-agrees :: dithering between two modulation frequencies in a random way or in a pseudo random way (white noise), in order to decrease the probability that the modulated waveform will occur with the same phase on a particular point on the screen.
+  FIELD SEL_EXT [28] header-agrees :: to select mdiv_ext and mreq_ext sel_ext = 0: mdiv ~ md[32:0], mreq = 1 sel_ext = 1 : mdiv = mdiv_ext, mreq = mreq_ext.
+REG PMC PDRUNCFG0 0x400200B8 offset 0xB8 :: Controls the power to various analog blocks [Reset by: PoR, Pin Reset, Brown Out Detectors Reset, Deep Power Down Reset, Software Reset]
+  FIELD PDEN_BODVBAT [3] header-agrees :: Controls power to VBAT Brown Out Detector (BOD).
+  FIELD PDEN_FRO32K [6] header-agrees :: Controls power to the Free Running Oscillator (FRO) 32 KHz.
+  FIELD PDEN_XTAL32K [7] header-agrees :: Controls power to crystal 32 KHz.
+  FIELD PDEN_XTAL32M [8] header-agrees :: Controls power to crystal 32 MHz.
+  FIELD PDEN_PLL0 [9] header-agrees :: Controls power to System PLL (also refered as PLL0).
+  FIELD PDEN_PLL1 [10] header-agrees :: Controls power to USB PLL (also refered as PLL1).
+  FIELD PDEN_USBFSPHY [11] header-agrees :: Controls power to USB Full Speed phy.
+  FIELD PDEN_USBHSPHY [12] header-agrees :: Controls power to USB High Speed Phy.
+  FIELD PDEN_COMP [13] header-agrees :: Controls power to Analog Comparator.
+  FIELD PDEN_LDOUSBHS [18] header-agrees :: Controls power to USB high speed LDO.
+  FIELD PDEN_AUXBIAS [19] header-agrees :: Controls power to auxiliary biasing (AUXBIAS)
+  FIELD PDEN_LDOXO32M [20] header-agrees :: Controls power to crystal 32 MHz LDO.
+  FIELD PDEN_RNG [22] header-agrees :: Controls power to all True Random Number Genetaor (TRNG) clock sources.
+  FIELD PDEN_PLL0_SSCG [23] header-agrees :: Controls power to System PLL (PLL0) Spread Spectrum module.
+REG PMC PDRUNCFGSET0 0x400200C0 offset 0xC0 :: Controls the power to various analog blocks [Reset by: PoR, Pin Reset, Brown Out Detectors Reset, Deep Power Down Reset, Software Reset]
+  FIELD PDRUNCFGSET0 [31:0] header-agrees :: Writing ones to this register sets the corresponding bit or bits in the PDRUNCFG0 register, if they are implemented.
+REG PMC PDRUNCFGCLR0 0x400200C8 offset 0xC8 :: Controls the power to various analog blocks [Reset by: PoR, Pin Reset, Brown Out Detectors Reset, Deep Power Down Reset, Software Reset]
+  FIELD PDRUNCFGCLR0 [31:0] header-agrees :: Writing ones to this register clears the corresponding bit or bits in the PDRUNCFG0 register, if they are implemented.
+REG PMC RTCOSC32K 0x40020098 offset 0x98 :: RTC 1 KHZ and 1 Hz clocks source control register [Reset by: PoR, Brown Out Detectors Reset]
+  FIELD SEL [0] header-agrees :: Select the 32K oscillator to be used in Deep Power Down Mode for the RTC (either XTAL32KHz or FRO32KHz) .
+  FIELD CLK1KHZDIV [3:1] header-agrees :: Actual division ratio is : 28 + CLK1KHZDIV.
+  FIELD CLK1KHZDIVUPDATEREQ [15] header-agrees :: RTC 1KHz clock Divider status flag.
+  FIELD CLK1HZDIV [26:16] header-agrees :: Actual division ratio is : 31744 + CLK1HZDIV.
+  FIELD CLK1HZDIVHALT [30] header-agrees :: Halts the divider counter.
+  FIELD CLK1HZDIVUPDATEREQ [31] header-agrees :: RTC 1Hz Divider status flag.
+REG ANACTRL FRO192M_CTRL 0x40013010 offset 0x10 :: 192MHz Free Running OScillator (FRO) Control register
+  FIELD ENA_96MHZCLK [30] header-agrees :: 96 MHz clock control.
+REG ANACTRL XO32M_CTRL 0x40013020 offset 0x20 :: High speed Crystal Oscillator Control register
+  FIELD ENABLE_PLL_USB_OUT [23] header-agrees :: Enable High speed Crystal oscillator output to USB HS PLL.
+  FIELD ENABLE_SYSTEM_CLK_OUT [24] header-agrees :: Enable XO 32 MHz output to CPU system.
+REG ANACTRL XO32M_STATUS 0x40013024 offset 0x24 :: High speed Crystal Oscillator Status register
+  FIELD XO_READY [0] header-agrees :: Indicates XO out frequency statibilty.
+REG FLEXCOMM0 PSELID 0x40086FF8 offset 0xFF8 :: Peripheral Select and Flexcomm ID register.
+  FIELD PERSEL [2:0] header-agrees :: Peripheral Select. This field is writable by software.
+  FIELD LOCK [3] header-agrees :: Lock the peripheral select. This field is writable by software.
+  FIELD USARTPRESENT [4] header-agrees :: USART present indicator. This field is Read-only.
+  FIELD SPIPRESENT [5] header-agrees :: SPI present indicator. This field is Read-only.
+  FIELD I2CPRESENT [6] header-agrees :: I2C present indicator. This field is Read-only.
+  FIELD I2SPRESENT [7] header-agrees :: I 2S present indicator. This field is Read-only.
+  FIELD ID [31:12] header-agrees :: Flexcomm ID.
+REG I2S0 CFG1 0x40086C00 offset 0xC00 :: Configuration register 1 for the primary channel pair.
+  FIELD MAINENABLE [0] header-agrees :: Main enable for I 2S function in this Flexcomm
+  FIELD DATAPAUSE [1] header-agrees :: Data flow Pause. Allows pausing data flow between the I2S serializer/deserializer and the FIFO. This could be done in order to change streams, or while restarting after a data underflow or overflow. When paused, FIFO operations can be done without corrupting d
+  FIELD PAIRCOUNT [3:2] header-agrees :: Provides the number of I2S channel pairs in this Flexcomm This is a read-only field whose value may be different in other Flexcomms. 00 = there is 1 I2S channel pair in this Flexcomm. 01 = there are 2 I2S channel pairs in this Flexcomm. 10 = there are 3 I2S ch
+  FIELD MSTSLVCFG [5:4] header-agrees :: Master / slave configuration selection, determining how SCK and WS are used by all channel pairs in this Flexcomm.
+  FIELD MODE [7:6] header-agrees :: Selects the basic I2S operating mode. Other configurations modify this to obtain all supported cases. See Formats and modes for examples.
+  FIELD RIGHTLOW [8] header-agrees :: Right channel data is in the Low portion of FIFO data. Essentially, this swaps left and right channel data as it is transferred to or from the FIFO. This bit is not used if the data width is greater than 24 bits or if PDMDATA = 1. Note that if the ONECHANNEL f
+  FIELD LEFTJUST [9] header-agrees :: Left Justify data.
+  FIELD ONECHANNEL [10] header-agrees :: Single channel mode. Applies to both transmit and receive. This configuration bit applies only to the first I2S channel pair. Other channel pairs may select this mode independently in their separate CFG1 registers.
+  FIELD SCK_POL [12] header-agrees :: SCK polarity.
+  FIELD WS_POL [13] header-agrees :: WS polarity.
+  FIELD DATALEN [20:16] header-agrees :: Data Length, minus 1 encoded, defines the number of data bits to be transmitted or received for all I2S channel pairs in this Flexcomm. Note that data is only driven to or received from SDA for the number of bits defined by DATALEN. DATALEN is also used in the
+REG I2S0 CFG2 0x40086C04 offset 0xC04 :: Configuration register 2 for the primary channel pair.
+  FIELD FRAMELEN [8:0] header-agrees :: Frame Length, minus 1 encoded, defines the number of clocks and data bits in the frames that this channel pair participates in. See Frame format. 0x000 to 0x002 = not supported 0x003 = frame is 4 bits in total length 0x004 = frame is 5 bits in total length 0x1
+  FIELD POSITION [24:16] header-agrees :: Data Position. Defines the location within the frame of the data for this channel pair. POSITION + DATALEN must be less than FRAMELEN. See Frame format. When MODE = 0, POSITION defines the location of data in both the left phase and right phase, starting one c
+REG I2S0 STAT 0x40086C08 offset 0xC08 :: Status register for the primary channel pair.
+  FIELD BUSY [0] header-agrees :: Busy status for the primary channel pair. Other BUSY flags may be found in the STAT register for each channel pair.
+  FIELD SLVFRMERR [1] header-agrees :: Slave Frame Error flag. This applies when at least one channel pair is operating as a slave. An error indicates that the incoming WS signal did not transition as expected due to a mismatch between FRAMELEN and the actual incoming I2S stream.
+  FIELD LR [2] header-agrees :: Left/Right indication. This flag is considered to be a debugging aid and is not expected to be used by an I2S driver. Valid when one channel pair is busy. Indicates left or right data being processed for the currently busy channel pair.
+  FIELD DATAPAUSED [3] header-agrees :: Data Paused status flag. Applies to all I2S channels
+REG I2S0 DIV 0x40086C1C offset 0xC1C :: Clock divider, used by all channel pairs.
+  FIELD DIV [11:0] header-agrees :: This field controls how this I2S block uses the Flexcomm function clock. 0x000 = The Flexcomm function clock is used directly. 0x001 = The Flexcomm function clock is divided by 2. 0x002 = The Flexcomm function clock is divided by 3. 0xFFF = The Flexcomm functi
+REG I2S0 FIFOCFG 0x40086E00 offset 0xE00 :: FIFO configuration and enable register.
+  FIELD ENABLETX [0] header-agrees :: Enable the transmit FIFO.
+  FIELD ENABLERX [1] header-agrees :: Enable the receive FIFO.
+  FIELD TXI2SE0 [2] header-agrees :: Transmit I2S empty 0. Determines the value sent by the I2S in transmit mode if the TX FIFO becomes empty. This value is sent repeatedly until the I2S is paused, the error is cleared, new data is provided, and the I2S is un-paused.
+  FIELD PACK48 [3] header-agrees :: Packing format for 48-bit data. This relates to how data is entered into or taken from the FIFO by software or DMA.
+  FIELD SIZE [5:4] header-agrees :: FIFO size configuration. This is a read-only field. 0x0 = FIFO is configured as 16 entries of 8 bits. 0x1, 0x2, 0x3 = not applicable to USART.
+  FIELD DMATX [12] header-agrees :: DMA configuration for transmit.
+  FIELD DMARX [13] header-agrees :: DMA configuration for receive.
+  FIELD WAKETX [14] header-agrees :: Wake-up for transmit FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back 
+  FIELD WAKERX [15] header-agrees :: Wake-up for receive FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back t
+  FIELD EMPTYTX [16] header-agrees :: Empty command for the transmit FIFO. When a 1 is written to this bit, the TX FIFO is emptied.
+  FIELD EMPTYRX [17] header-agrees :: Empty command for the receive FIFO. When a 1 is written to this bit, the RX FIFO is emptied.
+REG I2S0 FIFOSTAT 0x40086E04 offset 0xE04 :: FIFO status register.
+  FIELD TXERR [0] header-agrees :: TX FIFO error. Will be set if a transmit FIFO error occurs. This could be an overflow caused by pushing data into a full FIFO, or by an underflow if the FIFO is empty when data is needed. Cleared by writing a 1 to this bit.
+  FIELD RXERR [1] header-agrees :: RX FIFO error. Will be set if a receive FIFO overflow occurs, caused by software or DMA not emptying the FIFO fast enough. Cleared by writing a 1 to this bit.
+  FIELD PERINT [3] header-agrees :: Peripheral interrupt. When 1, this indicates that the peripheral function has asserted an interrupt. The details can be found by reading the peripheral's STAT register.
+  FIELD TXEMPTY [4] header-agrees :: Transmit FIFO empty. When 1, the transmit FIFO is empty. The peripheral may still be processing the last piece of data.
+  FIELD TXNOTFULL [5] header-agrees :: Transmit FIFO not full. When 1, the transmit FIFO is not full, so more data can be written. When 0, the transmit FIFO is full and another write would cause it to overflow.
+  FIELD RXNOTEMPTY [6] header-agrees :: Receive FIFO not empty. When 1, the receive FIFO is not empty, so data can be read. When 0, the receive FIFO is empty.
+  FIELD RXFULL [7] header-agrees :: Receive FIFO full. When 1, the receive FIFO is full. Data needs to be read out to prevent the peripheral from causing an overflow.
+  FIELD TXLVL [12:8] header-agrees :: Transmit FIFO current level. A 0 means the TX FIFO is currently empty, and the TXEMPTY and TXNOTFULL flags will be 1. Other values tell how much data is actually in the TX FIFO at the point where the read occurs. If the TX FIFO is full, the TXEMPTY and TXNOTFU
+  FIELD RXLVL [20:16] header-agrees :: Receive FIFO current level. A 0 means the RX FIFO is currently empty, and the RXFULL and RXNOTEMPTY flags will be 0. Other values tell how much data is actually in the RX FIFO at the point where the read occurs. If the RX FIFO is full, the RXFULL and RXNOTEMPT
+REG I2S0 FIFOTRIG 0x40086E08 offset 0xE08 :: FIFO trigger settings for interrupt and DMA request.
+  FIELD TXLVLENA [0] header-agrees :: Transmit FIFO level trigger enable. This trigger will become an interrupt if enabled in FIFOINTENSET, or a DMA trigger if DMATX in FIFOCFG is set.
+  FIELD RXLVLENA [1] header-agrees :: Receive FIFO level trigger enable. This trigger will become an interrupt if enabled in FIFOINTENSET, or a DMA trigger if DMARX in FIFOCFG is set.
+  FIELD TXLVL [11:8] header-agrees :: Transmit FIFO level trigger point. This field is used only when TXLVLENA = 1. If enabled to do so, the FIFO level can wake up the device just enough to perform DMA, then return to the reduced power mode. See Hardware Wake-up control register. 0 = trigger when 
+  FIELD RXLVL [19:16] header-agrees :: Receive FIFO level trigger point. The RX FIFO level is checked when a new piece of data is received. This field is used only when RXLVLENA = 1. If enabled to do so, the FIFO level can wake up the device just enough to perform DMA, then return to the reduced po
+REG I2S0 FIFOWR 0x40086E20 offset 0xE20 :: FIFO write data.
+  FIELD TXDATA [31:0] header-agrees :: Transmit data to the FIFO. The number of bits used depends on configuration details.
+REG I2S0 FIFORD 0x40086E30 offset 0xE30 :: FIFO read data.
+  FIELD RXDATA [31:0] header-agrees :: Received data from the FIFO. The number of bits used depends on configuration details.
+REG SYSCTL FCCTRLSEL%s 0x40023040 offset 0x40 dim 8 step 0x4 :: Selects the source for SCK going into Flexcomm 0
+  FIELD SCKINSEL [1:0] header-agrees :: Selects the source for SCK going into this Flexcomm.
+  FIELD WSINSEL [9:8] header-agrees :: Selects the source for WS going into this Flexcomm.
+  FIELD DATAINSEL [17:16] header-agrees :: Selects the source for DATA input to this Flexcomm.
+  FIELD DATAOUTSEL [25:24] header-agrees :: Selects the source for DATA output from this Flexcomm.
+REG I2C0 CFG 0x40086800 offset 0x800 :: Configuration for shared functions.
+  FIELD MSTEN [0] header-agrees :: Master Enable. When disabled, configurations settings for the Master function are not changed, but the Master function is internally reset.
+  FIELD SLVEN [1] header-agrees :: Slave Enable. When disabled, configurations settings for the Slave function are not changed, but the Slave function is internally reset.
+  FIELD MONEN [2] header-agrees :: Monitor Enable. When disabled, configurations settings for the Monitor function are not changed, but the Monitor function is internally reset.
+  FIELD TIMEOUTEN [3] header-agrees :: I2C bus Time-out Enable. When disabled, the time-out function is internally reset.
+  FIELD MONCLKSTR [4] header-agrees :: Monitor function Clock Stretching.
+  FIELD HSCAPABLE [5] header-agrees :: High-speed mode Capable enable. Since High Speed mode alters the way I2C pins drive and filter, as well as the timing for certain I2C signalling, enabling High-speed mode applies to all functions: Master, Slave, and Monitor.
+REG I2C0 STAT 0x40086804 offset 0x804 :: Status register for Master, Slave, and Monitor functions.
+  FIELD MSTPENDING [0] header-agrees :: Master Pending. Indicates that the Master is waiting to continue communication on the I2C-bus (pending) or is idle. When the master is pending, the MSTSTATE bits indicate what type of software service if any the master expects. This flag will cause an interrup
+  FIELD MSTSTATE [3:1] header-agrees :: Master State code. The master state code reflects the master state when the MSTPENDING bit is set, that is the master is pending or in the idle state. Each value of this field indicates a specific required service for the Master function. All other values are 
+  FIELD MSTARBLOSS [4] header-agrees :: Master Arbitration Loss flag. This flag can be cleared by software writing a 1 to this bit. It is also cleared automatically a 1 is written to MSTCONTINUE.
+  FIELD MSTSTSTPERR [6] header-agrees :: Master Start/Stop Error flag. This flag can be cleared by software writing a 1 to this bit. It is also cleared automatically a 1 is written to MSTCONTINUE.
+REG I2C0 CLKDIV 0x40086814 offset 0x814 :: Clock pre-divider for the entire I2C interface. This determines what time increments are used for the MSTTIME register, and controls some timing of the Slave function.
+  FIELD DIVVAL [15:0] header-agrees :: This field controls how the Flexcomm clock (FCLK) is used by the I2C functions that need an internal clock in order to operate. 0x0000 = FCLK is used directly by the I2C. 0x0001 = FCLK is divided by 2 before use. 0x0002 = FCLK is divided by 3 before use. 0xFFF
+REG I2C0 MSTCTL 0x40086820 offset 0x820 :: Master control register.
+  FIELD MSTCONTINUE [0] header-agrees :: Master Continue. This bit is write-only.
+  FIELD MSTSTART [1] header-agrees :: Master Start control. This bit is write-only.
+  FIELD MSTSTOP [2] header-agrees :: Master Stop control. This bit is write-only.
+  FIELD MSTDMA [3] header-agrees :: Master DMA enable. Data operations of the I2C can be performed with DMA. Protocol type operations such as Start, address, Stop, and address match must always be done with software, typically via an interrupt. Address acknowledgement must also be done by softwa
+REG I2C0 MSTTIME 0x40086824 offset 0x824 :: Master timing configuration.
+  FIELD MSTSCLLOW [2:0] header-agrees :: Master SCL Low time. Specifies the minimum low time that will be asserted by this master on SCL. Other devices on the bus (masters or slaves) could lengthen this time. This corresponds to the parameter t LOW in the I2C bus specification. I2C bus specification 
+  FIELD MSTSCLHIGH [6:4] header-agrees :: Master SCL High time. Specifies the minimum high time that will be asserted by this master on SCL. Other masters in a multi-master system could shorten this time. This corresponds to the parameter tHIGH in the I2C bus specification. I2C bus specification param
+REG I2C0 MSTDAT 0x40086828 offset 0x828 :: Combined Master receiver and transmitter data register.
+  FIELD DATA [7:0] header-agrees :: Master function data register. Read: read the most recently received data for the Master function. Write: transmit data using the Master function.
+REG SPI0 CFG 0x40086400 offset 0x400 :: SPI Configuration register
+  FIELD ENABLE [0] header-agrees :: SPI enable.
+  FIELD MASTER [2] header-agrees :: Master mode select.
+  FIELD LSBF [3] header-agrees :: LSB First mode enable.
+  FIELD CPHA [4] header-agrees :: Clock Phase select.
+  FIELD CPOL [5] header-agrees :: Clock Polarity select.
+  FIELD LOOP [7] header-agrees :: Loopback mode enable. Loopback mode applies only to Master mode, and connects transmit and receive data connected together to allow simple software testing.
+  FIELD SPOL0 [8] header-agrees :: SSEL0 Polarity select.
+  FIELD SPOL1 [9] header-agrees :: SSEL1 Polarity select.
+  FIELD SPOL2 [10] header-agrees :: SSEL2 Polarity select.
+  FIELD SPOL3 [11] header-agrees :: SSEL3 Polarity select.
+REG SPI0 DLY 0x40086404 offset 0x404 :: SPI Delay register
+  FIELD PRE_DELAY [3:0] header-agrees :: Controls the amount of time between SSEL assertion and the beginning of a data transfer. There is always one SPI clock time between SSEL assertion and the first clock edge. This is not considered part of the pre-delay. 0x0 = No additional time is inserted. 0x1
+  FIELD POST_DELAY [7:4] header-agrees :: Controls the amount of time between the end of a data transfer and SSEL deassertion. 0x0 = No additional time is inserted. 0x1 = 1 SPI clock time is inserted. 0x2 = 2 SPI clock times are inserted. 0xF = 15 SPI clock times are inserted.
+  FIELD FRAME_DELAY [11:8] header-agrees :: If the EOF flag is set, controls the minimum amount of time between the current frame and the next frame (or SSEL deassertion if EOT). 0x0 = No additional time is inserted. 0x1 = 1 SPI clock time is inserted. 0x2 = 2 SPI clock times are inserted. 0xF = 15 SPI 
+  FIELD TRANSFER_DELAY [15:12] header-agrees :: Controls the minimum amount of time that the SSEL is deasserted between transfers. 0x0 = The minimum time that SSEL is deasserted is 1 SPI clock time. (Zero added time.) 0x1 = The minimum time that SSEL is deasserted is 2 SPI clock times. 0x2 = The minimum tim
+REG SPI0 STAT 0x40086408 offset 0x408 :: SPI Status. Some status flags can be cleared by writing a 1 to that bit position.
+  FIELD SSA [4] header-agrees :: Slave Select Assert. This flag is set whenever any slave select transitions from deasserted to asserted, in both master and slave modes. This allows determining when the SPI transmit/receive functions become busy, and allows waking up the device from reduced p
+  FIELD SSD [5] header-agrees :: Slave Select Deassert. This flag is set whenever any asserted slave selects transition to deasserted, in both master and slave modes. This allows determining when the SPI transmit/receive functions become idle. This flag is cleared by software.
+  FIELD STALLED [6] header-agrees :: Stalled status flag. This indicates whether the SPI is currently in a stall condition.
+  FIELD ENDTRANSFER [7] header-agrees :: End Transfer control bit. Software can set this bit to force an end to the current transfer when the transmitter finishes any activity already in progress, as if the EOT flag had been set prior to the last transmission. This capability is included to support c
+  FIELD MSTIDLE [8] header-agrees :: Master idle status flag. This bit is 1 whenever the SPI master function is fully idle. This means that the transmit holding register is empty and the transmitter is not in the process of sending data.
+REG SPI0 DIV 0x40086424 offset 0x424 :: SPI clock Divider
+  FIELD DIVVAL [15:0] header-agrees :: Rate divider value. Specifies how the Flexcomm clock (FCLK) is divided to produce the SPI clock rate in master mode. DIVVAL is -1 encoded such that the value 0 results in FCLK/1, the value 1 results in FCLK/2, up to the maximum possible divide value of 0xFFFF,
+REG SPI0 FIFOCFG 0x40086E00 offset 0xE00 :: FIFO configuration and enable register.
+  FIELD ENABLETX [0] header-agrees :: Enable the transmit FIFO.
+  FIELD ENABLERX [1] header-agrees :: Enable the receive FIFO.
+  FIELD SIZE [5:4] header-agrees :: FIFO size configuration. This is a read-only field. 0x0 = FIFO is configured as 16 entries of 8 bits. 0x1, 0x2, 0x3 = not applicable to USART.
+  FIELD DMATX [12] header-agrees :: DMA configuration for transmit.
+  FIELD DMARX [13] header-agrees :: DMA configuration for receive.
+  FIELD WAKETX [14] header-agrees :: Wake-up for transmit FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back 
+  FIELD WAKERX [15] header-agrees :: Wake-up for receive FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back t
+  FIELD EMPTYTX [16] header-agrees :: Empty command for the transmit FIFO. When a 1 is written to this bit, the TX FIFO is emptied.
+  FIELD EMPTYRX [17] header-agrees :: Empty command for the receive FIFO. When a 1 is written to this bit, the RX FIFO is emptied.
+REG SPI0 FIFOSTAT 0x40086E04 offset 0xE04 :: FIFO status register.
+  FIELD TXERR [0] header-agrees :: TX FIFO error. Will be set if a transmit FIFO error occurs. This could be an overflow caused by pushing data into a full FIFO, or by an underflow if the FIFO is empty when data is needed. Cleared by writing a 1 to this bit.
+  FIELD RXERR [1] header-agrees :: RX FIFO error. Will be set if a receive FIFO overflow occurs, caused by software or DMA not emptying the FIFO fast enough. Cleared by writing a 1 to this bit.
+  FIELD PERINT [3] header-agrees :: Peripheral interrupt. When 1, this indicates that the peripheral function has asserted an interrupt. The details can be found by reading the peripheral's STAT register.
+  FIELD TXEMPTY [4] header-agrees :: Transmit FIFO empty. When 1, the transmit FIFO is empty. The peripheral may still be processing the last piece of data.
+  FIELD TXNOTFULL [5] header-agrees :: Transmit FIFO not full. When 1, the transmit FIFO is not full, so more data can be written. When 0, the transmit FIFO is full and another write would cause it to overflow.
+  FIELD RXNOTEMPTY [6] header-agrees :: Receive FIFO not empty. When 1, the receive FIFO is not empty, so data can be read. When 0, the receive FIFO is empty.
+  FIELD RXFULL [7] header-agrees :: Receive FIFO full. When 1, the receive FIFO is full. Data needs to be read out to prevent the peripheral from causing an overflow.
+  FIELD TXLVL [12:8] header-agrees :: Transmit FIFO current level. A 0 means the TX FIFO is currently empty, and the TXEMPTY and TXNOTFULL flags will be 1. Other values tell how much data is actually in the TX FIFO at the point where the read occurs. If the TX FIFO is full, the TXEMPTY and TXNOTFU
+  FIELD RXLVL [20:16] header-agrees :: Receive FIFO current level. A 0 means the RX FIFO is currently empty, and the RXFULL and RXNOTEMPTY flags will be 0. Other values tell how much data is actually in the RX FIFO at the point where the read occurs. If the RX FIFO is full, the RXFULL and RXNOTEMPT
+REG SPI0 FIFOWR 0x40086E20 offset 0xE20 :: FIFO write data.
+  FIELD TXDATA [15:0] header-agrees :: Transmit data to the FIFO.
+  FIELD TXSSEL0_N [16] header-agrees :: Transmit slave select. This field asserts SSEL0 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL1_N [17] header-agrees :: Transmit slave select. This field asserts SSEL1 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL2_N [18] header-agrees :: Transmit slave select. This field asserts SSEL2 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL3_N [19] header-agrees :: Transmit slave select. This field asserts SSEL3 in master mode. The output on the pin is active LOW by default.
+  FIELD EOT [20] header-agrees :: End of transfer. The asserted SSEL will be deasserted at the end of a transfer and remain so far at least the time specified by the Transfer_delay value in the DLY register.
+  FIELD EOF [21] header-agrees :: End of frame. Between frames, a delay may be inserted, as defined by the Frame_delay value in the DLY register. The end of a frame may not be particularly meaningful if the Frame_delay value = 0. This control can be used as part of the support for frame length
+  FIELD RXIGNORE [22] header-agrees :: Receive Ignore. This allows data to be transmitted using the SPI without the need to read unneeded data from the receiver. Setting this bit simplifies the transmit process and can be used with the DMA.
+  FIELD LEN [27:24] header-agrees :: Data Length. Specifies the data length from 4 to 16 bits. Note that transfer lengths greater than 16 bits are supported by implementing multiple sequential transmits. 0x0-2 = Reserved. 0x3 = Data transfer is 4 bits in length. 0x4 = Data transfer is 5 bits in l
+REG DMA0 CTRL 0x40082000 offset 0x0 :: DMA control.
+  FIELD ENABLE [0] header-agrees :: DMA controller master enable.
+REG DMA0 SRAMBASE 0x40082008 offset 0x8 :: SRAM address of the channel configuration table.
+  FIELD OFFSET [31:9] header-agrees :: Address bits 31:9 of the beginning of the DMA descriptor table. For 18 channels, the table must begin on a 512 byte boundary.
+REG DMA0 ENABLESET0 0x40082020 offset 0x20 :: Channel Enable read and Set for all DMA channels.
+  FIELD ENA [31:0] header-mask=None :: Enable for DMA channels. Bit n enables or disables DMA channel n. The number of bits = number of DMA channels in this device. Other bits are reserved. 0 = disabled. 1 = enabled.
+REG DMA0 ENABLECLR0 0x40082028 offset 0x28 :: Channel Enable Clear for all DMA channels.
+  FIELD CLR [31:0] header-mask=None :: Writing ones to this register clears the corresponding bits in ENABLESET0. Bit n clears the channel enable bit n. The number of bits = number of DMA channels in this device. Other bits are reserved.
+REG DMA0 ACTIVE0 0x40082030 offset 0x30 :: Channel Active status for all DMA channels.
+  FIELD ACT [31:0] header-mask=None :: Active flag for DMA channel n. Bit n corresponds to DMA channel n. The number of bits = number of DMA channels in this device. Other bits are reserved. 0 = not active. 1 = active.
+REG DMA0 BUSY0 0x40082038 offset 0x38 :: Channel Busy status for all DMA channels.
+  FIELD BSY [31:0] header-mask=None :: Busy flag for DMA channel n. Bit n corresponds to DMA channel n. The number of bits = number of DMA channels in this device. Other bits are reserved. 0 = not busy. 1 = busy.
+REG DMA0 ERRINT0 0x40082040 offset 0x40 :: Error Interrupt status for all DMA channels.
+  FIELD ERR [31:0] header-mask=None :: Error Interrupt flag for DMA channel n. Bit n corresponds to DMA channel n. The number of bits = number of DMA channels in this device. Other bits are reserved. 0 = error interrupt is not active. 1 = error interrupt is active.
+REG DMA0 INTENSET0 0x40082048 offset 0x48 :: Interrupt Enable read and Set for all DMA channels.
+  FIELD INTEN [31:0] header-mask=None :: Interrupt Enable read and set for DMA channel n. Bit n corresponds to DMA channel n. The number of bits = number of DMA channels in this device. Other bits are reserved. 0 = interrupt for DMA channel is disabled. 1 = interrupt for DMA channel is enabled.
+REG DMA0 INTA0 0x40082058 offset 0x58 :: Interrupt A status for all DMA channels.
+  FIELD IA [31:0] header-mask=None :: Interrupt A status for DMA channel n. Bit n corresponds to DMA channel n. The number of bits = number of DMA channels in this device. Other bits are reserved. 0 = the DMA channel interrupt A is not active. 1 = the DMA channel interrupt A is active.
+REG DMA0 SETTRIG0 0x40082070 offset 0x70 :: Set Trigger control bits for all DMA channels.
+  FIELD TRIG [31:0] header-mask=None :: Set Trigger control bit for DMA channel 0. Bit n corresponds to DMA channel n. The number of bits = number of DMA channels in this device. Other bits are reserved. 0 = no effect. 1 = sets the TRIG bit for DMA channel n.
+REG DMA0 ABORT0 0x40082078 offset 0x78 :: Channel Abort control for all DMA channels.
+  FIELD ABORTCTRL [31:0] header-mask=None :: Abort control for DMA channel 0. Bit n corresponds to DMA channel n. 0 = no effect. 1 = aborts DMA operations on channel n.
+REG DMA0 CHANNEL[%s](dim 23 step 0x10).CFG 0x40082400 offset 0x400 :: Configuration register for DMA channel .
+  FIELD PERIPHREQEN [0] header-agrees :: Peripheral request Enable. If a DMA channel is used to perform a memory-to-memory move, any peripheral DMA request associated with that channel can be disabled to prevent any interaction between the peripheral and the DMA controller.
+  FIELD HWTRIGEN [1] header-agrees :: Hardware Triggering Enable for this channel.
+  FIELD TRIGPOL [4] header-agrees :: Trigger Polarity. Selects the polarity of a hardware trigger for this channel.
+  FIELD TRIGTYPE [5] header-agrees :: Trigger Type. Selects hardware trigger as edge triggered or level triggered.
+  FIELD TRIGBURST [6] header-agrees :: Trigger Burst. Selects whether hardware triggers cause a single or burst transfer.
+  FIELD BURSTPOWER [11:8] header-agrees :: Burst Power is used in two ways. It always selects the address wrap size when SRCBURSTWRAP and/or DSTBURSTWRAP modes are selected (see descriptions elsewhere in this register). When the TRIGBURST field elsewhere in this register = 1, Burst Power selects how ma
+  FIELD SRCBURSTWRAP [14] header-agrees :: Source Burst Wrap. When enabled, the source data address for the DMA is 'wrapped', meaning that the source address range for each burst will be the same. As an example, this could be used to read several sequential registers from a peripheral for each DMA burs
+  FIELD DSTBURSTWRAP [15] header-agrees :: Destination Burst Wrap. When enabled, the destination data address for the DMA is 'wrapped', meaning that the destination address range for each burst will be the same. As an example, this could be used to write several sequential registers to a peripheral for
+  FIELD CHPRIORITY [18:16] header-agrees :: Priority of this channel when multiple DMA requests are pending. Eight priority levels are supported: 0x0 = highest priority. 0x7 = lowest priority.
+REG DMA0 CHANNEL[%s](dim 23 step 0x10).CTLSTAT 0x40082404 offset 0x404 :: Control and status register for DMA channel .
+  FIELD VALIDPENDING [0] header-agrees :: Valid pending flag for this channel. This bit is set when a 1 is written to the corresponding bit in the related SETVALID register when CFGVALID = 1 for the same channel.
+  FIELD TRIG [2] header-agrees :: Trigger flag. Indicates that the trigger for this channel is currently set. This bit is cleared at the end of an entire transfer or upon reload when CLRTRIG = 1.
+REG DMA0 CHANNEL[%s](dim 23 step 0x10).XFERCFG 0x40082408 offset 0x408 :: Transfer configuration register for DMA channel .
+  FIELD CFGVALID [0] header-agrees :: Configuration Valid flag. This bit indicates whether the current channel descriptor is valid and can potentially be acted upon, if all other activation criteria are fulfilled.
+  FIELD RELOAD [1] header-agrees :: Indicates whether the channel's control structure will be reloaded when the current descriptor is exhausted. Reloading allows ping-pong and linked transfers.
+  FIELD SWTRIG [2] header-agrees :: Software Trigger.
+  FIELD CLRTRIG [3] header-agrees :: Clear Trigger.
+  FIELD SETINTA [4] header-agrees :: Set Interrupt flag A for this channel. There is no hardware distinction between interrupt A and B. They can be used by software to assist with more complex descriptor usage. By convention, interrupt A may be used when only one interrupt flag is needed.
+  FIELD SETINTB [5] header-agrees :: Set Interrupt flag B for this channel. There is no hardware distinction between interrupt A and B. They can be used by software to assist with more complex descriptor usage. By convention, interrupt A may be used when only one interrupt flag is needed.
+  FIELD WIDTH [9:8] header-agrees :: Transfer width used for this DMA channel.
+  FIELD SRCINC [13:12] header-agrees :: Determines whether the source address is incremented for each DMA transfer.
+  FIELD DSTINC [15:14] header-agrees :: Determines whether the destination address is incremented for each DMA transfer.
+  FIELD XFERCOUNT [25:16] header-agrees :: Total number of transfers to be performed, minus 1 encoded. The number of bytes transferred is: (XFERCOUNT + 1) x data width (as defined by the WIDTH field). The DMA controller uses this bit field during transfer to count down. Hence, it cannot be used by soft
+REG CTIMER0 IR 0x40008000 offset 0x0 :: Interrupt Register. The IR can be written to clear interrupts. The IR can be read to identify which of eight possible interrupt sources are pending.
+  FIELD MR0INT [0] header-agrees :: Interrupt flag for match channel 0.
+  FIELD MR1INT [1] header-agrees :: Interrupt flag for match channel 1.
+  FIELD MR2INT [2] header-agrees :: Interrupt flag for match channel 2.
+  FIELD MR3INT [3] header-agrees :: Interrupt flag for match channel 3.
+  FIELD CR0INT [4] header-agrees :: Interrupt flag for capture channel 0 event.
+  FIELD CR1INT [5] header-agrees :: Interrupt flag for capture channel 1 event.
+  FIELD CR2INT [6] header-agrees :: Interrupt flag for capture channel 2 event.
+  FIELD CR3INT [7] header-agrees :: Interrupt flag for capture channel 3 event.
+REG CTIMER0 TCR 0x40008004 offset 0x4 :: Timer Control Register. The TCR is used to control the Timer Counter functions. The Timer Counter can be disabled or reset through the TCR.
+  FIELD CEN [0] header-agrees :: Counter enable.
+  FIELD CRST [1] header-agrees :: Counter reset.
+REG CTIMER0 TC 0x40008008 offset 0x8 :: Timer Counter
+  FIELD TCVAL [31:0] header-agrees :: Timer counter value.
+REG CTIMER0 PR 0x4000800C offset 0xC :: Prescale Register
+  FIELD PRVAL [31:0] header-agrees :: Prescale counter value.
+REG CTIMER0 MCR 0x40008014 offset 0x14 :: Match Control Register
+  FIELD MR0I [0] header-agrees :: Interrupt on MR0: an interrupt is generated when MR0 matches the value in the TC.
+  FIELD MR0R [1] header-agrees :: Reset on MR0: the TC will be reset if MR0 matches it.
+  FIELD MR0S [2] header-agrees :: Stop on MR0: the TC and PC will be stopped and TCR[0] will be set to 0 if MR0 matches the TC.
+  FIELD MR1I [3] header-agrees :: Interrupt on MR1: an interrupt is generated when MR1 matches the value in the TC.
+  FIELD MR1R [4] header-agrees :: Reset on MR1: the TC will be reset if MR1 matches it.
+  FIELD MR1S [5] header-agrees :: Stop on MR1: the TC and PC will be stopped and TCR[0] will be set to 0 if MR1 matches the TC.
+  FIELD MR2I [6] header-agrees :: Interrupt on MR2: an interrupt is generated when MR2 matches the value in the TC.
+  FIELD MR2R [7] header-agrees :: Reset on MR2: the TC will be reset if MR2 matches it.
+  FIELD MR2S [8] header-agrees :: Stop on MR2: the TC and PC will be stopped and TCR[0] will be set to 0 if MR2 matches the TC.
+  FIELD MR3I [9] header-agrees :: Interrupt on MR3: an interrupt is generated when MR3 matches the value in the TC.
+  FIELD MR3R [10] header-agrees :: Reset on MR3: the TC will be reset if MR3 matches it.
+  FIELD MR3S [11] header-agrees :: Stop on MR3: the TC and PC will be stopped and TCR[0] will be set to 0 if MR3 matches the TC.
+  FIELD MR0RL [24] header-agrees :: Reload MR0 with the contents of the Match 0 Shadow Register when the TC is reset to zero (either via a match event or a write to bit 1 of the TCR).
+  FIELD MR1RL [25] header-agrees :: Reload MR1 with the contents of the Match 1 Shadow Register when the TC is reset to zero (either via a match event or a write to bit 1 of the TCR).
+  FIELD MR2RL [26] header-agrees :: Reload MR2 with the contents of the Match 2 Shadow Register when the TC is reset to zero (either via a match event or a write to bit 1 of the TCR).
+  FIELD MR3RL [27] header-agrees :: Reload MR3 with the contents of the Match 3 Shadow Register when the TC is reset to zero (either via a match event or a write to bit 1 of the TCR).
+REG CTIMER0 MR[%s] 0x40008018 offset 0x18 dim 4 step 0x4 :: Match Register . MR can be enabled through the MCR to reset the TC, stop both the TC and PC, and/or generate an interrupt every time MR matches the TC.
+  FIELD MATCH [31:0] header-agrees :: Timer counter match value.
+REG CTIMER0 CCR 0x40008028 offset 0x28 :: Capture Control Register. The CCR controls which edges of the capture inputs are used to load the Capture Registers and whether or not an interrupt is generated when a capture takes place.
+  FIELD CAP0RE [0] header-agrees :: Rising edge of capture channel 0: a sequence of 0 then 1 causes CR0 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP0FE [1] header-agrees :: Falling edge of capture channel 0: a sequence of 1 then 0 causes CR0 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP0I [2] header-agrees :: Generate interrupt on channel 0 capture event: a CR0 load generates an interrupt.
+  FIELD CAP1RE [3] header-agrees :: Rising edge of capture channel 1: a sequence of 0 then 1 causes CR1 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP1FE [4] header-agrees :: Falling edge of capture channel 1: a sequence of 1 then 0 causes CR1 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP1I [5] header-agrees :: Generate interrupt on channel 1 capture event: a CR1 load generates an interrupt.
+  FIELD CAP2RE [6] header-agrees :: Rising edge of capture channel 2: a sequence of 0 then 1 causes CR2 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP2FE [7] header-agrees :: Falling edge of capture channel 2: a sequence of 1 then 0 causes CR2 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP2I [8] header-agrees :: Generate interrupt on channel 2 capture event: a CR2 load generates an interrupt.
+  FIELD CAP3RE [9] header-agrees :: Rising edge of capture channel 3: a sequence of 0 then 1 causes CR3 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP3FE [10] header-agrees :: Falling edge of capture channel 3: a sequence of 1 then 0 causes CR3 to be loaded with the contents of TC. 0 = disabled. 1 = enabled.
+  FIELD CAP3I [11] header-agrees :: Generate interrupt on channel 3 capture event: a CR3 load generates an interrupt.
+REG CTIMER0 CR[%s] 0x4000802C offset 0x2C dim 4 step 0x4 :: Capture Register . CR is loaded with the value of TC when there is an event on the CAPn. input.
+  FIELD CAP [31:0] header-agrees :: Timer counter capture value.
+REG CTIMER0 CTCR 0x40008070 offset 0x70 :: Count Control Register. The CTCR selects between Timer and Counter mode, and in Counter mode selects the signal and edge(s) for counting.
+  FIELD CTMODE [1:0] header-agrees :: Counter/Timer Mode This field selects which rising APB bus clock edges can increment Timer's Prescale Counter (PC), or clear PC and increment Timer Counter (TC). Timer Mode: the TC is incremented when the Prescale Counter matches the Prescale Register.
+  FIELD CINSEL [3:2] header-agrees :: Count Input Select When bits 1:0 in this register are not 00, these bits select which CAP pin is sampled for clocking. Note: If Counter mode is selected for a particular CAPn input in the CTCR, the 3 bits for that input in the Capture Control Register (CCR) mu
+  FIELD ENCC [4] header-agrees :: Setting this bit to 1 enables clearing of the timer and the prescaler when the capture-edge event specified in bits 7:5 occurs.
+  FIELD SELCC [7:5] header-agrees :: Edge select. When bit 4 is 1, these bits select which capture input edge will cause the timer and prescaler to be cleared. These bits have no effect when bit 4 is low. Values 0x2 to 0x3 and 0x6 to 0x7 are reserved.
+REG CTIMER0 MSR[%s] 0x40008078 offset 0x78 dim 4 step 0x4 :: Match Shadow Register
+  FIELD SHADOW [31:0] header-agrees :: Timer counter match shadow value.
+REG INPUTMUX TIMER0CAPTSEL[%s] 0x40006020 offset 0x20 dim 4 step 0x4 :: Capture select registers for TIMER0 inputs
+  FIELD CAPTSEL [4:0] header-agrees :: Input number to TIMER0 capture inputs 0 to 4
+REG INPUTMUX DMA0_REQ_ENA_SET 0x40006748 offset 0x748 :: Set one or several bits in DMA0_REQ_ENA register
+  FIELD SET [22:0] header-agrees :: Write : If bit #i = 1, bit #i in DMA0_REQ_ENA register is set to 1; if bit #i = 0 , no change in DMA0_REQ_ENA register
+REG WWDT MOD 0x4000C000 offset 0x0 :: Watchdog mode register. This register contains the basic mode and status of the Watchdog Timer.
+  FIELD WDEN [0] header-agrees :: Watchdog enable bit. Once this bit is set to one and a watchdog feed is performed, the watchdog timer will run permanently.
+  FIELD WDRESET [1] header-agrees :: Watchdog reset enable bit. Once this bit has been written with a 1 it cannot be re-written with a 0.
+  FIELD WDTOF [2] header-agrees :: Watchdog time-out flag. Set when the watchdog timer times out, by a feed error, or by events associated with WDPROTECT. Cleared by software writing a 0 to this bit position. Causes a chip reset if WDRESET = 1.
+  FIELD WDINT [3] header-agrees :: Warning interrupt flag. Set when the timer is at or below the value in WDWARNINT. Cleared by software writing a 1 to this bit position. Note that this bit cannot be cleared while the WARNINT value is equal to the value of the TV register. This can occur if the
+  FIELD WDPROTECT [4] header-agrees :: Watchdog update mode. This bit can be set once by software and is only cleared by a reset.
+REG WWDT TC 0x4000C004 offset 0x4 :: Watchdog timer constant register. This 24-bit register determines the time-out value.
+  FIELD COUNT [23:0] header-agrees :: Watchdog time-out value.
+REG WWDT FEED 0x4000C008 offset 0x8 :: Watchdog feed sequence register. Writing 0xAA followed by 0x55 to this register reloads the Watchdog timer with the value contained in TC.
+  FIELD FEED [7:0] header-agrees :: Feed value should be 0xAA followed by 0x55.
+REG WWDT TV 0x4000C00C offset 0xC :: Watchdog timer value register. This 24-bit register reads out the current value of the Watchdog timer.
+  FIELD COUNT [23:0] header-agrees :: Counter timer value.
+REG WWDT WARNINT 0x4000C014 offset 0x14 :: Watchdog Warning Interrupt compare value.
+  FIELD WARNINT [9:0] header-agrees :: Watchdog warning interrupt compare value.
+REG WWDT WINDOW 0x4000C018 offset 0x18 :: Watchdog Window compare value.
+  FIELD WINDOW [23:0] header-agrees :: Watchdog window value.
+REG GPIO B[%s](dim 2 step 0x20).B_[%s] 0x4008C000 offset 0x0 dim 32 step 0x1 :: Byte pin registers for all port GPIO pins
+  FIELD PBYTE [0] header-mask=None :: Read: state of the pin PIOm_n, regardless of direction, masking, or alternate function, except that pins configured as analog I/O always read as 0. One register for each port pin. Supported pins depends on the specific device and package. Write: loads the pin'
+REG GPIO W[%s](dim 2 step 0x80).W_[%s] 0x4008D000 offset 0x1000 dim 32 step 0x4 :: Word pin registers for all port GPIO pins
+  FIELD PWORD [31:0] header-mask=None :: Read 0: pin PIOm_n is LOW. Write 0: clear output bit. Read 0xFFFF FFFF: pin PIOm_n is HIGH. Write any value 0x0000 0001 to 0xFFFF FFFF: set output bit. Only 0 or 0xFFFF FFFF can be read. Writing any value other than 0 will set the output bit. One register for 
+REG GPIO DIR[%s] 0x4008E000 offset 0x2000 dim 2 step 0x4 :: Direction registers for all port GPIO pins
+  FIELD DIRP [31:0] header-agrees :: Selects pin direction for pin PIOm_n (bit 0 = PIOn_0, bit 1 = PIOn_1, etc.). Supported pins depends on the specific device and package. 0 = input. 1 = output.
+REG GPIO PIN[%s] 0x4008E100 offset 0x2100 dim 2 step 0x4 :: Port pin register for all port GPIO pins
+  FIELD PORT [31:0] header-agrees :: Reads pin states or loads output bits (bit 0 = PIOn_0, bit 1 = PIOn_1, etc.). Supported pins depends on the specific device and package. 0 = Read: pin is low; write: clear output bit. 1 = Read: pin is high; write: set output bit.
+REG GPIO SET[%s] 0x4008E200 offset 0x2200 dim 2 step 0x4 :: Write: Set register for port. Read: output bits for port
+  FIELD SETP [31:0] header-agrees :: Read or set output bits (bit 0 = PIOn_0, bit 1 = PIOn_1, etc.). Supported pins depends on the specific device and package. 0 = Read: output bit: write: no operation. 1 = Read: output bit; write: set output bit.
+REG GPIO CLR[%s] 0x4008E280 offset 0x2280 dim 2 step 0x4 :: Clear port for all port GPIO pins
+  FIELD CLRP [31:0] header-agrees :: Clear output bits (bit 0 = PIOn_0, bit 1 = PIOn_1, etc.). Supported pins depends on the specific device and package. 0 = No operation. 1 = Clear output bit.
+REG GPIO NOT[%s] 0x4008E300 offset 0x2300 dim 2 step 0x4 :: Toggle port for all port GPIO pins
+  FIELD NOTP [31:0] header-agrees :: Toggle output bits (bit 0 = PIOn_0, bit 1 = PIOn_1, etc.). Supported pins depends on the specific device and package. 0 = no operation. 1 = Toggle output bit.
+REG GPIO DIRSET[%s] 0x4008E380 offset 0x2380 dim 2 step 0x4 :: Set pin direction bits for port
+  FIELD DIRSETP [31:0] header-agrees :: Set direction bits (bit 0 = PIOn_0, bit 1 = PIOn_1, etc.). Supported pins depends on the specific device and package. 0 = No operation. 1 = Set direction bit.
+REG GPIO DIRCLR[%s] 0x4008E400 offset 0x2400 dim 2 step 0x4 :: Clear pin direction bits for port
+  FIELD DIRCLRP [31:0] header-agrees :: Clear direction bits (bit 0 = PIOn_0, bit 1 = PIOn_1, etc.). Supported pins depends on the specific device and package. 0 = No operation. 1 = Clear direction bit.
+REG IOCON PIO0_28 0x40001070 offset 0x70 :: Digital I/O control for port 0 pins PIO0_28
+  FIELD FUNC [3:0] header-mask=None :: Selects pin function.
+  FIELD MODE [5:4] header-mask=None :: Selects function mode (on-chip pull-up/pull-down resistor control).
+  FIELD SLEW [6] header-mask=None :: Driver slew rate.
+  FIELD INVERT [7] header-mask=None :: Input polarity.
+  FIELD DIGIMODE [8] header-mask=None :: Select Digital mode.
+  FIELD OD [9] header-mask=None :: Controls open-drain mode.
+REG ADC0 VERID 0x400A0000 offset 0x0 :: Version ID Register
+  FIELD RES [0] header-agrees :: Resolution
+  FIELD DIFFEN [1] header-agrees :: Differential Supported
+  FIELD MVI [3] header-agrees :: Multi Vref Implemented
+  FIELD CSW [6:4] header-agrees :: Channel Scale Width
+  FIELD VR1RNGI [8] header-agrees :: Voltage Reference 1 Range Control Bit Implemented
+  FIELD IADCKI [9] header-agrees :: Internal ADC Clock implemented
+  FIELD CALOFSI [10] header-agrees :: Calibration Function Implemented
+  FIELD NUM_SEC [11] header-agrees :: Number of Single Ended Outputs Supported
+  FIELD NUM_FIFO [14:12] header-agrees :: Number of FIFOs
+  FIELD MINOR [23:16] header-agrees :: Minor Version Number
+  FIELD MAJOR [31:24] header-agrees :: Major Version Number
+REG ADC0 CTRL 0x400A0010 offset 0x10 :: ADC Control Register
+  FIELD ADCEN [0] header-agrees :: ADC Enable
+  FIELD RST [1] header-agrees :: Software Reset
+  FIELD DOZEN [2] header-agrees :: Doze Enable
+  FIELD CAL_REQ [3] header-agrees :: Auto-Calibration Request
+  FIELD CALOFS [4] header-agrees :: Configure for offset calibration function
+  FIELD RSTFIFO0 [8] header-agrees :: Reset FIFO 0
+  FIELD RSTFIFO1 [9] header-agrees :: Reset FIFO 1
+  FIELD CAL_AVGS [18:16] header-agrees :: Auto-Calibration Averages
+REG ADC0 STAT 0x400A0014 offset 0x14 :: ADC Status Register
+  FIELD RDY0 [0] header-agrees :: Result FIFO 0 Ready Flag
+  FIELD FOF0 [1] header-agrees :: Result FIFO 0 Overflow Flag
+  FIELD RDY1 [2] header-agrees :: Result FIFO1 Ready Flag
+  FIELD FOF1 [3] header-agrees :: Result FIFO1 Overflow Flag
+  FIELD TEXC_INT [8] header-agrees :: Interrupt Flag For High Priority Trigger Exception
+  FIELD TCOMP_INT [9] header-agrees :: Interrupt Flag For Trigger Completion
+  FIELD CAL_RDY [10] header-agrees :: Calibration Ready
+  FIELD ADC_ACTIVE [11] header-agrees :: ADC Active
+  FIELD TRGACT [19:16] header-agrees :: Trigger Active
+  FIELD CMDACT [27:24] header-agrees :: Command Active
+REG ADC0 SWTRIG 0x400A0034 offset 0x34 :: Software Trigger Register
+  FIELD SWT0 [0] header-agrees :: Software trigger 0 event
+  FIELD SWT1 [1] header-agrees :: Software trigger 1 event
+  FIELD SWT2 [2] header-agrees :: Software trigger 2 event
+  FIELD SWT3 [3] header-agrees :: Software trigger 3 event
+  FIELD SWT4 [4] header-agrees :: Software trigger 4 event
+  FIELD SWT5 [5] header-agrees :: Software trigger 5 event
+  FIELD SWT6 [6] header-agrees :: Software trigger 6 event
+  FIELD SWT7 [7] header-agrees :: Software trigger 7 event
+  FIELD SWT8 [8] header-agrees :: Software trigger 8 event
+  FIELD SWT9 [9] header-agrees :: Software trigger 9 event
+  FIELD SWT10 [10] header-agrees :: Software trigger 10 event
+  FIELD SWT11 [11] header-agrees :: Software trigger 11 event
+  FIELD SWT12 [12] header-agrees :: Software trigger 12 event
+  FIELD SWT13 [13] header-agrees :: Software trigger 13 event
+  FIELD SWT14 [14] header-agrees :: Software trigger 14 event
+  FIELD SWT15 [15] header-agrees :: Software trigger 15 event
+REG ADC0 TCTRL[%s] 0x400A00A0 offset 0xA0 dim 16 step 0x4 :: Trigger Control Register
+  FIELD HTEN [0] header-agrees :: Trigger enable
+  FIELD FIFO_SEL_A [1] header-agrees :: SAR Result Destination For Channel A
+  FIELD FIFO_SEL_B [2] header-agrees :: SAR Result Destination For Channel B
+  FIELD TPRI [11:8] header-agrees :: Trigger priority setting
+  FIELD RSYNC [15] header-agrees :: Trigger Resync
+  FIELD TDLY [19:16] header-agrees :: Trigger delay select
+  FIELD TCMD [27:24] header-agrees :: Trigger command select
+REG ADC0 FCTRL[%s] 0x400A00E0 offset 0xE0 dim 2 step 0x4 :: FIFO Control Register
+  FIELD FCOUNT [4:0] header-agrees :: Result FIFO counter
+  FIELD FWMARK [19:16] header-agrees :: Watermark level selection
+REG ADC0 CMDL1 0x400A0100 offset 0x100 :: ADC Command Low Buffer Register
+  FIELD ADCH [4:0] header-mask=None :: Input channel select
+  FIELD CTYPE [6:5] header-mask=None :: Conversion Type
+  FIELD MODE [7] header-mask=None :: Select resolution of conversions
+REG ADC0 CMDH1 0x400A0104 offset 0x104 :: ADC Command High Buffer Register
+  FIELD CMPEN [1:0] header-mask=None :: Compare Function Enable
+  FIELD WAIT_TRIG [2] header-mask=None :: Wait for trigger assertion before execution.
+  FIELD LWI [7] header-mask=None :: Loop with Increment
+  FIELD STS [10:8] header-mask=None :: Sample Time Select
+  FIELD AVGS [14:12] header-mask=None :: Hardware Average Select
+  FIELD LOOP [19:16] header-mask=None :: Loop Count Select
+  FIELD NEXT [27:24] header-mask=None :: Next Command Select
+REG ADC0 CMDL2 0x400A0108 offset 0x108 :: ADC Command Low Buffer Register
+  FIELD ADCH [4:0] header-mask=None :: Input channel select
+  FIELD CTYPE [6:5] header-mask=None :: Conversion Type
+  FIELD MODE [7] header-mask=None :: Select resolution of conversions
+REG ADC0 CMDH2 0x400A010C offset 0x10C :: ADC Command High Buffer Register
+  FIELD CMPEN [1:0] header-mask=None :: Compare Function Enable
+  FIELD WAIT_TRIG [2] header-mask=None :: Wait for trigger assertion before execution.
+  FIELD LWI [7] header-mask=None :: Loop with Increment
+  FIELD STS [10:8] header-mask=None :: Sample Time Select
+  FIELD AVGS [14:12] header-mask=None :: Hardware Average Select
+  FIELD LOOP [19:16] header-mask=None :: Loop Count Select
+  FIELD NEXT [27:24] header-mask=None :: Next Command Select
+REG ADC0 CMDL3 0x400A0110 offset 0x110 :: ADC Command Low Buffer Register
+  FIELD ADCH [4:0] header-mask=None :: Input channel select
+  FIELD CTYPE [6:5] header-mask=None :: Conversion Type
+  FIELD MODE [7] header-mask=None :: Select resolution of conversions
+REG ADC0 CMDH3 0x400A0114 offset 0x114 :: ADC Command High Buffer Register
+  FIELD CMPEN [1:0] header-mask=None :: Compare Function Enable
+  FIELD WAIT_TRIG [2] header-mask=None :: Wait for trigger assertion before execution.
+  FIELD LWI [7] header-mask=None :: Loop with Increment
+  FIELD STS [10:8] header-mask=None :: Sample Time Select
+  FIELD AVGS [14:12] header-mask=None :: Hardware Average Select
+  FIELD LOOP [19:16] header-mask=None :: Loop Count Select
+  FIELD NEXT [27:24] header-mask=None :: Next Command Select
+REG ADC0 CMDL4 0x400A0118 offset 0x118 :: ADC Command Low Buffer Register
+  FIELD ADCH [4:0] header-mask=None :: Input channel select
+  FIELD CTYPE [6:5] header-mask=None :: Conversion Type
+  FIELD MODE [7] header-mask=None :: Select resolution of conversions
+REG ADC0 CMDH4 0x400A011C offset 0x11C :: ADC Command High Buffer Register
+  FIELD CMPEN [1:0] header-mask=None :: Compare Function Enable
+  FIELD WAIT_TRIG [2] header-mask=None :: Wait for trigger assertion before execution.
+  FIELD LWI [7] header-mask=None :: Loop with Increment
+  FIELD STS [10:8] header-mask=None :: Sample Time Select
+  FIELD AVGS [14:12] header-mask=None :: Hardware Average Select
+  FIELD LOOP [19:16] header-mask=None :: Loop Count Select
+  FIELD NEXT [27:24] header-mask=None :: Next Command Select
+REG ADC0 CMDL5 0x400A0120 offset 0x120 :: ADC Command Low Buffer Register
+  FIELD ADCH [4:0] header-mask=None :: Input channel select
+  FIELD CTYPE [6:5] header-mask=None :: Conversion Type
+  FIELD MODE [7] header-mask=None :: Select resolution of conversions
+REG ADC0 CMDH5 0x400A0124 offset 0x124 :: ADC Command High Buffer Register
+  FIELD WAIT_TRIG [2] header-mask=None :: Wait for trigger assertion before execution.
+  FIELD LWI [7] header-mask=None :: Loop with Increment
+  FIELD STS [10:8] header-mask=None :: Sample Time Select
+  FIELD AVGS [14:12] header-mask=None :: Hardware Average Select
+  FIELD LOOP [19:16] header-mask=None :: Loop Count Select
+  FIELD NEXT [27:24] header-mask=None :: Next Command Select
+REG ADC0 RESFIFO[%s] 0x400A0300 offset 0x300 dim 2 step 0x4 :: ADC Data Result FIFO Register
+  FIELD D [15:0] header-agrees :: Data result
+  FIELD TSRC [19:16] header-agrees :: Trigger Source
+  FIELD LOOPCNT [23:20] header-agrees :: Loop count value
+  FIELD CMDSRC [27:24] header-agrees :: Command Buffer Source
+  FIELD VALID [31] header-agrees :: FIFO entry is valid
+REG ADC0 CFG 0x400A0020 offset 0x20 :: ADC Configuration Register
+  FIELD TPRICTRL [1:0] header-agrees :: ADC trigger priority control
+  FIELD PWRSEL [5:4] header-agrees :: Power Configuration Select
+  FIELD REFSEL [7:6] header-agrees :: Voltage Reference Selection
+  FIELD TRES [8] header-agrees :: Trigger Resume Enable
+  FIELD TCMDRES [9] header-agrees :: Trigger Command Resume
+  FIELD HPT_EXDI [10] header-agrees :: High Priority Trigger Exception Disable
+  FIELD PUDLY [23:16] header-agrees :: Power Up Delay
+  FIELD PWREN [28] header-agrees :: ADC Analog Pre-Enable
+REG ADC0 PAUSE 0x400A0024 offset 0x24 :: ADC Pause Register
+  FIELD PAUSEDLY [8:0] header-agrees :: Pause Delay
+  FIELD PAUSEEN [31] header-agrees :: PAUSE Option Enable
+REG ADC0 GCC[%s] 0x400A00F0 offset 0xF0 dim 2 step 0x4 :: Gain Calibration Control
+  FIELD GAIN_CAL [15:0] header-agrees :: Gain Calibration Value
+  FIELD RDY [24] header-agrees :: Gain Calibration Value Valid
+REG ADC0 GCR[%s] 0x400A00F8 offset 0xF8 dim 2 step 0x4 :: Gain Calculation Result
+  FIELD GCALR [15:0] header-agrees :: Gain Calculation Result
+  FIELD RDY [24] header-agrees :: Gain Calculation Ready
+REG USBHSD DEVCMDSTAT 0x40094000 offset 0x0 :: USB Device Command/Status register
+  FIELD DEV_ADDR [6:0] header-agrees :: USB device address.
+  FIELD DEV_EN [7] header-agrees :: USB device enable.
+  FIELD SETUP [8] header-agrees :: SETUP token received.
+  FIELD FORCE_NEEDCLK [9] header-agrees :: Forces the NEEDCLK output to always be on:.
+  FIELD LPM_SUP [11] header-agrees :: LPM Supported:.
+  FIELD INTONNAK_AO [12] header-agrees :: Interrupt on NAK for interrupt and bulk OUT EP:.
+  FIELD INTONNAK_AI [13] header-agrees :: Interrupt on NAK for interrupt and bulk IN EP:.
+  FIELD INTONNAK_CO [14] header-agrees :: Interrupt on NAK for control OUT EP:.
+  FIELD INTONNAK_CI [15] header-agrees :: Interrupt on NAK for control IN EP:.
+  FIELD DCON [16] header-agrees :: Device status - connect.
+  FIELD DSUS [17] header-agrees :: Device status - suspend.
+  FIELD LPM_SUS [19] header-agrees :: Device status - LPM Suspend.
+  FIELD LPM_REWP [20] header-agrees :: LPM Remote Wake-up Enabled by USB host.
+  FIELD Speed [23:22] header-agrees :: This field indicates the speed at which the device operates: 00b: reserved 01b: full-speed 10b: high-speed 11b: super-speed (reserved for future use).
+  FIELD DCON_C [24] header-agrees :: Device status - connect change.
+  FIELD DSUS_C [25] header-agrees :: Device status - suspend change.
+  FIELD DRES_C [26] header-agrees :: Device status - reset change.
+  FIELD VBUS_DEBOUNCED [28] header-agrees :: This bit indicates if VBUS is detected or not.
+  FIELD PHY_TEST_MODE [31:29] header-agrees :: This field is written by firmware to put the PHY into a test mode as defined by the USB2.0 specification
+REG USBHSD INFO 0x40094004 offset 0x4 :: USB Info register
+  FIELD FRAME_NR [10:0] header-agrees :: Frame number.
+  FIELD ERR_CODE [14:11] header-agrees :: The error code which last occurred:.
+  FIELD MINREV [23:16] header-agrees :: Minor revision.
+  FIELD MAJREV [31:24] header-agrees :: Major revision.
+REG USBHSD EPLISTSTART 0x40094008 offset 0x8 :: USB EP Command/Status List start address
+  FIELD EP_LIST_PRG [19:8] header-agrees :: Programmable portion of the USB EP Command/Status List address.
+  FIELD EP_LIST_FIXED [31:20] header-agrees :: Fixed portion of USB EP Command/Status List address.
+REG USBHSD DATABUFSTART 0x4009400C offset 0xC :: USB Data buffer start address
+  FIELD DA_BUF [31:0] header-agrees :: Start address of the memory page where all endpoint data buffers are located.
+REG USBHSD EPSKIP 0x40094014 offset 0x14 :: USB Endpoint skip
+  FIELD SKIP [11:0] header-agrees :: Endpoint skip: Writing 1 to one of these bits, will indicate to HW that it must deactivate the buffer assigned to this endpoint and return control back to software.
+REG USBHSD EPINUSE 0x40094018 offset 0x18 :: USB Endpoint Buffer in use
+  FIELD BUF [11:2] header-agrees :: Buffer in use: This register has one bit per physical endpoint.
+REG USBHSD EPBUFCFG 0x4009401C offset 0x1C :: USB Endpoint Buffer Configuration register
+  FIELD BUF_SB [11:2] header-agrees :: Buffer usage: This register has one bit per physical endpoint.
+REG USBHSD INTSTAT 0x40094020 offset 0x20 :: USB interrupt status register
+  FIELD EP0OUT [0] header-agrees :: Interrupt status register bit for the Control EP0 OUT direction.
+  FIELD EP0IN [1] header-agrees :: Interrupt status register bit for the Control EP0 IN direction.
+  FIELD EP1OUT [2] header-agrees :: Interrupt status register bit for the EP1 OUT direction.
+  FIELD EP1IN [3] header-agrees :: Interrupt status register bit for the EP1 IN direction.
+  FIELD EP2OUT [4] header-agrees :: Interrupt status register bit for the EP2 OUT direction.
+  FIELD EP2IN [5] header-agrees :: Interrupt status register bit for the EP2 IN direction.
+  FIELD EP3OUT [6] header-agrees :: Interrupt status register bit for the EP3 OUT direction.
+  FIELD EP3IN [7] header-agrees :: Interrupt status register bit for the EP3 IN direction.
+  FIELD EP4OUT [8] header-agrees :: Interrupt status register bit for the EP4 OUT direction.
+  FIELD EP4IN [9] header-agrees :: Interrupt status register bit for the EP4 IN direction.
+  FIELD EP5OUT [10] header-agrees :: Interrupt status register bit for the EP5 OUT direction.
+  FIELD EP5IN [11] header-agrees :: Interrupt status register bit for the EP5 IN direction.
+  FIELD FRAME_INT [30] header-agrees :: Frame interrupt.
+  FIELD DEV_INT [31] header-agrees :: Device status interrupt.
+REG USBHSD INTEN 0x40094024 offset 0x24 :: USB interrupt enable register
+  FIELD EP_INT_EN [11:0] header-agrees :: If this bit is set and the corresponding USB interrupt status bit is set, a HW interrupt is generated on the interrupt line.
+  FIELD FRAME_INT_EN [30] header-agrees :: If this bit is set and the corresponding USB interrupt status bit is set, a HW interrupt is generated on the interrupt line.
+  FIELD DEV_INT_EN [31] header-agrees :: If this bit is set and the corresponding USB interrupt status bit is set, a HW interrupt is generated on the interrupt line.
+REG USBHSD INTSETSTAT 0x40094028 offset 0x28 :: USB set interrupt status register
+  FIELD EP_SET_INT [11:0] header-agrees :: If software writes a one to one of these bits, the corresponding USB interrupt status bit is set.
+  FIELD FRAME_SET_INT [30] header-agrees :: If software writes a one to one of these bits, the corresponding USB interrupt status bit is set.
+  FIELD DEV_SET_INT [31] header-agrees :: If software writes a one to one of these bits, the corresponding USB interrupt status bit is set.
+REG USBHSD EPTOGGLE 0x40094034 offset 0x34 :: USB Endpoint toggle register
+  FIELD TOGGLE [29:0] header-agrees :: Endpoint data toggle: This field indicates the current value of the data toggle for the corresponding endpoint.
+REG FLASH CMD 0x40034000 offset 0x0 :: command register
+  FIELD CMD [31:0] header-agrees :: command register.
+REG FLASH INT_STATUS 0x40034FE0 offset 0xFE0 :: Interrupt status bits
+  FIELD FAIL [0] header-agrees :: This status bit is set if execution of a (legal) command failed.
+  FIELD ERR [1] header-agrees :: This status bit is set if execution of an illegal command is detected.
+  FIELD DONE [2] header-agrees :: This status bit is set at the end of command execution.
+  FIELD ECC_ERR [3] header-agrees :: This status bit is set if, during a memory read operation (either a user-requested read, or a speculative read, or reads performed by a controller command), a correctable or uncorrectable error is detected by ECC decoding logic.
+REG IOCON PIO0_1 0x40001004 offset 0x4 :: Digital I/O control for port 0 pins PIO0_1
+REG IOCON PIO0_2 0x40001008 offset 0x8 :: Digital I/O control for port 0 pins PIO0_2
+REG IOCON PIO0_3 0x4000100C offset 0xC :: Digital I/O control for port 0 pins PIO0_3
+REG IOCON PIO0_4 0x40001010 offset 0x10 :: Digital I/O control for port 0 pins PIO0_4
+REG IOCON PIO0_5 0x40001014 offset 0x14 :: Digital I/O control for port 0 pins PIO0_5
+REG IOCON PIO0_7 0x4000101C offset 0x1C :: Digital I/O control for port 0 pins PIO0_7
+REG IOCON PIO0_10 0x40001028 offset 0x28 :: Digital I/O control for port 0 pins PIO0_10
+REG IOCON PIO0_13 0x40001034 offset 0x34 :: Digital I/O control for port 0 pins PIO0_13
+REG IOCON PIO0_14 0x40001038 offset 0x38 :: Digital I/O control for port 0 pins PIO0_14
+REG IOCON PIO0_15 0x4000103C offset 0x3C :: Digital I/O control for port 0 pins PIO0_15
+REG IOCON PIO0_16 0x40001040 offset 0x40 :: Digital I/O control for port 0 pins PIO0_16
+REG IOCON PIO0_18 0x40001048 offset 0x48 :: Digital I/O control for port 0 pins PIO0_18
+REG IOCON PIO0_19 0x4000104C offset 0x4C :: Digital I/O control for port 0 pins PIO0_19
+REG IOCON PIO0_20 0x40001050 offset 0x50 :: Digital I/O control for port 0 pins PIO0_20
+REG IOCON PIO0_21 0x40001054 offset 0x54 :: Digital I/O control for port 0 pins PIO0_21
+REG IOCON PIO0_23 0x4000105C offset 0x5C :: Digital I/O control for port 0 pins PIO0_23
+REG IOCON PIO0_24 0x40001060 offset 0x60 :: Digital I/O control for port 0 pins PIO0_24
+REG IOCON PIO0_26 0x40001068 offset 0x68 :: Digital I/O control for port 0 pins PIO0_26
+REG IOCON PIO0_31 0x4000107C offset 0x7C :: Digital I/O control for port 0 pins PIO0_31
+REG IOCON PIO1_3 0x4000108C offset 0x8C :: Digital I/O control for port 1 pins PIO1_3
+REG IOCON PIO1_4 0x40001090 offset 0x90 :: Digital I/O control for port 1 pins PIO1_4
+REG IOCON PIO1_6 0x40001098 offset 0x98 :: Digital I/O control for port 1 pins PIO1_6
+REG IOCON PIO1_10 0x400010A8 offset 0xA8 :: Digital I/O control for port 1 pins PIO1_10
+REG IOCON PIO1_12 0x400010B0 offset 0xB0 :: Digital I/O control for port 1 pins PIO1_12
+REG IOCON PIO1_13 0x400010B4 offset 0xB4 :: Digital I/O control for port 1 pins PIO1_13
+REG IOCON PIO1_15 0x400010BC offset 0xBC :: Digital I/O control for port 1 pins PIO1_15
+REG IOCON PIO1_22 0x400010D8 offset 0xD8 :: Digital I/O control for port 1 pins PIO1_22
+REG IOCON PIO1_24 0x400010E0 offset 0xE0 :: Digital I/O control for port 1 pins PIO1_24
+REG IOCON PIO1_25 0x400010E4 offset 0xE4 :: Digital I/O control for port 1 pins PIO1_25
+REG IOCON PIO1_26 0x400010E8 offset 0xE8 :: Digital I/O control for port 1 pins PIO1_26
+REG IOCON PIO1_28 0x400010F0 offset 0xF0 :: Digital I/O control for port 1 pins PIO1_28
+REG IOCON PIO1_29 0x400010F4 offset 0xF4 :: Digital I/O control for port 1 pins PIO1_29
+REG IOCON PIO1_30 0x400010F8 offset 0xF8 :: Digital I/O control for port 1 pins PIO1_30
+REG IOCON PIO1_31 0x400010FC offset 0xFC :: Digital I/O control for port 1 pins PIO1_31
+REG SYSCON AHBCLKCTRL2 0x40000208 offset 0x208 :: AHB Clock control 2
+  FIELD USB1_HOST [4] header-agrees :: Enables the clock for the USB1 Host.
+  FIELD USB1_DEV [5] header-agrees :: Enables the clock for the USB1 dev.
+  FIELD USB1_RAM [6] header-agrees :: Enables the clock for the USB1 RAM.
+  FIELD USB1_PHY [7] header-agrees :: Enables the clock for the USB1 PHY.
+REG SYSCON AHBCLKCTRL2 0x40000208 offset 0x208 :: AHB Clock control 2
+  FIELD ANALOG_CTRL [27] header-agrees :: Enables the clock for the analog control.
+REG PMC PDRUNCFG0 0x400200B8 offset 0xB8 :: Controls the power to various analog blocks [Reset by: PoR, Pin Reset, Brown Out Detectors Reset, Deep Power Down Reset, Software Reset]
+  FIELD PDEN_BODVBAT [3] header-agrees :: Controls power to VBAT Brown Out Detector (BOD).
+  FIELD PDEN_FRO32K [6] header-agrees :: Controls power to the Free Running Oscillator (FRO) 32 KHz.
+  FIELD PDEN_XTAL32K [7] header-agrees :: Controls power to crystal 32 KHz.
+  FIELD PDEN_XTAL32M [8] header-agrees :: Controls power to crystal 32 MHz.
+  FIELD PDEN_PLL0 [9] header-agrees :: Controls power to System PLL (also refered as PLL0).
+  FIELD PDEN_PLL1 [10] header-agrees :: Controls power to USB PLL (also refered as PLL1).
+  FIELD PDEN_USBFSPHY [11] header-agrees :: Controls power to USB Full Speed phy.
+  FIELD PDEN_USBHSPHY [12] header-agrees :: Controls power to USB High Speed Phy.
+  FIELD PDEN_COMP [13] header-agrees :: Controls power to Analog Comparator.
+  FIELD PDEN_LDOUSBHS [18] header-agrees :: Controls power to USB high speed LDO.
+  FIELD PDEN_AUXBIAS [19] header-agrees :: Controls power to auxiliary biasing (AUXBIAS)
+  FIELD PDEN_LDOXO32M [20] header-agrees :: Controls power to crystal 32 MHz LDO.
+  FIELD PDEN_RNG [22] header-agrees :: Controls power to all True Random Number Genetaor (TRNG) clock sources.
+  FIELD PDEN_PLL0_SSCG [23] header-agrees :: Controls power to System PLL (PLL0) Spread Spectrum module.
+REG USBPHY PWD 0x40038000 offset 0x0 :: USB PHY Power-Down Register
+  FIELD TXPWDFS [10] header-agrees :: Note that this bit will be auto cleared if there is USB wakeup event while ENAUTOCLR_PHY_PWD bit of CTRL is enabled
+  FIELD TXPWDIBIAS [11] header-agrees :: Note that this bit will be auto cleared if there is USB wakeup event while ENAUTOCLR_PHY_PWD bit of CTRL is enabled
+  FIELD TXPWDV2I [12] header-agrees :: Note that this bit will be auto cleared if there is USB wakeup event while ENAUTOCLR_PHY_PWD bit of CTRL is enabled
+  FIELD RXPWDENV [17] header-agrees :: Note that this bit will be auto cleared if there is USB wakeup event while ENAUTOCLR_PHY_PWD bit of CTRL is enabled
+  FIELD RXPWD1PT1 [18] header-agrees :: Note that this bit will be auto cleared if there is USB wakeup event while ENAUTOCLR_PHY_PWD bit of CTRL is enabled
+  FIELD RXPWDDIFF [19] header-agrees :: Note that this bit will be auto cleared if there is USB wakeup event while ENAUTOCLR_PHY_PWD bit of CTRL is enabled
+  FIELD RXPWDRX [20] header-agrees :: This bit will be auto cleared if there is USB wakeup event while ENAUTOCLR_PHY_PWD bit of CTRL is enabled
+REG USBHSH PORTMODE 0x400A3050 offset 0x50 :: Controls the port if it is attached to the host block or the device block
+  FIELD DEV_ENABLE [16] header-agrees :: If this bit is set to one, one of the ports will behave as a USB device.
+REG USBPHY CTRL_CLR 0x40038038 offset 0x38 :: USB PHY General Control Register
+  FIELD CLKGATE [30] header-agrees :: Gate UTMI Clocks
+  FIELD SFTRST [31] header-agrees :: Writing a 1 to this bit will soft-reset the PWD, TX, RX, and CTRL registers
+REG USBPHY CTRL_SET 0x40038034 offset 0x34 :: USB PHY General Control Register
+  FIELD ENAUTOCLR_CLKGATE [19] header-agrees :: Enables the feature to auto-clear the CLKGATE bit if there is wakeup event while USB is suspended
+  FIELD ENAUTOCLR_PHY_PWD [20] header-agrees :: Enables the feature to auto-clear the PWD register bits in PWD if there is wakeup event while USB is suspended
+REG USBPHY PLL_SIC 0x400380A0 offset 0xA0 :: USB PHY PLL Control/Status Register
+  FIELD PLL_EN_USB_CLKS [6] header-agrees :: Enables the USB clock from PLL to USB PHY
+  FIELD PLL_POWER [12] header-agrees :: Power up the USB PLL
+  FIELD PLL_ENABLE [13] header-agrees :: Enables the clock output from the USB PLL
+  FIELD PLL_REG_ENABLE [21] header-agrees :: This field controls the USB PLL regulator, set to enable the regulator
+  FIELD PLL_DIV_SEL [24:22] header-agrees :: This field controls the USB PLL feedback loop divider
+  FIELD PLL_LOCK [31] header-agrees :: USB PLL lock status indicator
+REG USBPHY USB1_VBUS_DETECT 0x400380C0 offset 0xC0 :: USB PHY VBUS Detect Control Register
+  FIELD VBUS_OVERRIDE_EN [3] header-agrees :: VBUS detect signal override enable
+  FIELD BVALID_OVERRIDE [5] header-agrees :: Override value for B-Device Session Valid The bit field provides the value for USB1_VBUS_DET_STAT[1] if USB_VBUS_DETECT[3] is set to value 1'b1
+  FIELD VBUSVALID_OVERRIDE [7] header-agrees :: Override value for VBUS_VALID signal sent to USB controller The bit field provides the value for VBUS_VALID reported to the USB controller if the value of USB1_VBUS_DETECT[3] is set to 1'b1
+REG SYSCON FCCLKSEL1 0x400002B4 offset 0x2B4 :: Flexcomm Interface 1 clock source select for Fractional Rate Divider
+  FIELD SEL [2:0] header-agrees :: Flexcomm Interface 1 clock source select for Fractional Rate Divider.
+REG SYSCON FCCLKSEL3 0x400002BC offset 0x2BC :: Flexcomm Interface 3 clock source select for Fractional Rate Divider
+  FIELD SEL [2:0] header-agrees :: Flexcomm Interface 3 clock source select for Fractional Rate Divider.
+REG SYSCON FCCLKSEL4 0x400002C0 offset 0x2C0 :: Flexcomm Interface 4 clock source select for Fractional Rate Divider
+  FIELD SEL [2:0] header-agrees :: Flexcomm Interface 4 clock source select for Fractional Rate Divider.
+REG FLEXCOMM1 PSELID 0x40087FF8 offset 0xFF8 :: Peripheral Select and Flexcomm ID register.
+  FIELD PERSEL [2:0] header-agrees :: Peripheral Select. This field is writable by software.
+  FIELD LOCK [3] header-agrees :: Lock the peripheral select. This field is writable by software.
+  FIELD USARTPRESENT [4] header-agrees :: USART present indicator. This field is Read-only.
+  FIELD SPIPRESENT [5] header-agrees :: SPI present indicator. This field is Read-only.
+  FIELD I2CPRESENT [6] header-agrees :: I2C present indicator. This field is Read-only.
+  FIELD I2SPRESENT [7] header-agrees :: I 2S present indicator. This field is Read-only.
+  FIELD ID [31:12] header-agrees :: Flexcomm ID.
+REG FLEXCOMM3 PSELID 0x40089FF8 offset 0xFF8 :: Peripheral Select and Flexcomm ID register.
+  FIELD PERSEL [2:0] header-agrees :: Peripheral Select. This field is writable by software.
+  FIELD LOCK [3] header-agrees :: Lock the peripheral select. This field is writable by software.
+  FIELD USARTPRESENT [4] header-agrees :: USART present indicator. This field is Read-only.
+  FIELD SPIPRESENT [5] header-agrees :: SPI present indicator. This field is Read-only.
+  FIELD I2CPRESENT [6] header-agrees :: I2C present indicator. This field is Read-only.
+  FIELD I2SPRESENT [7] header-agrees :: I 2S present indicator. This field is Read-only.
+  FIELD ID [31:12] header-agrees :: Flexcomm ID.
+REG FLEXCOMM4 PSELID 0x4008AFF8 offset 0xFF8 :: Peripheral Select and Flexcomm ID register.
+  FIELD PERSEL [2:0] header-agrees :: Peripheral Select. This field is writable by software.
+  FIELD LOCK [3] header-agrees :: Lock the peripheral select. This field is writable by software.
+  FIELD USARTPRESENT [4] header-agrees :: USART present indicator. This field is Read-only.
+  FIELD SPIPRESENT [5] header-agrees :: SPI present indicator. This field is Read-only.
+  FIELD I2CPRESENT [6] header-agrees :: I2C present indicator. This field is Read-only.
+  FIELD I2SPRESENT [7] header-agrees :: I 2S present indicator. This field is Read-only.
+  FIELD ID [31:12] header-agrees :: Flexcomm ID.
+REG I2S2 CFG1 0x40088C00 offset 0xC00 :: Configuration register 1 for the primary channel pair.
+  FIELD MAINENABLE [0] header-agrees :: Main enable for I 2S function in this Flexcomm
+  FIELD DATAPAUSE [1] header-agrees :: Data flow Pause. Allows pausing data flow between the I2S serializer/deserializer and the FIFO. This could be done in order to change streams, or while restarting after a data underflow or overflow. When paused, FIFO operations can be done without corrupting d
+  FIELD PAIRCOUNT [3:2] header-agrees :: Provides the number of I2S channel pairs in this Flexcomm This is a read-only field whose value may be different in other Flexcomms. 00 = there is 1 I2S channel pair in this Flexcomm. 01 = there are 2 I2S channel pairs in this Flexcomm. 10 = there are 3 I2S ch
+  FIELD MSTSLVCFG [5:4] header-agrees :: Master / slave configuration selection, determining how SCK and WS are used by all channel pairs in this Flexcomm.
+  FIELD MODE [7:6] header-agrees :: Selects the basic I2S operating mode. Other configurations modify this to obtain all supported cases. See Formats and modes for examples.
+  FIELD RIGHTLOW [8] header-agrees :: Right channel data is in the Low portion of FIFO data. Essentially, this swaps left and right channel data as it is transferred to or from the FIFO. This bit is not used if the data width is greater than 24 bits or if PDMDATA = 1. Note that if the ONECHANNEL f
+  FIELD LEFTJUST [9] header-agrees :: Left Justify data.
+  FIELD ONECHANNEL [10] header-agrees :: Single channel mode. Applies to both transmit and receive. This configuration bit applies only to the first I2S channel pair. Other channel pairs may select this mode independently in their separate CFG1 registers.
+  FIELD SCK_POL [12] header-agrees :: SCK polarity.
+  FIELD WS_POL [13] header-agrees :: WS polarity.
+  FIELD DATALEN [20:16] header-agrees :: Data Length, minus 1 encoded, defines the number of data bits to be transmitted or received for all I2S channel pairs in this Flexcomm. Note that data is only driven to or received from SDA for the number of bits defined by DATALEN. DATALEN is also used in the
+REG I2S6 CFG1 0x40097C00 offset 0xC00 :: Configuration register 1 for the primary channel pair.
+  FIELD MAINENABLE [0] header-agrees :: Main enable for I 2S function in this Flexcomm
+  FIELD DATAPAUSE [1] header-agrees :: Data flow Pause. Allows pausing data flow between the I2S serializer/deserializer and the FIFO. This could be done in order to change streams, or while restarting after a data underflow or overflow. When paused, FIFO operations can be done without corrupting d
+  FIELD PAIRCOUNT [3:2] header-agrees :: Provides the number of I2S channel pairs in this Flexcomm This is a read-only field whose value may be different in other Flexcomms. 00 = there is 1 I2S channel pair in this Flexcomm. 01 = there are 2 I2S channel pairs in this Flexcomm. 10 = there are 3 I2S ch
+  FIELD MSTSLVCFG [5:4] header-agrees :: Master / slave configuration selection, determining how SCK and WS are used by all channel pairs in this Flexcomm.
+  FIELD MODE [7:6] header-agrees :: Selects the basic I2S operating mode. Other configurations modify this to obtain all supported cases. See Formats and modes for examples.
+  FIELD RIGHTLOW [8] header-agrees :: Right channel data is in the Low portion of FIFO data. Essentially, this swaps left and right channel data as it is transferred to or from the FIFO. This bit is not used if the data width is greater than 24 bits or if PDMDATA = 1. Note that if the ONECHANNEL f
+  FIELD LEFTJUST [9] header-agrees :: Left Justify data.
+  FIELD ONECHANNEL [10] header-agrees :: Single channel mode. Applies to both transmit and receive. This configuration bit applies only to the first I2S channel pair. Other channel pairs may select this mode independently in their separate CFG1 registers.
+  FIELD SCK_POL [12] header-agrees :: SCK polarity.
+  FIELD WS_POL [13] header-agrees :: WS polarity.
+  FIELD DATALEN [20:16] header-agrees :: Data Length, minus 1 encoded, defines the number of data bits to be transmitted or received for all I2S channel pairs in this Flexcomm. Note that data is only driven to or received from SDA for the number of bits defined by DATALEN. DATALEN is also used in the
+REG I2S7 CFG1 0x40098C00 offset 0xC00 :: Configuration register 1 for the primary channel pair.
+  FIELD MAINENABLE [0] header-agrees :: Main enable for I 2S function in this Flexcomm
+  FIELD DATAPAUSE [1] header-agrees :: Data flow Pause. Allows pausing data flow between the I2S serializer/deserializer and the FIFO. This could be done in order to change streams, or while restarting after a data underflow or overflow. When paused, FIFO operations can be done without corrupting d
+  FIELD PAIRCOUNT [3:2] header-agrees :: Provides the number of I2S channel pairs in this Flexcomm This is a read-only field whose value may be different in other Flexcomms. 00 = there is 1 I2S channel pair in this Flexcomm. 01 = there are 2 I2S channel pairs in this Flexcomm. 10 = there are 3 I2S ch
+  FIELD MSTSLVCFG [5:4] header-agrees :: Master / slave configuration selection, determining how SCK and WS are used by all channel pairs in this Flexcomm.
+  FIELD MODE [7:6] header-agrees :: Selects the basic I2S operating mode. Other configurations modify this to obtain all supported cases. See Formats and modes for examples.
+  FIELD RIGHTLOW [8] header-agrees :: Right channel data is in the Low portion of FIFO data. Essentially, this swaps left and right channel data as it is transferred to or from the FIFO. This bit is not used if the data width is greater than 24 bits or if PDMDATA = 1. Note that if the ONECHANNEL f
+  FIELD LEFTJUST [9] header-agrees :: Left Justify data.
+  FIELD ONECHANNEL [10] header-agrees :: Single channel mode. Applies to both transmit and receive. This configuration bit applies only to the first I2S channel pair. Other channel pairs may select this mode independently in their separate CFG1 registers.
+  FIELD SCK_POL [12] header-agrees :: SCK polarity.
+  FIELD WS_POL [13] header-agrees :: WS polarity.
+  FIELD DATALEN [20:16] header-agrees :: Data Length, minus 1 encoded, defines the number of data bits to be transmitted or received for all I2S channel pairs in this Flexcomm. Note that data is only driven to or received from SDA for the number of bits defined by DATALEN. DATALEN is also used in the
+REG I2C3 CFG 0x40089800 offset 0x800 :: Configuration for shared functions.
+  FIELD MSTEN [0] header-agrees :: Master Enable. When disabled, configurations settings for the Master function are not changed, but the Master function is internally reset.
+REG I2C3 STAT 0x40089804 offset 0x804 :: Status register for Master, Slave, and Monitor functions.
+  FIELD MSTPENDING [0] header-agrees :: Master Pending. Indicates that the Master is waiting to continue communication on the I2C-bus (pending) or is idle. When the master is pending, the MSTSTATE bits indicate what type of software service if any the master expects. This flag will cause an interrup
+  FIELD MSTSTATE [3:1] header-agrees :: Master State code. The master state code reflects the master state when the MSTPENDING bit is set, that is the master is pending or in the idle state. Each value of this field indicates a specific required service for the Master function. All other values are 
+  FIELD MSTARBLOSS [4] header-agrees :: Master Arbitration Loss flag. This flag can be cleared by software writing a 1 to this bit. It is also cleared automatically a 1 is written to MSTCONTINUE.
+  FIELD MSTSTSTPERR [6] header-agrees :: Master Start/Stop Error flag. This flag can be cleared by software writing a 1 to this bit. It is also cleared automatically a 1 is written to MSTCONTINUE.
+REG I2C3 CLKDIV 0x40089814 offset 0x814 :: Clock pre-divider for the entire I2C interface. This determines what time increments are used for the MSTTIME register, and controls some timing of the Slave function.
+  FIELD DIVVAL [15:0] header-agrees :: This field controls how the Flexcomm clock (FCLK) is used by the I2C functions that need an internal clock in order to operate. 0x0000 = FCLK is used directly by the I2C. 0x0001 = FCLK is divided by 2 before use. 0x0002 = FCLK is divided by 3 before use. 0xFFF
+REG I2C3 MSTCTL 0x40089820 offset 0x820 :: Master control register.
+  FIELD MSTCONTINUE [0] header-agrees :: Master Continue. This bit is write-only.
+  FIELD MSTSTART [1] header-agrees :: Master Start control. This bit is write-only.
+  FIELD MSTSTOP [2] header-agrees :: Master Stop control. This bit is write-only.
+  FIELD MSTDMA [3] header-agrees :: Master DMA enable. Data operations of the I2C can be performed with DMA. Protocol type operations such as Start, address, Stop, and address match must always be done with software, typically via an interrupt. Address acknowledgement must also be done by softwa
+REG I2C3 MSTTIME 0x40089824 offset 0x824 :: Master timing configuration.
+  FIELD MSTSCLLOW [2:0] header-agrees :: Master SCL Low time. Specifies the minimum low time that will be asserted by this master on SCL. Other devices on the bus (masters or slaves) could lengthen this time. This corresponds to the parameter t LOW in the I2C bus specification. I2C bus specification 
+  FIELD MSTSCLHIGH [6:4] header-agrees :: Master SCL High time. Specifies the minimum high time that will be asserted by this master on SCL. Other masters in a multi-master system could shorten this time. This corresponds to the parameter tHIGH in the I2C bus specification. I2C bus specification param
+REG I2C3 MSTDAT 0x40089828 offset 0x828 :: Combined Master receiver and transmitter data register.
+  FIELD DATA [7:0] header-agrees :: Master function data register. Read: read the most recently received data for the Master function. Write: transmit data using the Master function.
+REG SPI1 CFG 0x40087400 offset 0x400 :: SPI Configuration register
+  FIELD ENABLE [0] header-agrees :: SPI enable.
+  FIELD MASTER [2] header-agrees :: Master mode select.
+  FIELD LSBF [3] header-agrees :: LSB First mode enable.
+  FIELD CPHA [4] header-agrees :: Clock Phase select.
+  FIELD CPOL [5] header-agrees :: Clock Polarity select.
+  FIELD LOOP [7] header-agrees :: Loopback mode enable. Loopback mode applies only to Master mode, and connects transmit and receive data connected together to allow simple software testing.
+  FIELD SPOL0 [8] header-agrees :: SSEL0 Polarity select.
+  FIELD SPOL1 [9] header-agrees :: SSEL1 Polarity select.
+  FIELD SPOL2 [10] header-agrees :: SSEL2 Polarity select.
+  FIELD SPOL3 [11] header-agrees :: SSEL3 Polarity select.
+REG SPI1 DIV 0x40087424 offset 0x424 :: SPI clock Divider
+  FIELD DIVVAL [15:0] header-agrees :: Rate divider value. Specifies how the Flexcomm clock (FCLK) is divided to produce the SPI clock rate in master mode. DIVVAL is -1 encoded such that the value 0 results in FCLK/1, the value 1 results in FCLK/2, up to the maximum possible divide value of 0xFFFF,
+REG SPI1 FIFOCFG 0x40087E00 offset 0xE00 :: FIFO configuration and enable register.
+  FIELD ENABLETX [0] header-agrees :: Enable the transmit FIFO.
+  FIELD EMPTYTX [16] header-agrees :: Empty command for the transmit FIFO. When a 1 is written to this bit, the TX FIFO is emptied.
+  FIELD EMPTYRX [17] header-agrees :: Empty command for the receive FIFO. When a 1 is written to this bit, the RX FIFO is emptied.
+REG SPI1 FIFOSTAT 0x40087E04 offset 0xE04 :: FIFO status register.
+  FIELD TXEMPTY [4] header-agrees :: Transmit FIFO empty. When 1, the transmit FIFO is empty. The peripheral may still be processing the last piece of data.
+  FIELD TXNOTFULL [5] header-agrees :: Transmit FIFO not full. When 1, the transmit FIFO is not full, so more data can be written. When 0, the transmit FIFO is full and another write would cause it to overflow.
+REG SPI1 STAT 0x40087408 offset 0x408 :: SPI Status. Some status flags can be cleared by writing a 1 to that bit position.
+  FIELD MSTIDLE [8] header-agrees :: Master idle status flag. This bit is 1 whenever the SPI master function is fully idle. This means that the transmit holding register is empty and the transmitter is not in the process of sending data.
+REG SPI1 FIFOWR 0x40087E20 offset 0xE20 :: FIFO write data.
+  FIELD TXDATA [15:0] header-agrees :: Transmit data to the FIFO.
+  FIELD TXSSEL0_N [16] header-agrees :: Transmit slave select. This field asserts SSEL0 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL1_N [17] header-agrees :: Transmit slave select. This field asserts SSEL1 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL2_N [18] header-agrees :: Transmit slave select. This field asserts SSEL2 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL3_N [19] header-agrees :: Transmit slave select. This field asserts SSEL3 in master mode. The output on the pin is active LOW by default.
+  FIELD EOT [20] header-agrees :: End of transfer. The asserted SSEL will be deasserted at the end of a transfer and remain so far at least the time specified by the Transfer_delay value in the DLY register.
+  FIELD EOF [21] header-agrees :: End of frame. Between frames, a delay may be inserted, as defined by the Frame_delay value in the DLY register. The end of a frame may not be particularly meaningful if the Frame_delay value = 0. This control can be used as part of the support for frame length
+  FIELD RXIGNORE [22] header-agrees :: Receive Ignore. This allows data to be transmitted using the SPI without the need to read unneeded data from the receiver. Setting this bit simplifies the transmit process and can be used with the DMA.
+  FIELD LEN [27:24] header-agrees :: Data Length. Specifies the data length from 4 to 16 bits. Note that transfer lengths greater than 16 bits are supported by implementing multiple sequential transmits. 0x0-2 = Reserved. 0x3 = Data transfer is 4 bits in length. 0x4 = Data transfer is 5 bits in l
+REG SPI4 CFG 0x4008A400 offset 0x400 :: SPI Configuration register
+  FIELD ENABLE [0] header-agrees :: SPI enable.
+  FIELD MASTER [2] header-agrees :: Master mode select.
+  FIELD LSBF [3] header-agrees :: LSB First mode enable.
+  FIELD CPHA [4] header-agrees :: Clock Phase select.
+  FIELD CPOL [5] header-agrees :: Clock Polarity select.
+  FIELD LOOP [7] header-agrees :: Loopback mode enable. Loopback mode applies only to Master mode, and connects transmit and receive data connected together to allow simple software testing.
+  FIELD SPOL0 [8] header-agrees :: SSEL0 Polarity select.
+  FIELD SPOL1 [9] header-agrees :: SSEL1 Polarity select.
+  FIELD SPOL2 [10] header-agrees :: SSEL2 Polarity select.
+  FIELD SPOL3 [11] header-agrees :: SSEL3 Polarity select.
+REG SPI4 DIV 0x4008A424 offset 0x424 :: SPI clock Divider
+  FIELD DIVVAL [15:0] header-agrees :: Rate divider value. Specifies how the Flexcomm clock (FCLK) is divided to produce the SPI clock rate in master mode. DIVVAL is -1 encoded such that the value 0 results in FCLK/1, the value 1 results in FCLK/2, up to the maximum possible divide value of 0xFFFF,
+REG SPI4 FIFOCFG 0x4008AE00 offset 0xE00 :: FIFO configuration and enable register.
+  FIELD ENABLETX [0] header-agrees :: Enable the transmit FIFO.
+  FIELD DMATX [12] header-agrees :: DMA configuration for transmit.
+  FIELD EMPTYTX [16] header-agrees :: Empty command for the transmit FIFO. When a 1 is written to this bit, the TX FIFO is emptied.
+  FIELD EMPTYRX [17] header-agrees :: Empty command for the receive FIFO. When a 1 is written to this bit, the RX FIFO is emptied.
+REG SPI4 FIFOSTAT 0x4008AE04 offset 0xE04 :: FIFO status register.
+  FIELD TXEMPTY [4] header-agrees :: Transmit FIFO empty. When 1, the transmit FIFO is empty. The peripheral may still be processing the last piece of data.
+REG SPI4 FIFOWR 0x4008AE20 offset 0xE20 :: FIFO write data.
+  FIELD TXDATA [15:0] header-agrees :: Transmit data to the FIFO.
+  FIELD TXSSEL0_N [16] header-agrees :: Transmit slave select. This field asserts SSEL0 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL1_N [17] header-agrees :: Transmit slave select. This field asserts SSEL1 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL2_N [18] header-agrees :: Transmit slave select. This field asserts SSEL2 in master mode. The output on the pin is active LOW by default.
+  FIELD TXSSEL3_N [19] header-agrees :: Transmit slave select. This field asserts SSEL3 in master mode. The output on the pin is active LOW by default.
+  FIELD EOT [20] header-agrees :: End of transfer. The asserted SSEL will be deasserted at the end of a transfer and remain so far at least the time specified by the Transfer_delay value in the DLY register.
+  FIELD EOF [21] header-agrees :: End of frame. Between frames, a delay may be inserted, as defined by the Frame_delay value in the DLY register. The end of a frame may not be particularly meaningful if the Frame_delay value = 0. This control can be used as part of the support for frame length
+  FIELD RXIGNORE [22] header-agrees :: Receive Ignore. This allows data to be transmitted using the SPI without the need to read unneeded data from the receiver. Setting this bit simplifies the transmit process and can be used with the DMA.
+  FIELD LEN [27:24] header-agrees :: Data Length. Specifies the data length from 4 to 16 bits. Note that transfer lengths greater than 16 bits are supported by implementing multiple sequential transmits. 0x0-2 = Reserved. 0x3 = Data transfer is 4 bits in length. 0x4 = Data transfer is 5 bits in l
+REG FLEXCOMM2 PSELID 0x40088FF8 offset 0xFF8 :: Peripheral Select and Flexcomm ID register.
+  FIELD PERSEL [2:0] header-agrees :: Peripheral Select. This field is writable by software.
+  FIELD LOCK [3] header-agrees :: Lock the peripheral select. This field is writable by software.
+  FIELD USARTPRESENT [4] header-agrees :: USART present indicator. This field is Read-only.
+  FIELD SPIPRESENT [5] header-agrees :: SPI present indicator. This field is Read-only.
+  FIELD I2CPRESENT [6] header-agrees :: I2C present indicator. This field is Read-only.
+  FIELD I2SPRESENT [7] header-agrees :: I 2S present indicator. This field is Read-only.
+  FIELD ID [31:12] header-agrees :: Flexcomm ID.
+REG FLEXCOMM6 PSELID 0x40097FF8 offset 0xFF8 :: Peripheral Select and Flexcomm ID register.
+  FIELD PERSEL [2:0] header-agrees :: Peripheral Select. This field is writable by software.
+  FIELD LOCK [3] header-agrees :: Lock the peripheral select. This field is writable by software.
+  FIELD USARTPRESENT [4] header-agrees :: USART present indicator. This field is Read-only.
+  FIELD SPIPRESENT [5] header-agrees :: SPI present indicator. This field is Read-only.
+  FIELD I2CPRESENT [6] header-agrees :: I2C present indicator. This field is Read-only.
+  FIELD I2SPRESENT [7] header-agrees :: I 2S present indicator. This field is Read-only.
+  FIELD ID [31:12] header-agrees :: Flexcomm ID.
+REG FLEXCOMM7 PSELID 0x40098FF8 offset 0xFF8 :: Peripheral Select and Flexcomm ID register.
+  FIELD PERSEL [2:0] header-agrees :: Peripheral Select. This field is writable by software.
+  FIELD LOCK [3] header-agrees :: Lock the peripheral select. This field is writable by software.
+  FIELD USARTPRESENT [4] header-agrees :: USART present indicator. This field is Read-only.
+  FIELD SPIPRESENT [5] header-agrees :: SPI present indicator. This field is Read-only.
+  FIELD I2CPRESENT [6] header-agrees :: I2C present indicator. This field is Read-only.
+  FIELD I2SPRESENT [7] header-agrees :: I 2S present indicator. This field is Read-only.
+  FIELD ID [31:12] header-agrees :: Flexcomm ID.
+REG I2S2 CFG2 0x40088C04 offset 0xC04 :: Configuration register 2 for the primary channel pair.
+  FIELD FRAMELEN [8:0] header-agrees :: Frame Length, minus 1 encoded, defines the number of clocks and data bits in the frames that this channel pair participates in. See Frame format. 0x000 to 0x002 = not supported 0x003 = frame is 4 bits in total length 0x004 = frame is 5 bits in total length 0x1
+  FIELD POSITION [24:16] header-agrees :: Data Position. Defines the location within the frame of the data for this channel pair. POSITION + DATALEN must be less than FRAMELEN. See Frame format. When MODE = 0, POSITION defines the location of data in both the left phase and right phase, starting one c
+REG I2S2 DIV 0x40088C1C offset 0xC1C :: Clock divider, used by all channel pairs.
+  FIELD DIV [11:0] header-agrees :: This field controls how this I2S block uses the Flexcomm function clock. 0x000 = The Flexcomm function clock is used directly. 0x001 = The Flexcomm function clock is divided by 2. 0x002 = The Flexcomm function clock is divided by 3. 0xFFF = The Flexcomm functi
+REG I2S2 FIFOCFG 0x40088E00 offset 0xE00 :: FIFO configuration and enable register.
+  FIELD ENABLETX [0] header-agrees :: Enable the transmit FIFO.
+  FIELD ENABLERX [1] header-agrees :: Enable the receive FIFO.
+  FIELD TXI2SE0 [2] header-agrees :: Transmit I2S empty 0. Determines the value sent by the I2S in transmit mode if the TX FIFO becomes empty. This value is sent repeatedly until the I2S is paused, the error is cleared, new data is provided, and the I2S is un-paused.
+  FIELD PACK48 [3] header-agrees :: Packing format for 48-bit data. This relates to how data is entered into or taken from the FIFO by software or DMA.
+  FIELD SIZE [5:4] header-agrees :: FIFO size configuration. This is a read-only field. 0x0 = FIFO is configured as 16 entries of 8 bits. 0x1, 0x2, 0x3 = not applicable to USART.
+  FIELD DMATX [12] header-agrees :: DMA configuration for transmit.
+  FIELD DMARX [13] header-agrees :: DMA configuration for receive.
+  FIELD WAKETX [14] header-agrees :: Wake-up for transmit FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back 
+  FIELD WAKERX [15] header-agrees :: Wake-up for receive FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back t
+  FIELD EMPTYTX [16] header-agrees :: Empty command for the transmit FIFO. When a 1 is written to this bit, the TX FIFO is emptied.
+  FIELD EMPTYRX [17] header-agrees :: Empty command for the receive FIFO. When a 1 is written to this bit, the RX FIFO is emptied.
+REG I2S2 FIFOWR 0x40088E20 offset 0xE20 :: FIFO write data.
+  FIELD TXDATA [31:0] header-agrees :: Transmit data to the FIFO. The number of bits used depends on configuration details.
+REG I2S6 CFG2 0x40097C04 offset 0xC04 :: Configuration register 2 for the primary channel pair.
+  FIELD FRAMELEN [8:0] header-agrees :: Frame Length, minus 1 encoded, defines the number of clocks and data bits in the frames that this channel pair participates in. See Frame format. 0x000 to 0x002 = not supported 0x003 = frame is 4 bits in total length 0x004 = frame is 5 bits in total length 0x1
+  FIELD POSITION [24:16] header-agrees :: Data Position. Defines the location within the frame of the data for this channel pair. POSITION + DATALEN must be less than FRAMELEN. See Frame format. When MODE = 0, POSITION defines the location of data in both the left phase and right phase, starting one c
+REG I2S6 DIV 0x40097C1C offset 0xC1C :: Clock divider, used by all channel pairs.
+  FIELD DIV [11:0] header-agrees :: This field controls how this I2S block uses the Flexcomm function clock. 0x000 = The Flexcomm function clock is used directly. 0x001 = The Flexcomm function clock is divided by 2. 0x002 = The Flexcomm function clock is divided by 3. 0xFFF = The Flexcomm functi
+REG I2S6 FIFOCFG 0x40097E00 offset 0xE00 :: FIFO configuration and enable register.
+  FIELD ENABLETX [0] header-agrees :: Enable the transmit FIFO.
+  FIELD ENABLERX [1] header-agrees :: Enable the receive FIFO.
+  FIELD TXI2SE0 [2] header-agrees :: Transmit I2S empty 0. Determines the value sent by the I2S in transmit mode if the TX FIFO becomes empty. This value is sent repeatedly until the I2S is paused, the error is cleared, new data is provided, and the I2S is un-paused.
+  FIELD PACK48 [3] header-agrees :: Packing format for 48-bit data. This relates to how data is entered into or taken from the FIFO by software or DMA.
+  FIELD SIZE [5:4] header-agrees :: FIFO size configuration. This is a read-only field. 0x0 = FIFO is configured as 16 entries of 8 bits. 0x1, 0x2, 0x3 = not applicable to USART.
+  FIELD DMATX [12] header-agrees :: DMA configuration for transmit.
+  FIELD DMARX [13] header-agrees :: DMA configuration for receive.
+  FIELD WAKETX [14] header-agrees :: Wake-up for transmit FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back 
+  FIELD WAKERX [15] header-agrees :: Wake-up for receive FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back t
+  FIELD EMPTYTX [16] header-agrees :: Empty command for the transmit FIFO. When a 1 is written to this bit, the TX FIFO is emptied.
+  FIELD EMPTYRX [17] header-agrees :: Empty command for the receive FIFO. When a 1 is written to this bit, the RX FIFO is emptied.
+REG I2S6 FIFORD 0x40097E30 offset 0xE30 :: FIFO read data.
+  FIELD RXDATA [31:0] header-agrees :: Received data from the FIFO. The number of bits used depends on configuration details.
+REG I2S7 CFG2 0x40098C04 offset 0xC04 :: Configuration register 2 for the primary channel pair.
+  FIELD FRAMELEN [8:0] header-agrees :: Frame Length, minus 1 encoded, defines the number of clocks and data bits in the frames that this channel pair participates in. See Frame format. 0x000 to 0x002 = not supported 0x003 = frame is 4 bits in total length 0x004 = frame is 5 bits in total length 0x1
+  FIELD POSITION [24:16] header-agrees :: Data Position. Defines the location within the frame of the data for this channel pair. POSITION + DATALEN must be less than FRAMELEN. See Frame format. When MODE = 0, POSITION defines the location of data in both the left phase and right phase, starting one c
+REG I2S7 DIV 0x40098C1C offset 0xC1C :: Clock divider, used by all channel pairs.
+  FIELD DIV [11:0] header-agrees :: This field controls how this I2S block uses the Flexcomm function clock. 0x000 = The Flexcomm function clock is used directly. 0x001 = The Flexcomm function clock is divided by 2. 0x002 = The Flexcomm function clock is divided by 3. 0xFFF = The Flexcomm functi
+REG I2S7 FIFOCFG 0x40098E00 offset 0xE00 :: FIFO configuration and enable register.
+  FIELD ENABLETX [0] header-agrees :: Enable the transmit FIFO.
+  FIELD ENABLERX [1] header-agrees :: Enable the receive FIFO.
+  FIELD TXI2SE0 [2] header-agrees :: Transmit I2S empty 0. Determines the value sent by the I2S in transmit mode if the TX FIFO becomes empty. This value is sent repeatedly until the I2S is paused, the error is cleared, new data is provided, and the I2S is un-paused.
+  FIELD PACK48 [3] header-agrees :: Packing format for 48-bit data. This relates to how data is entered into or taken from the FIFO by software or DMA.
+  FIELD SIZE [5:4] header-agrees :: FIFO size configuration. This is a read-only field. 0x0 = FIFO is configured as 16 entries of 8 bits. 0x1, 0x2, 0x3 = not applicable to USART.
+  FIELD DMATX [12] header-agrees :: DMA configuration for transmit.
+  FIELD DMARX [13] header-agrees :: DMA configuration for receive.
+  FIELD WAKETX [14] header-agrees :: Wake-up for transmit FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back 
+  FIELD WAKERX [15] header-agrees :: Wake-up for receive FIFO level. This allows the device to be woken from reduced power modes (up to power-down, as long as the peripheral function works in that power mode) without enabling the TXLVL interrupt. Only DMA wakes up, processes data, and goes back t
+  FIELD EMPTYTX [16] header-agrees :: Empty command for the transmit FIFO. When a 1 is written to this bit, the TX FIFO is emptied.
+  FIELD EMPTYRX [17] header-agrees :: Empty command for the receive FIFO. When a 1 is written to this bit, the RX FIFO is emptied.
+REG I2S7 FIFORD 0x40098E30 offset 0xE30 :: FIFO read data.
+  FIELD RXDATA [31:0] header-agrees :: Received data from the FIFO. The number of bits used depends on configuration details.
+REG SYSCON AHBCLKCTRL2 0x40000208 offset 0x208 :: AHB Clock control 2
+  FIELD SYSCTL [15] header-agrees :: SYSCTL block clock.
+REG SYSCON AHBCLKCTRLCLR[%s] 0x40000240 offset 0x240 dim 3 step 0x4 :: Peripheral reset control register
+  FIELD DATA [31:0] header-agrees :: Data array value
+REG SYSCON FCCLKSEL2 0x400002B8 offset 0x2B8 :: Flexcomm Interface 2 clock source select for Fractional Rate Divider
+  FIELD SEL [2:0] header-agrees :: Flexcomm Interface 2 clock source select for Fractional Rate Divider.
+REG SYSCON FCCLKSEL6 0x400002C8 offset 0x2C8 :: Flexcomm Interface 6 clock source select for Fractional Rate Divider
+  FIELD SEL [2:0] header-agrees :: Flexcomm Interface 6 clock source select for Fractional Rate Divider.
+REG SYSCON FCCLKSEL7 0x400002CC offset 0x2CC :: Flexcomm Interface 7 clock source select for Fractional Rate Divider
+  FIELD SEL [2:0] header-agrees :: Flexcomm Interface 7 clock source select for Fractional Rate Divider.
+REG SYSCON PRESETCTRL2 0x40000108 offset 0x108 :: Peripheral reset control 2
+  FIELD SYSCTL_RST [15] header-agrees :: SYSCTL Block reset.
+REG SYSCON PRESETCTRLCLR[%s] 0x40000140 offset 0x140 dim 3 step 0x4 :: Peripheral reset control clear register
+  FIELD DATA [31:0] header-agrees :: Data array value
+REG SYSCTL SHAREDCTRLSET%s 0x40023080 offset 0x80 dim 2 step 0x4 :: Selects sources and data combinations for shared signal set 0.
+  FIELD SHAREDSCKSEL [2:0] header-agrees :: Selects the source for SCK of this shared signal set.
+  FIELD SHAREDWSSEL [6:4] header-agrees :: Selects the source for WS of this shared signal set.
+  FIELD SHAREDDATASEL [10:8] header-agrees :: Selects the source for DATA input for this shared signal set.
+  FIELD FC0DATAOUTEN [16] header-agrees :: Controls FC0 contribution to SHAREDDATAOUT for this shared set.
+  FIELD FC1DATAOUTEN [17] header-agrees :: Controls FC1 contribution to SHAREDDATAOUT for this shared set.
+  FIELD FC2DATAOUTEN [18] header-agrees :: Controls FC2 contribution to SHAREDDATAOUT for this shared set.
+  FIELD FC4DATAOUTEN [20] header-agrees :: Controls FC4 contribution to SHAREDDATAOUT for this shared set.
+  FIELD FC5DATAOUTEN [21] header-agrees :: Controls FC5 contribution to SHAREDDATAOUT for this shared set.
+  FIELD FC6DATAOUTEN [22] header-agrees :: Controls FC6 contribution to SHAREDDATAOUT for this shared set.
+  FIELD FC7DATAOUTEN [23] header-agrees :: Controls FC7 contribution to SHAREDDATAOUT for this shared set.
+REG SYSCTL UPDATELCKOUT 0x40023000 offset 0x0 :: update lock out control
+  FIELD UPDATELCKOUT [0] header-agrees :: All Registers
+REG PMC DCDC0 0x40020010 offset 0x10 :: DCDC (first) control register [Reset by: PoR, Pin Reset, Brown Out Detectors Reset, Deep Power Down Reset, Software Reset]
+  FIELD RC [5:0] header-agrees :: Constant On-Time calibration.
+  FIELD ICOMP [7:6] header-agrees :: Select the type of ZCD comparator.
+  FIELD ISEL [9:8] header-agrees :: Alter Internal biasing currents.
+  FIELD ICENABLE [10] header-agrees :: Selection of auto scaling of COT period with variations in VDD.
+  FIELD TMOS [15:11] header-agrees :: One-shot generator reference current trimming signal.
+  FIELD DISABLEISENSE [16] header-agrees :: Disable Current sensing.
+  FIELD VOUT [20:17] header-agrees :: Set output regulation voltage.
+  FIELD SLICINGENABLE [21] header-agrees :: Enable staggered switching of power switches.
+  FIELD INDUCTORCLAMPENABLE [22] header-agrees :: Enable shorting of Inductor during PFM idle time.
+  FIELD VOUT_PWD [26:23] header-agrees :: Set output regulation voltage during Deep Sleep.
+REG PMC DCDC1 0x40020014 offset 0x14 :: DCDC (second) control register [Reset by: PoR, Pin Reset, Brown Out Detectors Reset, Deep Power Down Reset, Software Reset]
+  FIELD RTRIMOFFET [3:0] header-agrees :: Adjust the offset voltage of BJT based comparator.
+  FIELD RSENSETRIM [7:4] header-agrees :: Adjust Max inductor peak current limiting.
+  FIELD DTESTENABLE [8] header-agrees :: Enable Digital test signals.
+  FIELD SETCURVE [10:9] header-agrees :: Bandgap calibration parameter.
+  FIELD SETDC [14:11] header-agrees :: Bandgap calibration parameter.
+  FIELD DTESTSEL [17:15] header-agrees :: Select the output signal for test.
+  FIELD ISCALEENABLE [18] header-agrees :: Modify COT behavior.
+  FIELD FORCEBYPASS [19] header-agrees :: Force bypass mode.
+  FIELD TRIMAUTOCOT [23:20] header-agrees :: Change the scaling ratio of the feedforward compensation.
+  FIELD FORCEFULLCYCLE [24] header-agrees :: Force full PFM PMOS and NMOS cycle.
+  FIELD LCENABLE [25] header-agrees :: Change the range of the peak detector of current inside the inductor.
+  FIELD TOFF [30:26] header-agrees :: Constant Off-Time calibration input.
+  FIELD TOFFENABLE [31] header-agrees :: Enable Constant Off-Time feature.
+REG PMC LDOPMU 0x4002001C offset 0x1C :: Power Management Unit (PMU) and Always-On domains LDO control [Reset by: PoR, Pin Reset, Brown Out Detectors Reset, Deep Power Down Reset, Software Reset]
+  FIELD VADJ [4:0] header-agrees :: Sets the Always-On domain LDO output level.
+  FIELD VADJ_PWD [9:5] header-agrees :: Sets the Always-On domain LDO output level in all power down modes.
+  FIELD VADJ_BOOST [14:10] header-agrees :: Sets the Always-On domain LDO Boost output level.
+  FIELD VADJ_BOOST_PWD [19:15] header-agrees :: Sets the Always-On domain LDO Boost output level in all power down modes.
+  FIELD BOOST_ENA [24] header-agrees :: Control the LDO AO boost mode in ACTIVE mode.
+  FIELD BOOST_ENA_PWD [25] header-agrees :: Control the LDO AO boost mode in the different low power modes (DEEP SLEEP, POWERDOWN, and DEEP POWER DOWN).

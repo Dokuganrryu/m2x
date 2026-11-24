@@ -1,0 +1,91 @@
+
+flash-driver-symbol.elf:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+20000000 <CTIMER0>:
+20000000: b580         	push	{r7, lr}
+20000002: 466f         	mov	r7, sp
+20000004: 2003         	movs	r0, #0x3
+20000006: e8bd 4080    	pop.w	{r7, lr}
+2000000a: f000 b83d    	b.w	0x20000088 <image::mix_block> @ imm = #0x7a
+2000000e: d4d4         	bmi	0x1fffffba              @ imm = #-0x58
+
+20000010 <Reset>:
+20000010: b580         	push	{r7, lr}
+20000012: 466f         	mov	r7, sp
+20000014: b082         	sub	sp, #0x8
+20000016: 4668         	mov	r0, sp
+20000018: f000 f84a    	bl	0x200000b0 <factory_serial> @ imm = #0x94
+2000001c: f240 04e0    	movw	r4, #0xe0
+20000020: f2c2 0402    	movt	r4, #0x2002
+20000024: e9dd 1000    	ldrd	r1, r0, [sp]
+20000028: 4625         	mov	r5, r4
+2000002a: f845 1b08    	str	r1, [r5], #8
+2000002e: f000 f837    	bl	0x200000a0 <image::lpc55_hal::drivers::flash::erase_page> @ imm = #0x6e
+20000032: 2000         	movs	r0, #0x0
+20000034: e9c5 0000    	strd	r0, r0, [r5]
+20000038: f240 00d8    	movw	r0, #0xd8
+2000003c: f240 016d    	movw	r1, #0x6d
+20000040: f2c2 0002    	movt	r0, #0x2002
+20000044: f2c2 0100    	movt	r1, #0x2000
+20000048: 6001         	str	r1, [r0]
+2000004a: e9d4 0104    	ldrd	r0, r1, [r4, #16]
+2000004e: e9d4 0106    	ldrd	r0, r1, [r4, #24]
+20000052: bf00         	nop
+20000054: e7fe         	b	0x20000054 <Reset+0x44> @ imm = #-0x4
+20000056: d4d4         	bmi	0x20000002 <CTIMER0+0x2> @ imm = #-0x58
+
+20000058 <USB1>:
+20000058: b580         	push	{r7, lr}
+2000005a: 466f         	mov	r7, sp
+2000005c: f000 f80a    	bl	0x20000074 <image::fill_ring> @ imm = #0x14
+20000060: 2002         	movs	r0, #0x2
+20000062: e8bd 4080    	pop.w	{r7, lr}
+20000066: f000 b80f    	b.w	0x20000088 <image::mix_block> @ imm = #0x1e
+2000006a: d4d4         	bmi	0x20000016 <Reset+0x6>  @ imm = #-0x58
+
+2000006c <image::idle>:
+2000006c: b580         	push	{r7, lr}
+2000006e: 466f         	mov	r7, sp
+20000070: bd80         	pop	{r7, pc}
+20000072: d4d4         	bmi	0x2000001e <Reset+0xe>  @ imm = #-0x58
+
+20000074 <image::fill_ring>:
+20000074: b580         	push	{r7, lr}
+20000076: 466f         	mov	r7, sp
+20000078: f240 00e0    	movw	r0, #0xe0
+2000007c: f2c2 0002    	movt	r0, #0x2002
+20000080: 210c         	movs	r1, #0xc
+20000082: 6001         	str	r1, [r0]
+20000084: bd80         	pop	{r7, pc}
+20000086: d4d4         	bmi	0x20000032 <Reset+0x22> @ imm = #-0x58
+
+20000088 <image::mix_block>:
+20000088: b580         	push	{r7, lr}
+2000008a: 466f         	mov	r7, sp
+2000008c: f240 01e0    	movw	r1, #0xe0
+20000090: f2c2 0102    	movt	r1, #0x2002
+20000094: 680a         	ldr	r2, [r1]
+20000096: fb02 f000    	mul	r0, r2, r0
+2000009a: 08c0         	lsrs	r0, r0, #0x3
+2000009c: 6008         	str	r0, [r1]
+2000009e: bd80         	pop	{r7, pc}
+
+200000a0 <image::lpc55_hal::drivers::flash::erase_page>:
+200000a0: b580         	push	{r7, lr}
+200000a2: 466f         	mov	r7, sp
+200000a4: f240 01e0    	movw	r1, #0xe0
+200000a8: f2c2 0102    	movt	r1, #0x2002
+200000ac: 6008         	str	r0, [r1]
+200000ae: bd80         	pop	{r7, pc}
+
+200000b0 <factory_serial>:
+200000b0: b580         	push	{r7, lr}
+200000b2: 466f         	mov	r7, sp
+200000b4: f248 2100    	movw	r1, #0x8200
+200000b8: f2c0 0103    	movt	r1, #0x3
+200000bc: 680a         	ldr	r2, [r1]
+200000be: 6849         	ldr	r1, [r1, #0x4]
+200000c0: e9c0 2100    	strd	r2, r1, [r0]
+200000c4: bd80         	pop	{r7, pc}

@@ -1,0 +1,60 @@
+block on-limiter-peak frames 6
+Disassembly of section .text._RINvNtCskOjzHTYueUM_3dsp8playback12mix_in_placeKj6_NtNtB4_7monitor13PlaybackAloneEB4_:
+
+00000000 <dsp::playback::mix_in_place::<6, dsp::monitor::PlaybackAlone>>:
+       0: b5f0         	push	{r4, r5, r6, r7, lr}
+       2: af03         	add	r7, sp, #0xc
+       4: f84d bd04    	str	r11, [sp, #-4]!
+       8: e890 500e    	ldm.w	r0, {r1, r2, r3, r12, lr}
+       c: f100 0614    	add.w	r6, r0, #0x14
+      10: ea81 71e1    	eor.w	r1, r1, r1, asr #31
+      14: ea83 73e3    	eor.w	r3, r3, r3, asr #31
+      18: ce70         	ldm	r6, {r4, r5, r6}
+      1a: ea82 72e2    	eor.w	r2, r2, r2, asr #31
+      1e: 428b         	cmp	r3, r1
+      20: bf88         	it	hi
+      22: 4619         	movhi	r1, r3
+      24: ea8c 73ec    	eor.w	r3, r12, r12, asr #31
+      28: 4293         	cmp	r3, r2
+      2a: bf88         	it	hi
+      2c: 461a         	movhi	r2, r3
+      2e: ea8e 73ee    	eor.w	r3, lr, lr, asr #31
+      32: 428b         	cmp	r3, r1
+      34: bf88         	it	hi
+      36: 4619         	movhi	r1, r3
+      38: ea84 73e4    	eor.w	r3, r4, r4, asr #31
+      3c: 4293         	cmp	r3, r2
+      3e: bf88         	it	hi
+      40: 461a         	movhi	r2, r3
+      42: ea85 73e5    	eor.w	r3, r5, r5, asr #31
+      46: 428b         	cmp	r3, r1
+      48: bf88         	it	hi
+      4a: 4619         	movhi	r1, r3
+      4c: ea86 73e6    	eor.w	r3, r6, r6, asr #31
+      50: 4293         	cmp	r3, r2
+      52: bf88         	it	hi
+      54: 461a         	movhi	r2, r3
+      56: e9d0 3608    	ldrd	r3, r6, [r0, #32]
+      5a: e9d0 500a    	ldrd	r5, r0, [r0, #40]
+      5e: ea83 73e3    	eor.w	r3, r3, r3, asr #31
+      62: 428b         	cmp	r3, r1
+      64: bf88         	it	hi
+      66: 4619         	movhi	r1, r3
+      68: ea86 73e6    	eor.w	r3, r6, r6, asr #31
+      6c: 4293         	cmp	r3, r2
+      6e: bf88         	it	hi
+      70: 461a         	movhi	r2, r3
+      72: ea85 73e5    	eor.w	r3, r5, r5, asr #31
+      76: 428b         	cmp	r3, r1
+      78: ea80 70e0    	eor.w	r0, r0, r0, asr #31
+      7c: bf88         	it	hi
+      7e: 4619         	movhi	r1, r3
+      80: 4290         	cmp	r0, r2
+      82: bf88         	it	hi
+      84: 4602         	movhi	r2, r0
+      86: 428a         	cmp	r2, r1
+      88: bf98         	it	ls
+      8a: 460a         	movls	r2, r1
+      8c: 1c50         	adds	r0, r2, #0x1
+      8e: f85d bb04    	ldr	r11, [sp], #4
+      92: bdf0         	pop	{r4, r5, r6, r7, pc}

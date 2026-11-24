@@ -1,0 +1,403 @@
+
+aeabi-div-in-tick.elf:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+20000000 <CTIMER0>:
+20000000: b580         	push	{r7, lr}
+20000002: 466f         	mov	r7, sp
+20000004: 2003         	movs	r0, #0x3
+20000006: e8bd 4080    	pop.w	{r7, lr}
+2000000a: f000 b839    	b.w	0x20000080 <image::mix_block> @ imm = #0x72
+2000000e: d4d4         	bmi	0x1fffffba              @ imm = #-0x58
+
+20000010 <Reset>:
+20000010: b580         	push	{r7, lr}
+20000012: 466f         	mov	r7, sp
+20000014: b082         	sub	sp, #0x8
+20000016: 4668         	mov	r0, sp
+20000018: f000 f846    	bl	0x200000a8 <factory_serial> @ imm = #0x8c
+2000001c: f240 4180    	movw	r1, #0x480
+20000020: 9800         	ldr	r0, [sp]
+20000022: f2c2 0102    	movt	r1, #0x2002
+20000026: 460a         	mov	r2, r1
+20000028: f842 0b08    	str	r0, [r2], #8
+2000002c: 2000         	movs	r0, #0x0
+2000002e: e9c2 0000    	strd	r0, r0, [r2]
+20000032: f240 4078    	movw	r0, #0x478
+20000036: f240 0265    	movw	r2, #0x65
+2000003a: f2c2 0002    	movt	r0, #0x2002
+2000003e: f2c2 0200    	movt	r2, #0x2000
+20000042: 6002         	str	r2, [r0]
+20000044: e9d1 0204    	ldrd	r0, r2, [r1, #16]
+20000048: e9d1 0106    	ldrd	r0, r1, [r1, #24]
+2000004c: e7fe         	b	0x2000004c <Reset+0x3c> @ imm = #-0x4
+2000004e: d4d4         	bmi	0x1ffffffa              @ imm = #-0x58
+
+20000050 <USB1>:
+20000050: b580         	push	{r7, lr}
+20000052: 466f         	mov	r7, sp
+20000054: f000 f80a    	bl	0x2000006c <image::fill_ring> @ imm = #0x14
+20000058: 2002         	movs	r0, #0x2
+2000005a: e8bd 4080    	pop.w	{r7, lr}
+2000005e: f000 b80f    	b.w	0x20000080 <image::mix_block> @ imm = #0x1e
+20000062: d4d4         	bmi	0x2000000e <CTIMER0+0xe> @ imm = #-0x58
+
+20000064 <image::idle>:
+20000064: b580         	push	{r7, lr}
+20000066: 466f         	mov	r7, sp
+20000068: bd80         	pop	{r7, pc}
+2000006a: d4d4         	bmi	0x20000016 <Reset+0x6>  @ imm = #-0x58
+
+2000006c <image::fill_ring>:
+2000006c: b580         	push	{r7, lr}
+2000006e: 466f         	mov	r7, sp
+20000070: f240 4080    	movw	r0, #0x480
+20000074: f2c2 0002    	movt	r0, #0x2002
+20000078: 210c         	movs	r1, #0xc
+2000007a: 6001         	str	r1, [r0]
+2000007c: bd80         	pop	{r7, pc}
+2000007e: d4d4         	bmi	0x2000002a <Reset+0x1a> @ imm = #-0x58
+
+20000080 <image::mix_block>:
+20000080: b5b0         	push	{r4, r5, r7, lr}
+20000082: af02         	add	r7, sp, #0x8
+20000084: f240 4580    	movw	r5, #0x480
+20000088: f2c2 0502    	movt	r5, #0x2002
+2000008c: 6829         	ldr	r1, [r5]
+2000008e: e9d5 2102    	ldrd	r2, r1, [r5, #8]
+20000092: 4604         	mov	r4, r0
+20000094: 4610         	mov	r0, r2
+20000096: 4622         	mov	r2, r4
+20000098: 2300         	movs	r3, #0x0
+2000009a: f000 f811    	bl	0x200000c0 <__aeabi_uldivmod> @ imm = #0x22
+2000009e: fb04 f000    	mul	r0, r4, r0
+200000a2: 08c0         	lsrs	r0, r0, #0x3
+200000a4: 6028         	str	r0, [r5]
+200000a6: bdb0         	pop	{r4, r5, r7, pc}
+
+200000a8 <factory_serial>:
+200000a8: b580         	push	{r7, lr}
+200000aa: 466f         	mov	r7, sp
+200000ac: f248 2100    	movw	r1, #0x8200
+200000b0: f2c0 0103    	movt	r1, #0x3
+200000b4: 680a         	ldr	r2, [r1]
+200000b6: 6849         	ldr	r1, [r1, #0x4]
+200000b8: e9c0 2100    	strd	r2, r1, [r0]
+200000bc: bd80         	pop	{r7, pc}
+200000be: d4d4         	bmi	0x2000006a <image::idle+0x6> @ imm = #-0x58
+
+200000c0 <__aeabi_uldivmod>:
+200000c0: b510         	push	{r4, lr}
+200000c2: b084         	sub	sp, #0x10
+200000c4: ac02         	add	r4, sp, #0x8
+200000c6: 9400         	str	r4, [sp]
+200000c8: f000 f804    	bl	0x200000d4 <__udivmoddi4> @ imm = #0x8
+200000cc: 9a02         	ldr	r2, [sp, #0x8]
+200000ce: 9b03         	ldr	r3, [sp, #0xc]
+200000d0: b004         	add	sp, #0x10
+200000d2: bd10         	pop	{r4, pc}
+
+200000d4 <__udivmoddi4>:
+200000d4: b580         	push	{r7, lr}
+200000d6: 466f         	mov	r7, sp
+200000d8: b086         	sub	sp, #0x18
+200000da: 4684         	mov	r12, r0
+200000dc: a802         	add	r0, sp, #0x8
+200000de: e9cd 2300    	strd	r2, r3, [sp]
+200000e2: 4662         	mov	r2, r12
+200000e4: 460b         	mov	r3, r1
+200000e6: f000 f80d    	bl	0x20000104 <compiler_builtins::int::specialized_div_rem::u64_div_rem> @ imm = #0x1a
+200000ea: f8d7 c008    	ldr.w	r12, [r7, #0x8]
+200000ee: e9dd 0102    	ldrd	r0, r1, [sp, #8]
+200000f2: f1bc 0f00    	cmp.w	r12, #0x0
+200000f6: bf1c         	itt	ne
+200000f8: e9dd 3204    	ldrdne	r3, r2, [sp, #16]
+200000fc: e9cc 3200    	strdne	r3, r2, [r12]
+20000100: b006         	add	sp, #0x18
+20000102: bd80         	pop	{r7, pc}
+
+20000104 <compiler_builtins::int::specialized_div_rem::u64_div_rem>:
+20000104: b5f0         	push	{r4, r5, r6, r7, lr}
+20000106: af03         	add	r7, sp, #0xc
+20000108: e92d 0b00    	push.w	{r8, r9, r11}
+2000010c: e9d7 e802    	ldrd	lr, r8, [r7, #8]
+20000110: f1be 0f00    	cmp.w	lr, #0x0
+20000114: d072         	beq	0x200001fc <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xf8> @ imm = #0xe4
+20000116: f1b8 0f00    	cmp.w	r8, #0x0
+2000011a: d16f         	bne	0x200001fc <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xf8> @ imm = #0xde
+2000011c: 2b00         	cmp	r3, #0x0
+2000011e: f000 80fc    	beq.w	0x2000031a <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x216> @ imm = #0x1f8
+20000122: 4573         	cmp	r3, lr
+20000124: f080 8107    	bhs.w	0x20000336 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x232> @ imm = #0x20e
+20000128: fab3 f183    	clz	r1, r3
+2000012c: fabe f68e    	clz	r6, lr
+20000130: 1a71         	subs	r1, r6, r1
+20000132: f101 0620    	add.w	r6, r1, #0x20
+20000136: bf08         	it	eq
+20000138: 261f         	moveq	r6, #0x1f
+2000013a: f1c6 0520    	rsb.w	r5, r6, #0x20
+2000013e: fa08 f106    	lsl.w	r1, r8, r6
+20000142: fa0e f806    	lsl.w	r8, lr, r6
+20000146: fa2e f505    	lsr.w	r5, lr, r5
+2000014a: 4329         	orrs	r1, r5
+2000014c: f1b6 0520    	subs.w	r5, r6, #0x20
+20000150: f006 061f    	and	r6, r6, #0x1f
+20000154: bf58         	it	pl
+20000156: fa0e f105    	lslpl.w	r1, lr, r5
+2000015a: f04f 0501    	mov.w	r5, #0x1
+2000015e: fa05 fc06    	lsl.w	r12, r5, r6
+20000162: f04f 0500    	mov.w	r5, #0x0
+20000166: bf58         	it	pl
+20000168: f04f 0800    	movpl.w	r8, #0x0
+2000016c: e008         	b	0x20000180 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x7c> @ imm = #0x10
+2000016e: 4622         	mov	r2, r4
+20000170: 4633         	mov	r3, r6
+20000172: ea4f 1418    	lsr.w	r4, r8, #0x4
+20000176: ea44 7801    	orr.w	r8, r4, r1, lsl #28
+2000017a: ea4f 1c1c    	lsr.w	r12, r12, #0x4
+2000017e: 0909         	lsrs	r1, r1, #0x4
+20000180: ebb2 0408    	subs.w	r4, r2, r8
+20000184: eb63 0601    	sbc.w	r6, r3, r1
+20000188: 2e00         	cmp	r6, #0x0
+2000018a: d403         	bmi	0x20000194 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x90> @ imm = #0x6
+2000018c: ea45 050c    	orr.w	r5, r5, r12
+20000190: d102         	bne	0x20000198 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x94> @ imm = #0x4
+20000192: e02d         	b	0x200001f0 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xec> @ imm = #0x5a
+20000194: 4614         	mov	r4, r2
+20000196: 461e         	mov	r6, r3
+20000198: ea5f 0351    	lsrs.w	r3, r1, #0x1
+2000019c: ea4f 0238    	rrx	r2, r8
+200001a0: 1aa2         	subs	r2, r4, r2
+200001a2: eb66 0303    	sbc.w	r3, r6, r3
+200001a6: 2b00         	cmp	r3, #0x0
+200001a8: d404         	bmi	0x200001b4 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xb0> @ imm = #0x8
+200001aa: ea45 055c    	orr.w	r5, r5, r12, lsr #1
+200001ae: 4614         	mov	r4, r2
+200001b0: d102         	bne	0x200001b8 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xb4> @ imm = #0x4
+200001b2: e01d         	b	0x200001f0 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xec> @ imm = #0x3a
+200001b4: 4622         	mov	r2, r4
+200001b6: 4633         	mov	r3, r6
+200001b8: ea4f 0498    	lsr.w	r4, r8, #0x2
+200001bc: ea44 7481    	orr.w	r4, r4, r1, lsl #30
+200001c0: 1b14         	subs	r4, r2, r4
+200001c2: eb63 0691    	sbc.w	r6, r3, r1, lsr #2
+200001c6: 2e00         	cmp	r6, #0x0
+200001c8: d403         	bmi	0x200001d2 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xce> @ imm = #0x6
+200001ca: ea45 059c    	orr.w	r5, r5, r12, lsr #2
+200001ce: d102         	bne	0x200001d6 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xd2> @ imm = #0x4
+200001d0: e00e         	b	0x200001f0 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0xec> @ imm = #0x1c
+200001d2: 4614         	mov	r4, r2
+200001d4: 461e         	mov	r6, r3
+200001d6: ea4f 02d8    	lsr.w	r2, r8, #0x3
+200001da: ea42 7241    	orr.w	r2, r2, r1, lsl #29
+200001de: 1aa2         	subs	r2, r4, r2
+200001e0: eb66 03d1    	sbc.w	r3, r6, r1, lsr #3
+200001e4: 2b00         	cmp	r3, #0x0
+200001e6: d4c2         	bmi	0x2000016e <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x6a> @ imm = #-0x7c
+200001e8: ea45 05dc    	orr.w	r5, r5, r12, lsr #3
+200001ec: 4614         	mov	r4, r2
+200001ee: d1c0         	bne	0x20000172 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x6e> @ imm = #-0x80
+200001f0: fbb4 f1fe    	udiv	r1, r4, lr
+200001f4: fb01 461e    	mls	r6, r1, lr, r4
+200001f8: 4329         	orrs	r1, r5
+200001fa: e092         	b	0x20000322 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x21e> @ imm = #0x124
+200001fc: 2100         	movs	r1, #0x0
+200001fe: 2b00         	cmp	r3, #0x0
+20000200: f000 8080    	beq.w	0x20000304 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x200> @ imm = #0x100
+20000204: ebb2 060e    	subs.w	r6, r2, lr
+20000208: eb73 0608    	sbcs.w	r6, r3, r8
+2000020c: d37a         	blo	0x20000304 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x200> @ imm = #0xf4
+2000020e: fab3 f183    	clz	r1, r3
+20000212: fab8 f688    	clz	r6, r8
+20000216: 1a71         	subs	r1, r6, r1
+20000218: f001 063f    	and	r6, r1, #0x3f
+2000021c: f001 011f    	and	r1, r1, #0x1f
+20000220: f1c6 0420    	rsb.w	r4, r6, #0x20
+20000224: fa08 f506    	lsl.w	r5, r8, r6
+20000228: fa0e fc06    	lsl.w	r12, lr, r6
+2000022c: fa2e f404    	lsr.w	r4, lr, r4
+20000230: 432c         	orrs	r4, r5
+20000232: f1b6 0520    	subs.w	r5, r6, #0x20
+20000236: bf58         	it	pl
+20000238: fa0e f405    	lslpl.w	r4, lr, r5
+2000023c: f04f 0501    	mov.w	r5, #0x1
+20000240: fa05 f901    	lsl.w	r9, r5, r1
+20000244: f04f 0100    	mov.w	r1, #0x0
+20000248: bf58         	it	pl
+2000024a: f04f 0c00    	movpl.w	r12, #0x0
+2000024e: e008         	b	0x20000262 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x15e> @ imm = #0x10
+20000250: 4632         	mov	r2, r6
+20000252: 462b         	mov	r3, r5
+20000254: ea4f 161c    	lsr.w	r6, r12, #0x4
+20000258: ea46 7c04    	orr.w	r12, r6, r4, lsl #28
+2000025c: ea4f 1919    	lsr.w	r9, r9, #0x4
+20000260: 0924         	lsrs	r4, r4, #0x4
+20000262: ebb2 060c    	subs.w	r6, r2, r12
+20000266: eb73 0504    	sbcs.w	r5, r3, r4
+2000026a: d407         	bmi	0x2000027c <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x178> @ imm = #0xe
+2000026c: ea41 0109    	orr.w	r1, r1, r9
+20000270: ebb6 020e    	subs.w	r2, r6, lr
+20000274: eb75 0208    	sbcs.w	r2, r5, r8
+20000278: d202         	bhs	0x20000280 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x17c> @ imm = #0x4
+2000027a: e03a         	b	0x200002f2 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x1ee> @ imm = #0x74
+2000027c: 4616         	mov	r6, r2
+2000027e: 461d         	mov	r5, r3
+20000280: ea5f 0354    	lsrs.w	r3, r4, #0x1
+20000284: ea4f 023c    	rrx	r2, r12
+20000288: 1ab2         	subs	r2, r6, r2
+2000028a: eb75 0303    	sbcs.w	r3, r5, r3
+2000028e: d409         	bmi	0x200002a4 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x1a0> @ imm = #0x12
+20000290: ebb2 050e    	subs.w	r5, r2, lr
+20000294: ea41 0159    	orr.w	r1, r1, r9, lsr #1
+20000298: eb73 0508    	sbcs.w	r5, r3, r8
+2000029c: 4616         	mov	r6, r2
+2000029e: 461d         	mov	r5, r3
+200002a0: d202         	bhs	0x200002a8 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x1a4> @ imm = #0x4
+200002a2: e026         	b	0x200002f2 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x1ee> @ imm = #0x4c
+200002a4: 4632         	mov	r2, r6
+200002a6: 462b         	mov	r3, r5
+200002a8: ea4f 059c    	lsr.w	r5, r12, #0x2
+200002ac: ea45 7584    	orr.w	r5, r5, r4, lsl #30
+200002b0: 1b56         	subs	r6, r2, r5
+200002b2: eb63 0594    	sbc.w	r5, r3, r4, lsr #2
+200002b6: 2d00         	cmp	r5, #0x0
+200002b8: d407         	bmi	0x200002ca <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x1c6> @ imm = #0xe
+200002ba: ea41 0199    	orr.w	r1, r1, r9, lsr #2
+200002be: ebb6 020e    	subs.w	r2, r6, lr
+200002c2: eb75 0208    	sbcs.w	r2, r5, r8
+200002c6: d202         	bhs	0x200002ce <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x1ca> @ imm = #0x4
+200002c8: e013         	b	0x200002f2 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x1ee> @ imm = #0x26
+200002ca: 4616         	mov	r6, r2
+200002cc: 461d         	mov	r5, r3
+200002ce: ea4f 02dc    	lsr.w	r2, r12, #0x3
+200002d2: ea42 7244    	orr.w	r2, r2, r4, lsl #29
+200002d6: 1ab2         	subs	r2, r6, r2
+200002d8: eb65 03d4    	sbc.w	r3, r5, r4, lsr #3
+200002dc: 2b00         	cmp	r3, #0x0
+200002de: d4b7         	bmi	0x20000250 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x14c> @ imm = #-0x92
+200002e0: ebb2 050e    	subs.w	r5, r2, lr
+200002e4: ea41 01d9    	orr.w	r1, r1, r9, lsr #3
+200002e8: eb73 0508    	sbcs.w	r5, r3, r8
+200002ec: 4616         	mov	r6, r2
+200002ee: 461d         	mov	r5, r3
+200002f0: d2b0         	bhs	0x20000254 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x150> @ imm = #-0xa0
+200002f2: f04f 0c00    	mov.w	r12, #0x0
+200002f6: e9c0 1c00    	strd	r1, r12, [r0]
+200002fa: e9c0 6502    	strd	r6, r5, [r0, #8]
+200002fe: e8bd 0b00    	pop.w	{r8, r9, r11}
+20000302: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000304: f04f 0c00    	mov.w	r12, #0x0
+20000308: 4616         	mov	r6, r2
+2000030a: 461d         	mov	r5, r3
+2000030c: e9c0 1c00    	strd	r1, r12, [r0]
+20000310: e9c0 6502    	strd	r6, r5, [r0, #8]
+20000314: e8bd 0b00    	pop.w	{r8, r9, r11}
+20000318: bdf0         	pop	{r4, r5, r6, r7, pc}
+2000031a: fbb2 f1fe    	udiv	r1, r2, lr
+2000031e: fb01 261e    	mls	r6, r1, lr, r2
+20000322: f04f 0c00    	mov.w	r12, #0x0
+20000326: 2500         	movs	r5, #0x0
+20000328: e9c0 1c00    	strd	r1, r12, [r0]
+2000032c: e9c0 6502    	strd	r6, r5, [r0, #8]
+20000330: e8bd 0b00    	pop.w	{r8, r9, r11}
+20000334: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000336: d10d         	bne	0x20000354 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x250> @ imm = #0x1a
+20000338: fbb2 f1f3    	udiv	r1, r2, r3
+2000033c: 2500         	movs	r5, #0x0
+2000033e: fb01 2613    	mls	r6, r1, r3, r2
+20000342: f04f 0c01    	mov.w	r12, #0x1
+20000346: e9c0 1c00    	strd	r1, r12, [r0]
+2000034a: e9c0 6502    	strd	r6, r5, [r0, #8]
+2000034e: e8bd 0b00    	pop.w	{r8, r9, r11}
+20000352: bdf0         	pop	{r4, r5, r6, r7, pc}
+20000354: fbb3 fcfe    	udiv	r12, r3, lr
+20000358: f5be 3f80    	cmp.w	lr, #0x10000
+2000035c: fb0c 351e    	mls	r5, r12, lr, r3
+20000360: d21b         	bhs	0x2000039a <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x296> @ imm = #0x36
+20000362: 0429         	lsls	r1, r5, #0x10
+20000364: 2500         	movs	r5, #0x0
+20000366: ea41 4112    	orr.w	r1, r1, r2, lsr #16
+2000036a: fbb1 f3fe    	udiv	r3, r1, lr
+2000036e: fb03 f10e    	mul	r1, r3, lr
+20000372: ea4c 4c13    	orr.w	r12, r12, r3, lsr #16
+20000376: ebc1 4112    	rsb	r1, r1, r2, lsr #16
+2000037a: b292         	uxth	r2, r2
+2000037c: ea42 4101    	orr.w	r1, r2, r1, lsl #16
+20000380: fbb1 f2fe    	udiv	r2, r1, lr
+20000384: fb02 161e    	mls	r6, r2, lr, r1
+20000388: ea42 4103    	orr.w	r1, r2, r3, lsl #16
+2000038c: e9c0 1c00    	strd	r1, r12, [r0]
+20000390: e9c0 6502    	strd	r6, r5, [r0, #8]
+20000394: e8bd 0b00    	pop.w	{r8, r9, r11}
+20000398: bdf0         	pop	{r4, r5, r6, r7, pc}
+2000039a: ebb2 010e    	subs.w	r1, r2, lr
+2000039e: eb75 0108    	sbcs.w	r1, r5, r8
+200003a2: d208         	bhs	0x200003b6 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x2b2> @ imm = #0x10
+200003a4: 2100         	movs	r1, #0x0
+200003a6: 4616         	mov	r6, r2
+200003a8: e9c0 1c00    	strd	r1, r12, [r0]
+200003ac: e9c0 6502    	strd	r6, r5, [r0, #8]
+200003b0: e8bd 0b00    	pop.w	{r8, r9, r11}
+200003b4: bdf0         	pop	{r4, r5, r6, r7, pc}
+200003b6: ea4f 71c8    	lsl.w	r1, r8, #0x1f
+200003ba: ea41 035e    	orr.w	r3, r1, lr, lsr #1
+200003be: ea4f 79ce    	lsl.w	r9, lr, #0x1f
+200003c2: f04f 4800    	mov.w	r8, #0x80000000
+200003c6: 2100         	movs	r1, #0x0
+200003c8: e008         	b	0x200003dc <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x2d8> @ imm = #0x10
+200003ca: 4622         	mov	r2, r4
+200003cc: 4635         	mov	r5, r6
+200003ce: ea4f 1419    	lsr.w	r4, r9, #0x4
+200003d2: ea44 7903    	orr.w	r9, r4, r3, lsl #28
+200003d6: ea4f 1818    	lsr.w	r8, r8, #0x4
+200003da: 091b         	lsrs	r3, r3, #0x4
+200003dc: ebb2 0409    	subs.w	r4, r2, r9
+200003e0: eb65 0603    	sbc.w	r6, r5, r3
+200003e4: 2e00         	cmp	r6, #0x0
+200003e6: d403         	bmi	0x200003f0 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x2ec> @ imm = #0x6
+200003e8: ea41 0108    	orr.w	r1, r1, r8
+200003ec: d102         	bne	0x200003f4 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x2f0> @ imm = #0x4
+200003ee: e02d         	b	0x2000044c <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x348> @ imm = #0x5a
+200003f0: 4614         	mov	r4, r2
+200003f2: 462e         	mov	r6, r5
+200003f4: ea5f 0553    	lsrs.w	r5, r3, #0x1
+200003f8: ea4f 0239    	rrx	r2, r9
+200003fc: 1aa2         	subs	r2, r4, r2
+200003fe: eb66 0505    	sbc.w	r5, r6, r5
+20000402: 2d00         	cmp	r5, #0x0
+20000404: d404         	bmi	0x20000410 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x30c> @ imm = #0x8
+20000406: ea41 0158    	orr.w	r1, r1, r8, lsr #1
+2000040a: 4614         	mov	r4, r2
+2000040c: d102         	bne	0x20000414 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x310> @ imm = #0x4
+2000040e: e01d         	b	0x2000044c <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x348> @ imm = #0x3a
+20000410: 4622         	mov	r2, r4
+20000412: 4635         	mov	r5, r6
+20000414: ea4f 0499    	lsr.w	r4, r9, #0x2
+20000418: ea44 7483    	orr.w	r4, r4, r3, lsl #30
+2000041c: 1b14         	subs	r4, r2, r4
+2000041e: eb65 0693    	sbc.w	r6, r5, r3, lsr #2
+20000422: 2e00         	cmp	r6, #0x0
+20000424: d403         	bmi	0x2000042e <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x32a> @ imm = #0x6
+20000426: ea41 0198    	orr.w	r1, r1, r8, lsr #2
+2000042a: d102         	bne	0x20000432 <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x32e> @ imm = #0x4
+2000042c: e00e         	b	0x2000044c <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x348> @ imm = #0x1c
+2000042e: 4614         	mov	r4, r2
+20000430: 462e         	mov	r6, r5
+20000432: ea4f 02d9    	lsr.w	r2, r9, #0x3
+20000436: ea42 7243    	orr.w	r2, r2, r3, lsl #29
+2000043a: 1aa2         	subs	r2, r4, r2
+2000043c: eb66 05d3    	sbc.w	r5, r6, r3, lsr #3
+20000440: 2d00         	cmp	r5, #0x0
+20000442: d4c2         	bmi	0x200003ca <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x2c6> @ imm = #-0x7c
+20000444: ea41 01d8    	orr.w	r1, r1, r8, lsr #3
+20000448: 4614         	mov	r4, r2
+2000044a: d1c0         	bne	0x200003ce <compiler_builtins::int::specialized_div_rem::u64_div_rem+0x2ca> @ imm = #-0x80
+2000044c: fbb4 f2fe    	udiv	r2, r4, lr
+20000450: 2500         	movs	r5, #0x0
+20000452: fb02 461e    	mls	r6, r2, lr, r4
+20000456: 4311         	orrs	r1, r2
+20000458: e9c0 1c00    	strd	r1, r12, [r0]
+2000045c: e9c0 6502    	strd	r6, r5, [r0, #8]
+20000460: e8bd 0b00    	pop.w	{r8, r9, r11}
+20000464: bdf0         	pop	{r4, r5, r6, r7, pc}

@@ -1,0 +1,31 @@
+[package]
+name = "board"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[[bin]]
+name = "board"
+test = false
+bench = false
+
+[features]
+milestone = []
+milestone2 = ["milestone", "device/milestone2"]
+milestone2-nolimit = ["milestone2"]
+milestone4 = ["milestone2-nolimit"]
+milestone7 = ["milestone4", "device/milestone7"]
+sound1 = ["milestone7", "device/sound1"]
+sound2 = ["sound1", "device/sound2"]
+sound2-ui = ["sound2", "device/screen2"]
+sound3 = ["sound2-ui", "device/sound3"]
+quiesce-only = []
+release-policy = []
+
+[target.'cfg(target_os = "none")'.dependencies]
+cortex-m-rt = { version = "=0.7.7", features = ["device", "set-sp", "set-vtor", "set-msplim"] }
+dsp = { path = "../dsp" }
+stream = { path = "../stream" }
+device = { path = "../device" }

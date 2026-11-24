@@ -1,0 +1,14 @@
+block capture-ramp frames 12
+00000000 <dsp::capture::ramp::<12>>:
+       0: b510         	push	{r4, lr}
+       2: e9d0 2300    	ldrd	r2, r3, [r0]
+       6: fb52 f201    	smmul	r2, r2, r1
+       a: e8e0 2302    	strd	r2, r3, [r0], #8
+       e: 3c01         	subs	r4, #1
+      10: d1f7         	bne	0x2 <dsp::capture::ramp::<12>+0x2>
+       2: e9d0 2300    	ldrd	r2, r3, [r0]
+       6: fb52 f201    	smmul	r2, r2, r1
+       a: e8e0 2302    	strd	r2, r3, [r0], #8
+       e: 3c01         	subs	r4, #1
+      10: d1f7         	bne	0x2 <dsp::capture::ramp::<12>+0x2>
+      12: bd10         	pop	{r4, pc}

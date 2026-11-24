@@ -1,0 +1,13 @@
+200200e0 b .L_MergedGlobals
+20000000 T CTIMER0
+20000010 T Reset
+2000005c T USB1
+200200e8 b image::WIDE
+20000070 t image::idle
+200200e0 b image::LEVEL
+200200f0 b image::TABLE
+200200d8 d image::HANDLER
+20000078 t image::fill_ring
+2000008c t image::mix_block
+200000a4 t <image::packet_sizer::NominalPacket>::at
+200000b0 T factory_serial

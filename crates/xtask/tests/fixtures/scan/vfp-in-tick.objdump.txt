@@ -1,0 +1,87 @@
+
+vfp-in-tick.elf:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+20000000 <CTIMER0>:
+20000000: b580         	push	{r7, lr}
+20000002: 466f         	mov	r7, sp
+20000004: 2003         	movs	r0, #0x3
+20000006: e8bd 4080    	pop.w	{r7, lr}
+2000000a: f000 b839    	b.w	0x20000080 <image::mix_block> @ imm = #0x72
+2000000e: d4d4         	bmi	0x1fffffba              @ imm = #-0x58
+
+20000010 <Reset>:
+20000010: b580         	push	{r7, lr}
+20000012: 466f         	mov	r7, sp
+20000014: b082         	sub	sp, #0x8
+20000016: 4668         	mov	r0, sp
+20000018: f000 f84a    	bl	0x200000b0 <factory_serial> @ imm = #0x94
+2000001c: f240 01e0    	movw	r1, #0xe0
+20000020: 9800         	ldr	r0, [sp]
+20000022: f2c2 0102    	movt	r1, #0x2002
+20000026: 460a         	mov	r2, r1
+20000028: f842 0b08    	str	r0, [r2], #8
+2000002c: 2000         	movs	r0, #0x0
+2000002e: e9c2 0000    	strd	r0, r0, [r2]
+20000032: f240 00d8    	movw	r0, #0xd8
+20000036: f240 0265    	movw	r2, #0x65
+2000003a: f2c2 0002    	movt	r0, #0x2002
+2000003e: f2c2 0200    	movt	r2, #0x2000
+20000042: 6002         	str	r2, [r0]
+20000044: e9d1 0204    	ldrd	r0, r2, [r1, #16]
+20000048: e9d1 0106    	ldrd	r0, r1, [r1, #24]
+2000004c: e7fe         	b	0x2000004c <Reset+0x3c> @ imm = #-0x4
+2000004e: d4d4         	bmi	0x1ffffffa              @ imm = #-0x58
+
+20000050 <USB1>:
+20000050: b580         	push	{r7, lr}
+20000052: 466f         	mov	r7, sp
+20000054: f000 f80a    	bl	0x2000006c <image::fill_ring> @ imm = #0x14
+20000058: 2002         	movs	r0, #0x2
+2000005a: e8bd 4080    	pop.w	{r7, lr}
+2000005e: f000 b80f    	b.w	0x20000080 <image::mix_block> @ imm = #0x1e
+20000062: d4d4         	bmi	0x2000000e <CTIMER0+0xe> @ imm = #-0x58
+
+20000064 <image::idle>:
+20000064: b580         	push	{r7, lr}
+20000066: 466f         	mov	r7, sp
+20000068: bd80         	pop	{r7, pc}
+2000006a: d4d4         	bmi	0x20000016 <Reset+0x6>  @ imm = #-0x58
+
+2000006c <image::fill_ring>:
+2000006c: b580         	push	{r7, lr}
+2000006e: 466f         	mov	r7, sp
+20000070: f240 00e0    	movw	r0, #0xe0
+20000074: f2c2 0002    	movt	r0, #0x2002
+20000078: 210c         	movs	r1, #0xc
+2000007a: 6001         	str	r1, [r0]
+2000007c: bd80         	pop	{r7, pc}
+2000007e: d4d4         	bmi	0x2000002a <Reset+0x1a> @ imm = #-0x58
+
+20000080 <image::mix_block>:
+20000080: b580         	push	{r7, lr}
+20000082: 466f         	mov	r7, sp
+20000084: f240 01e0    	movw	r1, #0xe0
+20000088: f2c2 0102    	movt	r1, #0x2002
+2000008c: ed91 0a00    	vldr	s0, [r1]
+20000090: eeb6 1a00    	vmov.f32	s2, #5.000000e-01
+20000094: eeb8 0a40    	vcvt.f32.u32	s0, s0
+20000098: ee20 0a01    	vmul.f32	s0, s0, s2
+2000009c: eebc 0ac0    	vcvt.u32.f32	s0, s0
+200000a0: ee10 2a10    	vmov	r2, s0
+200000a4: fb02 f000    	mul	r0, r2, r0
+200000a8: 08c0         	lsrs	r0, r0, #0x3
+200000aa: 6008         	str	r0, [r1]
+200000ac: bd80         	pop	{r7, pc}
+200000ae: d4d4         	bmi	0x2000005a <USB1+0xa>   @ imm = #-0x58
+
+200000b0 <factory_serial>:
+200000b0: b580         	push	{r7, lr}
+200000b2: 466f         	mov	r7, sp
+200000b4: f248 2100    	movw	r1, #0x8200
+200000b8: f2c0 0103    	movt	r1, #0x3
+200000bc: 680a         	ldr	r2, [r1]
+200000be: 6849         	ldr	r1, [r1, #0x4]
+200000c0: e9c0 2100    	strd	r2, r1, [r0]
+200000c4: bd80         	pop	{r7, pc}

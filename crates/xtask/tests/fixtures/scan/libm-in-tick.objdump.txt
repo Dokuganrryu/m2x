@@ -1,0 +1,180 @@
+
+libm-in-tick.elf:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+20000000 <CTIMER0>:
+20000000: b580         	push	{r7, lr}
+20000002: 466f         	mov	r7, sp
+20000004: 2003         	movs	r0, #0x3
+20000006: e8bd 4080    	pop.w	{r7, lr}
+2000000a: f000 b839    	b.w	0x20000080 <image::mix_block> @ imm = #0x72
+2000000e: d4d4         	bmi	0x1fffffba              @ imm = #-0x58
+
+20000010 <Reset>:
+20000010: b580         	push	{r7, lr}
+20000012: 466f         	mov	r7, sp
+20000014: b082         	sub	sp, #0x8
+20000016: 4668         	mov	r0, sp
+20000018: f000 f8ce    	bl	0x200001b8 <factory_serial> @ imm = #0x19c
+2000001c: f240 31e8    	movw	r1, #0x3e8
+20000020: 9800         	ldr	r0, [sp]
+20000022: f2c2 0102    	movt	r1, #0x2002
+20000026: 460a         	mov	r2, r1
+20000028: f842 0b08    	str	r0, [r2], #8
+2000002c: 2000         	movs	r0, #0x0
+2000002e: e9c2 0000    	strd	r0, r0, [r2]
+20000032: f240 30e0    	movw	r0, #0x3e0
+20000036: f240 0265    	movw	r2, #0x65
+2000003a: f2c2 0002    	movt	r0, #0x2002
+2000003e: f2c2 0200    	movt	r2, #0x2000
+20000042: 6002         	str	r2, [r0]
+20000044: e9d1 0204    	ldrd	r0, r2, [r1, #16]
+20000048: e9d1 0106    	ldrd	r0, r1, [r1, #24]
+2000004c: e7fe         	b	0x2000004c <Reset+0x3c> @ imm = #-0x4
+2000004e: d4d4         	bmi	0x1ffffffa              @ imm = #-0x58
+
+20000050 <USB1>:
+20000050: b580         	push	{r7, lr}
+20000052: 466f         	mov	r7, sp
+20000054: f000 f80a    	bl	0x2000006c <image::fill_ring> @ imm = #0x14
+20000058: 2002         	movs	r0, #0x2
+2000005a: e8bd 4080    	pop.w	{r7, lr}
+2000005e: f000 b80f    	b.w	0x20000080 <image::mix_block> @ imm = #0x1e
+20000062: d4d4         	bmi	0x2000000e <CTIMER0+0xe> @ imm = #-0x58
+
+20000064 <image::idle>:
+20000064: b580         	push	{r7, lr}
+20000066: 466f         	mov	r7, sp
+20000068: bd80         	pop	{r7, pc}
+2000006a: d4d4         	bmi	0x20000016 <Reset+0x6>  @ imm = #-0x58
+
+2000006c <image::fill_ring>:
+2000006c: b580         	push	{r7, lr}
+2000006e: 466f         	mov	r7, sp
+20000070: f240 30e8    	movw	r0, #0x3e8
+20000074: f2c2 0002    	movt	r0, #0x2002
+20000078: 210c         	movs	r1, #0xc
+2000007a: 6001         	str	r1, [r0]
+2000007c: bd80         	pop	{r7, pc}
+2000007e: d4d4         	bmi	0x2000002a <Reset+0x1a> @ imm = #-0x58
+
+20000080 <image::mix_block>:
+20000080: b5b0         	push	{r4, r5, r7, lr}
+20000082: af02         	add	r7, sp, #0x8
+20000084: f240 35e8    	movw	r5, #0x3e8
+20000088: f2c2 0502    	movt	r5, #0x2002
+2000008c: 6829         	ldr	r1, [r5]
+2000008e: 4604         	mov	r4, r0
+20000090: 4608         	mov	r0, r1
+20000092: f000 f805    	bl	0x200000a0 <image::libm::sqrt_bits> @ imm = #0xa
+20000096: fb00 f004    	mul	r0, r0, r4
+2000009a: 08c0         	lsrs	r0, r0, #0x3
+2000009c: 6028         	str	r0, [r5]
+2000009e: bdb0         	pop	{r4, r5, r7, pc}
+
+200000a0 <image::libm::sqrt_bits>:
+200000a0: b5d0         	push	{r4, r6, r7, lr}
+200000a2: af02         	add	r7, sp, #0x8
+200000a4: f5b0 3f80    	cmp.w	r0, #0x10000
+200000a8: d20a         	bhs	0x200000c0 <image::libm::sqrt_bits+0x20> @ imm = #0x14
+200000aa: f5b0 7f80    	cmp.w	r0, #0x100
+200000ae: d253         	bhs	0x20000158 <image::libm::sqrt_bits+0xb8> @ imm = #0xa6
+200000b0: f240 11e0    	movw	r1, #0x1e0
+200000b4: f2c2 0101    	movt	r1, #0x2001
+200000b8: f811 0010    	ldrb.w	r0, [r1, r0, lsl #1]
+200000bc: bdd0         	pop	{r4, r6, r7, pc}
+200000be: bf00         	nop
+200000c0: fab0 fc80    	clz	r12, r0
+200000c4: f00c 021e    	and	r2, r12, #0x1e
+200000c8: 4090         	lsls	r0, r2
+200000ca: f240 13e0    	movw	r3, #0x1e0
+200000ce: 0e02         	lsrs	r2, r0, #0x18
+200000d0: f2c2 0301    	movt	r3, #0x2001
+200000d4: f813 4012    	ldrb.w	r4, [r3, r2, lsl #1]
+200000d8: eb03 0242    	add.w	r2, r3, r2, lsl #1
+200000dc: f892 e001    	ldrb.w	lr, [r2, #0x1]
+200000e0: f3c0 5203    	ubfx	r2, r0, #0x14, #0x4
+200000e4: ea42 120e    	orr.w	r2, r2, lr, lsl #4
+200000e8: 0063         	lsls	r3, r4, #0x1
+200000ea: b291         	uxth	r1, r2
+200000ec: fbb1 f1f3    	udiv	r1, r1, r3
+200000f0: fb01 2213    	mls	r2, r1, r3, r2
+200000f4: f004 030f    	and	r3, r4, #0xf
+200000f8: f3c0 4403    	ubfx	r4, r0, #0x10, #0x4
+200000fc: ea44 1202    	orr.w	r2, r4, r2, lsl #4
+20000100: eb01 1303    	add.w	r3, r1, r3, lsl #4
+20000104: fb01 f401    	mul	r4, r1, r1
+20000108: fb01 2111    	mls	r1, r1, r1, r2
+2000010c: fa1f fe82    	uxth.w	lr, r2
+20000110: b2a2         	uxth	r2, r4
+20000112: eb01 0443    	add.w	r4, r1, r3, lsl #1
+20000116: 4596         	cmp	lr, r2
+20000118: bf3c         	itt	lo
+2000011a: 1e61         	sublo	r1, r4, #0x1
+2000011c: 3b01         	sublo	r3, #0x1
+2000011e: b29a         	uxth	r2, r3
+20000120: b289         	uxth	r1, r1
+20000122: f3c0 2407    	ubfx	r4, r0, #0x8, #0x8
+20000126: 0052         	lsls	r2, r2, #0x1
+20000128: ea44 2101    	orr.w	r1, r4, r1, lsl #8
+2000012c: fbb1 f1f2    	udiv	r1, r1, r2
+20000130: b2da         	uxtb	r2, r3
+20000132: eb01 2102    	add.w	r1, r1, r2, lsl #8
+20000136: fba1 2301    	umull	r2, r3, r1, r1
+2000013a: 2b00         	cmp	r3, #0x0
+2000013c: bf18         	it	ne
+2000013e: 2301         	movne	r3, #0x1
+20000140: 4282         	cmp	r2, r0
+20000142: f04f 0000    	mov.w	r0, #0x0
+20000146: bf88         	it	hi
+20000148: 2001         	movhi	r0, #0x1
+2000014a: 4318         	orrs	r0, r3
+2000014c: 1a08         	subs	r0, r1, r0
+2000014e: ea4f 015c    	lsr.w	r1, r12, #0x1
+20000152: 40c8         	lsrs	r0, r1
+20000154: bdd0         	pop	{r4, r6, r7, pc}
+20000156: bf00         	nop
+20000158: 0401         	lsls	r1, r0, #0x10
+2000015a: fab1 f181    	clz	r1, r1
+2000015e: f001 020e    	and	r2, r1, #0xe
+20000162: 4090         	lsls	r0, r2
+20000164: f240 14e0    	movw	r4, #0x1e0
+20000168: f3c0 2307    	ubfx	r3, r0, #0x8, #0x8
+2000016c: f2c2 0401    	movt	r4, #0x2001
+20000170: f814 2013    	ldrb.w	r2, [r4, r3, lsl #1]
+20000174: eb04 0343    	add.w	r3, r4, r3, lsl #1
+20000178: 785b         	ldrb	r3, [r3, #0x1]
+2000017a: fa1f fc80    	uxth.w	r12, r0
+2000017e: f3c0 1003    	ubfx	r0, r0, #0x4, #0x4
+20000182: 0054         	lsls	r4, r2, #0x1
+20000184: ea40 1003    	orr.w	r0, r0, r3, lsl #4
+20000188: fbb0 f0f4    	udiv	r0, r0, r4
+2000018c: f002 020f    	and	r2, r2, #0xf
+20000190: eb00 1002    	add.w	r0, r0, r2, lsl #4
+20000194: fb00 f200    	mul	r2, r0, r0
+20000198: 0c13         	lsrs	r3, r2, #0x10
+2000019a: b292         	uxth	r2, r2
+2000019c: bf18         	it	ne
+2000019e: 2301         	movne	r3, #0x1
+200001a0: 4562         	cmp	r2, r12
+200001a2: f04f 0200    	mov.w	r2, #0x0
+200001a6: bf88         	it	hi
+200001a8: 2201         	movhi	r2, #0x1
+200001aa: 431a         	orrs	r2, r3
+200001ac: 1a80         	subs	r0, r0, r2
+200001ae: b280         	uxth	r0, r0
+200001b0: 0849         	lsrs	r1, r1, #0x1
+200001b2: 40c8         	lsrs	r0, r1
+200001b4: bdd0         	pop	{r4, r6, r7, pc}
+200001b6: d4d4         	bmi	0x20000162 <image::libm::sqrt_bits+0xc2> @ imm = #-0x58
+
+200001b8 <factory_serial>:
+200001b8: b580         	push	{r7, lr}
+200001ba: 466f         	mov	r7, sp
+200001bc: f248 2100    	movw	r1, #0x8200
+200001c0: f2c0 0103    	movt	r1, #0x3
+200001c4: 680a         	ldr	r2, [r1]
+200001c6: 6849         	ldr	r1, [r1, #0x4]
+200001c8: e9c0 2100    	strd	r2, r1, [r0]
+200001cc: bd80         	pop	{r7, pc}
