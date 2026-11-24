@@ -145,7 +145,7 @@ impl Check {
                 "longest watchdog timeout before the first feed"
             }
             Check::UsbConnectsBeforeTheRails => "USB connects before the rails rise",
-            Check::BootOrderD9 => "boot order D9",
+            Check::BootOrderD9 => "boot order",
             Check::PanelAfterFault => "panel and USB after the fault",
             Check::EndState => "end state",
             Check::QuietAtRest => "quiet at rest",
@@ -1929,7 +1929,7 @@ fn end_state(entries: &[Entry], expectation: &Expectation, park: &[ParkFunction]
         && !(silenced.at <= word_after.at && word_after.at <= stored.at)
     {
         return Err(format!(
-            "D15 orders TX DMA stop, all-off word, fault code, park; the trace has them at {}, {}, {}",
+            "the fault path orders TX DMA stop, all-off word, fault code, park; the trace has them at {}, {}, {}",
             silenced.at, word_after.at, stored.at
         ));
     }

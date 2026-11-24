@@ -30,7 +30,7 @@ fn a_real_listing_at_exactly_its_share_passes_with_its_cycle_figure_and_percenta
     assert_eq!(output.status.code(), Some(0), "{report}");
     assert!(
         report.contains(
-            "PASS on-limiter-peak at 6 frames: 56 instructions, 82 proxy cycles, 0.7% of the 12,500-cycle tick, within its D3 share of 82 (0.7%). Proxy x1.5 is 123 (1.0%), reported, not gated."
+            "PASS on-limiter-peak at 6 frames: 56 instructions, 82 proxy cycles, 0.7% of the 12,500-cycle tick, within its budget share of 82 (0.7%). Proxy x1.5 is 123 (1.0%), reported, not gated."
         ),
         "{report}"
     );
@@ -44,7 +44,7 @@ fn a_traced_loop_under_its_share_passes_and_the_command_exits_zero() {
     assert_eq!(output.status.code(), Some(0), "{report}");
     assert!(
         report.contains(
-            "PASS capture-ramp at 12 frames: 12 instructions, 27 proxy cycles, 0.2% of the 12,500-cycle tick, within its D3 share of 494 (4.0%). Proxy x1.5 is 41 (0.3%), reported, not gated."
+            "PASS capture-ramp at 12 frames: 12 instructions, 27 proxy cycles, 0.2% of the 12,500-cycle tick, within its budget share of 494 (4.0%). Proxy x1.5 is 41 (0.3%), reported, not gated."
         ),
         "{report}"
     );
@@ -61,7 +61,7 @@ fn one_failing_listing_among_several_fails_the_run_and_every_line_carries_the_in
     assert_eq!(lines.len(), 3, "{report}");
     assert!(lines.iter().all(|line| line.contains("")), "{report}");
     assert!(
-        lines[2].starts_with("2 blocks priced, 1 outside their D3 share."),
+        lines[2].starts_with("2 blocks priced, 1 outside their budget share."),
         "{report}"
     );
 }

@@ -29,7 +29,7 @@ pub fn command(listings: &[String]) -> Outcome {
         }
     }
     println!(
-        "{priced} blocks priced, {failed} outside their D3 share. Cortex-M4 proxy prices until measured on hardware."
+        "{priced} blocks priced, {failed} outside their budget share. Cortex-M4 proxy prices until measured on hardware."
     );
     if failed == 0 {
         Outcome::GatePassed

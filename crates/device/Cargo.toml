@@ -22,3 +22,7 @@ sound3 = ["screen2", "dsp/band-governor", "dsp/intake-meter"]
 [[example]]
 name = "preset_impulse"
 required-features = ["sound2"]
+
+[[example]]
+name = "lcd_frames"
+required-features = ["sound3"]

@@ -87,7 +87,10 @@ fn cell_text(cell: Cell) -> String {
         ),
         Cell::Off => "off".to_string(),
         Cell::RunsWhereD4TurnsItOff { measured } => {
-            format!("**FAIL** {} where D4 turns it off", cycles(measured))
+            format!(
+                "**FAIL** {} where PEQ is off at this frame count",
+                cycles(measured)
+            )
         }
     }
 }
@@ -124,7 +127,7 @@ pub fn render(
     sources: &Sources<'_>,
 ) -> String {
     let mut out = String::new();
-    let _ = writeln!(out, "# D3 budget of the audio tick and the USB interrupt\n");
+    let _ = writeln!(out, "# Budget of the audio tick and the USB interrupt\n");
     let _ = writeln!(out, "Every figure is {LABEL}.\n");
     let _ = writeln!(
         out,
@@ -145,7 +148,7 @@ pub fn render(
     whole_tick_section(&mut out, evaluation);
     image_section(&mut out, evaluation);
     if !evaluation.unattributed.is_empty() {
-        let _ = writeln!(out, "## Functions no D3 row owns, each a failure\n");
+        let _ = writeln!(out, "## Functions no budget row owns, each a failure\n");
         for (run, function, figure) in &evaluation.unattributed {
             let _ = writeln!(
                 out,
@@ -177,7 +180,7 @@ fn rows_section(
     evaluation: &Evaluation,
     provenance: &BTreeMap<Block, Provenance>,
 ) {
-    let _ = writeln!(out, "## D3 rows, measured of share, proxy cycles\n");
+    let _ = writeln!(out, "## Budget rows, measured of share, proxy cycles\n");
     let _ = writeln!(out, "| Block | 6 frames | 12 frames | 24 frames | Code |");
     let _ = writeln!(out, "|---|---|---|---|---|");
     for row in &evaluation.rows {
@@ -294,7 +297,7 @@ fn whole_tick_section(out: &mut String, evaluation: &Evaluation) {
     );
     line(
         out,
-        "USB interrupt, D3 estimate 300 + 8 per frame + 30",
+        "USB interrupt, budget estimate 300 + 8 per frame + 30",
         estimate,
     );
     line(

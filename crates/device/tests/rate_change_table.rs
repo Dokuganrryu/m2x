@@ -265,7 +265,7 @@ fn one_of_each_state() -> Vec<State> {
 #[test]
 fn every_state_and_event_pair_has_a_pinned_result() {
     let states = one_of_each_state();
-    assert_eq!(states.len(), 15, "one state per D18 M2 variant");
+    assert_eq!(states.len(), 15, "one state per state variant");
     let mut checked = 0;
     for state in states {
         for event in EVENTS {

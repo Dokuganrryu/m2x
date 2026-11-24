@@ -192,7 +192,7 @@ fn the_report_gives_proxy_times_one_and_a_half_rounded_half_up_without_gating_it
     assert_eq!(
         worst_twelve_frame_tick.to_string(),
         "PASS dsp-worst-tick at 12 frames: 5,409 instructions, 5,409 proxy cycles, 43.3% of the \
-         12,500-cycle tick, within its D3 share of 6,250 (50.0%). Proxy x1.5 is 8,114 (64.9%), \
+         12,500-cycle tick, within its budget share of 6,250 (50.0%). Proxy x1.5 is 8,114 (64.9%), \
          reported, not gated. Cortex-M4 proxy prices until measured on hardware."
     );
 }

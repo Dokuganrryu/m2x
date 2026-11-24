@@ -165,7 +165,7 @@ impl fmt::Display for ListingError {
             ListingErrorKind::MalformedBlockHeader => {
                 f.write_str("a block header reads `block <block-id> frames <6|12|24>`")
             }
-            ListingErrorKind::UnknownBlock(id) => write!(f, "`{id}` is not a D3 block"),
+            ListingErrorKind::UnknownBlock(id) => write!(f, "`{id}` is not a budgeted block"),
             ListingErrorKind::UnknownFrameCount(count) => {
                 write!(f, "{count} frames per tick is not 6, 12 or 24")
             }

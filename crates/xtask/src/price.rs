@@ -127,20 +127,18 @@ impl fmt::Display for BlockPrice {
         match self.verdict() {
             Verdict::WithinShare(cap) => write!(
                 f,
-                ", within its D3 share of {} ({})",
+                ", within its budget share of {} ({})",
                 cap,
                 cap.share_of_whole_tick()
             )?,
             Verdict::OverShare(cap) => write!(
                 f,
-                ", over its D3 share of {} ({}) by {}",
+                ", over its budget share of {} ({}) by {}",
                 cap,
                 cap.share_of_whole_tick(),
                 ProxyCycles::new(self.cycles.get() - cap.get())
             )?,
-            Verdict::OffAtThisFrameCount => {
-                f.write_str(", but D4 turns this block off at this frame count")?
-            }
+            Verdict::OffAtThisFrameCount => f.write_str(", but PEQ is off at this frame count")?,
         }
         write!(
             f,

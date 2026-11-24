@@ -48,7 +48,7 @@ pub const FENCE: [FenceProbe; 19] = [
 const BOOT_RUN: u64 = 3_000;
 const SOAK_RUN: u64 = 10_000;
 
-const STARVES_AFTER_USB_ATTACH: &str = "the boot runs B1 to B11, the knob scan answers, B12 ramps the DAC to the knob law target and the boot reaches Running with the loop and the feed alive; F7 and F8 fixed";
+const STARVES_AFTER_USB_ATTACH: &str = "the boot runs B1 to B11, the knob scan answers, B12 ramps the DAC to the knob law target and the boot reaches Running with the loop and the feed alive";
 
 const fn boots_to_running() -> Expectation {
     Expectation {
@@ -234,7 +234,7 @@ pub const SCENARIOS: [Scenario; 32] = [
         board: &["dac silent"],
         run_milliseconds: BOOT_RUN,
         expectation: dac_init_fault_after_the_noted_attenuation_skip(),
-        today: "B5 moves on after four attempts per register as D9 allows and notes code 3, B8 fails with Unanswered(Dac), and the boot stores code 3, keeps P0_28 low, starts the screen and attaches USB",
+        today: "B5 moves on after four attempts per register as the boot allows and notes code 3, B8 fails with Unanswered(Dac), and the boot stores code 3, keeps P0_28 low, starts the screen and attaches USB",
     },
     Scenario {
         name: "dac-stops-acking-mid-init",
@@ -248,7 +248,7 @@ pub const SCENARIOS: [Scenario; 32] = [
         board: &["adc none"],
         run_milliseconds: BOOT_RUN,
         expectation: boots_to_running(),
-        today: "both probes NACK, so the ADC is type 0 as D9 B6 says; the rest is as the nominal boot, F7 included",
+        today: "both probes NACK, so the ADC is type 0 as the boot order says; the rest is as the nominal boot, F7 included",
     },
     Scenario {
         name: "adc-stops-acking-after-probe",
